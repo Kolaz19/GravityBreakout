@@ -45,5 +45,6 @@ public class MouseCoordinates {
         return getX() / Main.PIXELS_TO_METERS;
     }
 
+    //TODO Mouse hidden with button press
 
 }

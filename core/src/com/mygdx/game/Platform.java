@@ -28,6 +28,8 @@ public class Platform {
         //Fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.restitution = 1;
+        fixtureDef.friction = 0;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
@@ -49,6 +51,10 @@ public class Platform {
 
     private boolean isMouseOverRightBoundary() {
         return MouseCoordinates.getX() > backgroundWidth - boundaryWidth;
+    }
+
+    public float getOriginX() {
+        return body.getPosition().x;
     }
 
 

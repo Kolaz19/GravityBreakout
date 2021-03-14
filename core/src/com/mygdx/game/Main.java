@@ -19,6 +19,7 @@ public class Main extends ApplicationAdapter {
 	OrthographicCamera cam;
 	Texture background;
 	Platform platform;
+	Ball ball;
 	int backgroundWidth, backgroundHeight;
 
 	static final float PIXELS_TO_METERS = 1;
@@ -26,7 +27,7 @@ public class Main extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		world = new World(new Vector2(0,0),true);
+		world = new World(new Vector2(0,-10),true);
 		background = new Texture("background.png");
 		backgroundHeight = background.getHeight();
 		backgroundWidth = background.getWidth();
@@ -35,6 +36,11 @@ public class Main extends ApplicationAdapter {
 		boxRenderer = new Box2DDebugRenderer();
 
 		platform = new Platform(world,backgroundWidth);
+		ball = new Ball(world, platform.getOriginX());
+		WallSpawner wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
+		wallSpawner.createLeftWall();
+		wallSpawner.createUpperWall();
+		wallSpawner.createRightWall();
 
 	}
 
@@ -49,6 +55,7 @@ public class Main extends ApplicationAdapter {
 
 		MouseCoordinates.update(cam);
 		platform.updateCoordinate();
+		ball.update(platform.getOriginX());
 
 		batch.begin();
 		batch.draw(background,0,0);
@@ -60,4 +67,8 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 	}
+
+
+
+
 }
