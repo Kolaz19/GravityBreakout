@@ -24,12 +24,14 @@ public class Platform {
         bodyDef.position.y = box2DPosY;
         //Polugon Shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(width / 2 / Main.PIXELS_TO_METERS, height / 2 / Main.PIXELS_TO_METERS);
         //Fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.restitution = 1;
         fixtureDef.friction = 0;
+        fixtureDef.filter.categoryBits = Listener.PLATFORM_ENTITY;
+        fixtureDef.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
@@ -37,9 +39,9 @@ public class Platform {
 
     public void updateCoordinate() {
         if (isMouseOverLeftBoundary()) {
-            body.setTransform(boundaryWidth * Main.PIXELS_TO_METERS,box2DPosY,0);
+            body.setTransform(boundaryWidth / Main.PIXELS_TO_METERS,box2DPosY,0);
         } else if (isMouseOverRightBoundary()) {
-            body.setTransform((backgroundWidth - boundaryWidth) * Main.PIXELS_TO_METERS, box2DPosY, 0);
+            body.setTransform((backgroundWidth - boundaryWidth) / Main.PIXELS_TO_METERS, box2DPosY, 0);
         } else {
             body.setTransform(MouseCoordinates.getBoxX(), box2DPosY, 0);
         }

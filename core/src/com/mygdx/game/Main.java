@@ -22,7 +22,7 @@ public class Main extends ApplicationAdapter {
 	Ball ball;
 	int backgroundWidth, backgroundHeight;
 
-	static final float PIXELS_TO_METERS = 1;
+	static final float PIXELS_TO_METERS = 3f;
 	
 	@Override
 	public void create () {
@@ -36,7 +36,7 @@ public class Main extends ApplicationAdapter {
 		boxRenderer = new Box2DDebugRenderer();
 
 		platform = new Platform(world,backgroundWidth);
-		ball = new Ball(world, platform.getOriginX());
+		ball = new Ball(world, platform.getOriginX(), 0.3f);
 		WallSpawner wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();

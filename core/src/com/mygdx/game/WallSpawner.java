@@ -26,6 +26,8 @@ public class WallSpawner {
         fixtureDefLeft.shape = edgeShapeLeft;
         fixtureDefLeft.restitution = 1;
         fixtureDefLeft.friction = 0;
+        fixtureDefLeft.filter.categoryBits = Listener.WALL_ENTITY;
+        fixtureDefLeft.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY;
 
         Body borderLeft = world.createBody(bodyDefLeft);
         borderLeft.createFixture(fixtureDefLeft);
@@ -42,6 +44,8 @@ public class WallSpawner {
         fixtureDefUp.shape = edgeShapeUp;
         fixtureDefUp.restitution = 1;
         fixtureDefUp.friction = 0;
+        fixtureDefUp.filter.categoryBits = Listener.WALL_ENTITY;
+        fixtureDefUp.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY;
 
         Body borderUp = world.createBody(bodyDefUp);
         borderUp.createFixture(fixtureDefUp);
@@ -58,6 +62,8 @@ public class WallSpawner {
         fixtureDefRight.shape = edgeShapeRight;
         fixtureDefRight.restitution = 1;
         fixtureDefRight.friction = 0;
+        fixtureDefRight.filter.categoryBits = Listener.WALL_ENTITY;
+        fixtureDefRight.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY;
 
         Body borderRight = world.createBody(bodyDefRight);
         borderRight.createFixture(fixtureDefRight);

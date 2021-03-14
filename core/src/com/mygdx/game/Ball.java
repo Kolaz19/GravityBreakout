@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Ball {
@@ -12,12 +11,16 @@ public class Ball {
     private final int width, height;
     private final int spawnCoordinateY = 13;
     private boolean isReleased;
+    private final float initialSpeedMultiplier;
+    private int ballLevel;
 
-    public Ball(World world, float platformX) {
+    public Ball(World world, float platformX, float initialSpeed) {
         texture = new Texture("ball.png");
         width = texture.getWidth();
         height = texture.getHeight();
         isReleased = false;
+        this.initialSpeedMultiplier = initialSpeed;
+        this.ballLevel = 1;
         //BodyDefinition
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
@@ -28,12 +31,14 @@ public class Ball {
         bodyDef.position.y = spawnCoordinateY;
         //Polugon Shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2, height / 2);
+        shape.setAsBox(width / 2 / Main.PIXELS_TO_METERS, height / 2 / Main.PIXELS_TO_METERS);
         //Fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1;
+        fixtureDef.filter.categoryBits = Listener.BALL_ENTITY;
+        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
@@ -47,14 +52,18 @@ public class Ball {
     }
 
     private void attachBallToPlatform (float platformX) {
-        body.setTransform(platformX,spawnCoordinateY,0);
+        body.setTransform(platformX,spawnCoordinateY / Main.PIXELS_TO_METERS,0);
     }
 
     private void checkForBallRelease() {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            body.setLinearVelocity(20,200);
+            body.setLinearVelocity(0,100 * initialSpeedMultiplier);
             isReleased = true;
         }
+    }
+
+    public void increaseBallLevel() {
+        this.ballLevel++;
     }
 
 }
