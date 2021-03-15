@@ -12,15 +12,15 @@ public class Ball {
     private final int spawnCoordinateY = 13;
     private boolean isReleased;
     private final float initialSpeedMultiplier;
-    private int ballLevel;
+    private final float speedIncreaseMultiplier;
 
-    public Ball(World world, float platformX, float initialSpeed) {
+    public Ball(World world, float platformX, float initialSpeed, float speedIncrease) {
         texture = new Texture("ball.png");
         width = texture.getWidth();
         height = texture.getHeight();
         isReleased = false;
         this.initialSpeedMultiplier = initialSpeed;
-        this.ballLevel = 1;
+        this.speedIncreaseMultiplier = speedIncrease;
         //BodyDefinition
         BodyDef bodyDef = new BodyDef();
         bodyDef.fixedRotation = true;
@@ -51,19 +51,35 @@ public class Ball {
         }
     }
 
+    public float getPositionX() {
+        return body.getPosition().x;
+    }
+
     private void attachBallToPlatform (float platformX) {
         body.setTransform(platformX,spawnCoordinateY / Main.PIXELS_TO_METERS,0);
     }
 
     private void checkForBallRelease() {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            body.setLinearVelocity(0,100 * initialSpeedMultiplier);
+            body.setLinearVelocity(0,10 * initialSpeedMultiplier);
             isReleased = true;
         }
     }
 
-    public void increaseBallLevel() {
-        this.ballLevel++;
+    public void updateDirectionAfterCollision(Platform.Area platformArea) {
+        //TODO Add More areas the ball can land on --> Differentiate ball speed more
+        switch(platformArea) {
+            case LEFT: body.applyForceToCenter(-600,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            break;
+            case RIGHT: body.applyForceToCenter(600,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            break;
+            case MIDDLE: body.applyForceToCenter(0,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            break;
+        }
     }
+
+
+
+
 
 }

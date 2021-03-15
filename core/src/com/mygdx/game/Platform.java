@@ -10,6 +10,11 @@ public class Platform {
     private final float box2DPosY = 8 / Main.PIXELS_TO_METERS;
     private final int boundaryWidth = 11;
 
+    enum Area {
+        LEFT,
+        RIGHT,
+        MIDDLE
+    }
 
     public Platform(World world, int backgroundWidth) {
         texture = new Texture("platform.png");
@@ -59,8 +64,16 @@ public class Platform {
         return body.getPosition().x;
     }
 
-
-
-
+    public Area getArea(float x) {
+        //TODO restrict right and left area to only platform
+        float oneThird = width / 3f / Main.PIXELS_TO_METERS;
+        if (x > body.getPosition().x + oneThird / 2) {
+            return Area.RIGHT;
+        } else if(x < body.getPosition().x - oneThird / 2) {
+            return Area.LEFT;
+        } else {
+            return Area.MIDDLE;
+        }
+    }
 
 }
