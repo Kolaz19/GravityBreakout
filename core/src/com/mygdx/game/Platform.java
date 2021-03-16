@@ -10,6 +10,7 @@ public class Platform {
     private final float box2DPosY = 8 / Main.PIXELS_TO_METERS;
     private final int boundaryWidth = 11;
 
+
     enum Area {
         LEFT,
         RIGHT,

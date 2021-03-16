@@ -1,9 +1,6 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Listener implements ContactListener {
     private Ball currentBall;
@@ -33,6 +30,13 @@ public class Listener implements ContactListener {
         if (includesBall(contact) && includesPlatform(contact)) {
             ballHitsPlatform();
         }
+        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
+
+        }
+        if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
+
+        }
+
     }
 
     @Override
@@ -59,6 +63,7 @@ public class Listener implements ContactListener {
         return ((contact.getFixtureA().getFilterData().categoryBits == PLATFORM_ENTITY)
                 || (contact.getFixtureB().getFilterData().categoryBits == PLATFORM_ENTITY));
     }
+
 
 
 

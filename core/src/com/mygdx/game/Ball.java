@@ -37,6 +37,7 @@ public class Ball {
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1;
+        fixtureDef.density = 0;
         fixtureDef.filter.categoryBits = Listener.BALL_ENTITY;
         fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY;
 
@@ -69,11 +70,11 @@ public class Ball {
     public void updateDirectionAfterCollision(Platform.Area platformArea) {
         //TODO Add More areas the ball can land on --> Differentiate ball speed more
         switch(platformArea) {
-            case LEFT: body.applyForceToCenter(-600,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            case LEFT: body.applyForceToCenter(-600,25 * speedIncreaseMultiplier,true);
             break;
-            case RIGHT: body.applyForceToCenter(600,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            case RIGHT: body.applyForceToCenter(600,25 * speedIncreaseMultiplier,true);
             break;
-            case MIDDLE: body.applyForceToCenter(0,25 * speedIncreaseMultiplier * initialSpeedMultiplier,true);
+            case MIDDLE: body.applyForceToCenter(0,25 * speedIncreaseMultiplier,true);
             break;
         }
     }

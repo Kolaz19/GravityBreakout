@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -20,9 +19,10 @@ public class Main extends ApplicationAdapter {
 	Texture background;
 	Platform platform;
 	Ball ball;
+	Listener listener;
 	int backgroundWidth, backgroundHeight;
 
-	static final float PIXELS_TO_METERS = 5f;
+	static final float PIXELS_TO_METERS = 7f;
 	
 	@Override
 	public void create () {
@@ -41,7 +41,7 @@ public class Main extends ApplicationAdapter {
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();
 		wallSpawner.createRightWall();
-		Listener listener = new Listener(ball,platform);
+		listener = new Listener(ball,platform);
 		world.setContactListener(listener);
 	}
 
@@ -58,6 +58,7 @@ public class Main extends ApplicationAdapter {
 		platform.updateCoordinate();
 		ball.update(platform.getOriginX());
 
+
 		batch.begin();
 		batch.draw(background,0,0);
 		batch.end();
@@ -66,10 +67,8 @@ public class Main extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
+		world.dispose();
 		batch.dispose();
 	}
-
-
-
 
 }
