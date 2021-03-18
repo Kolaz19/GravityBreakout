@@ -2,9 +2,12 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+
 public class Listener implements ContactListener {
     private Ball currentBall;
     private Platform currentPlatform;
+    private ArrayList<TileData> tiles;
 
     public static final short BALL_ENTITY = 0x0001;
     public static final short PLATFORM_ENTITY = 0x0002;
@@ -18,6 +21,10 @@ public class Listener implements ContactListener {
 
     public void setBall(Ball ball) {
         this.currentBall = ball;
+    }
+
+    public void setTiles(ArrayList<TileData> tiles) {
+        this.tiles = tiles;
     }
 
     @Override

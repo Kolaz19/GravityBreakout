@@ -10,17 +10,20 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
-	World world;
-	Box2DDebugRenderer boxRenderer;
-	Matrix4 debugMatrix;
-	OrthographicCamera cam;
-	Texture background;
-	Platform platform;
-	Ball ball;
-	Listener listener;
-	int backgroundWidth, backgroundHeight;
+	private SpriteBatch batch;
+	private World world;
+	private Box2DDebugRenderer boxRenderer;
+	private Matrix4 debugMatrix;
+	private OrthographicCamera cam;
+	private Texture background;
+	private Platform platform;
+	private Ball ball;
+	private ArrayList<TileData> tiles;
+	private Listener listener;
+	private int backgroundWidth, backgroundHeight;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -36,12 +39,12 @@ public class Main extends ApplicationAdapter {
 		boxRenderer = new Box2DDebugRenderer();
 
 		platform = new Platform(world,backgroundWidth);
-		ball = new Ball(world, platform.getOriginX(), 1f, 1f);
 		WallSpawner wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();
 		wallSpawner.createRightWall();
 		listener = new Listener(ball,platform);
+		setLevel();
 		world.setContactListener(listener);
 	}
 
@@ -69,6 +72,26 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		world.dispose();
 		batch.dispose();
+	}
+
+	private void setLevel() {
+		//TODO dispose old items
+		ArrayList<TileTemplate> templates = LevelTemplate.level1();
+		setNewTiles(new ArrayList<TileData>());
+		for (TileTemplate template : templates) {
+			tiles.add(new TileData(template.createTile(world)));
+		}
+		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
+	}
+
+	private void setNewBall(Ball newBall) {
+		this.ball = newBall;
+		this.listener.setBall(newBall);
+	}
+
+	private void setNewTiles(ArrayList<TileData> newTiles) {
+		this.tiles = newTiles;
+		this.listener.setTiles(newTiles);
 	}
 
 }

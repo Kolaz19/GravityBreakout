@@ -7,7 +7,7 @@ public class WallSpawner {
     private final float backgroundWidth;
     private final float backgroundHeight;
     private final float distanceToEdge = 2 / Main.PIXELS_TO_METERS;
-    World world;
+    private World world;
 
     public WallSpawner(World world, int backgroundWidth, int backgroundHeight) {
         this.backgroundWidth = backgroundWidth / Main.PIXELS_TO_METERS;
