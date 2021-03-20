@@ -29,7 +29,9 @@ public class Listener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-
+        if (includesTile(contact)) {
+            getCorrespondingTileData(getHittedTile(contact)).setDynamicFlag();
+        }
     }
 
     @Override
@@ -37,13 +39,6 @@ public class Listener implements ContactListener {
         if (includesBall(contact) && includesPlatform(contact)) {
             ballHitsPlatform();
         }
-        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
-
-        }
-        if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
-
-        }
-
     }
 
     @Override
@@ -63,7 +58,7 @@ public class Listener implements ContactListener {
 
     private boolean includesBall(Contact contact) {
         return ((contact.getFixtureA().getFilterData().categoryBits == BALL_ENTITY)
-            || (contact.getFixtureB().getFilterData().categoryBits == BALL_ENTITY));
+                || (contact.getFixtureB().getFilterData().categoryBits == BALL_ENTITY));
     }
 
     private boolean includesPlatform(Contact contact) {
@@ -71,6 +66,34 @@ public class Listener implements ContactListener {
                 || (contact.getFixtureB().getFilterData().categoryBits == PLATFORM_ENTITY));
     }
 
+    private boolean includesTile(Contact contact) {
+        boolean exists = false;
+        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
+            exists = true;
+        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
+            exists = true;
+        }
+        return exists;
+    }
+
+    private Body getHittedTile(Contact contact) {
+        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
+            return contact.getFixtureA().getBody();
+        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
+            return contact.getFixtureB().getBody();
+        }
+        return null;
+    }
+
+    private TileData getCorrespondingTileData (Body hittedTile) {
+        TileData tileData = null;
+        for (TileData tile : tiles) {
+            if (tile.getBody() == hittedTile) {
+                tileData = tile;
+            }
+        }
+        return tileData;
+    }
 
 
 

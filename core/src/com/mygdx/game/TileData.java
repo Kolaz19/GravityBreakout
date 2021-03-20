@@ -23,4 +23,8 @@ public class TileData {
         }
     }
 
+    public Body getBody() {
+        return this.tile;
+    }
+
 }

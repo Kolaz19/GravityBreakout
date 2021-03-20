@@ -60,6 +60,7 @@ public class Main extends ApplicationAdapter {
 		MouseCoordinates.update(cam);
 		platform.updateCoordinate();
 		ball.update(platform.getOriginX());
+		setTilesToDynamic();
 
 
 		batch.begin();
@@ -92,6 +93,12 @@ public class Main extends ApplicationAdapter {
 	private void setNewTiles(ArrayList<TileData> newTiles) {
 		this.tiles = newTiles;
 		this.listener.setTiles(newTiles);
+	}
+
+	private void setTilesToDynamic() {
+		for (TileData tile : tiles) {
+			tile.update();
+		}
 	}
 
 }
