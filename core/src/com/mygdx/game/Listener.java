@@ -14,16 +14,9 @@ public class Listener implements ContactListener {
     public static final short WALL_ENTITY = 0x0003;
     public static final short TILE_ENTITY = 0x0004;
 
-    public Listener(Ball ball, Platform platform) {
+    public Listener(Ball ball, Platform platform, ArrayList<TileData> tiles) {
         this.currentBall = ball;
         this.currentPlatform = platform;
-    }
-
-    public void setBall(Ball ball) {
-        this.currentBall = ball;
-    }
-
-    public void setTiles(ArrayList<TileData> tiles) {
         this.tiles = tiles;
     }
 
@@ -49,6 +42,10 @@ public class Listener implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    public void setBall(Ball ball) {
+        this.currentBall = ball;
     }
 
     private void ballHitsPlatform() {

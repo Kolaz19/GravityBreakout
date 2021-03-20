@@ -18,7 +18,7 @@ public class Main extends ApplicationAdapter {
 	private Box2DDebugRenderer boxRenderer;
 	private Matrix4 debugMatrix;
 	private OrthographicCamera cam;
-	private Texture background;
+	private Texture backgroundTexture;
 	private Platform platform;
 	private Ball ball;
 	private ArrayList<TileData> tiles;
@@ -31,9 +31,9 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
-		background = new Texture("background.png");
-		backgroundHeight = background.getHeight();
-		backgroundWidth = background.getWidth();
+		backgroundTexture = new Texture("background.png");
+		backgroundHeight = backgroundTexture.getHeight();
+		backgroundWidth = backgroundTexture.getWidth();
 		cam = new OrthographicCamera(backgroundWidth, backgroundHeight);
 		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0	);
 		boxRenderer = new Box2DDebugRenderer();
@@ -43,7 +43,8 @@ public class Main extends ApplicationAdapter {
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();
 		wallSpawner.createRightWall();
-		listener = new Listener(ball,platform);
+		tiles = new ArrayList<TileData>();
+		listener = new Listener(ball,platform,tiles);
 		setLevel();
 		world.setContactListener(listener);
 	}
@@ -64,7 +65,9 @@ public class Main extends ApplicationAdapter {
 
 
 		batch.begin();
-		batch.draw(background,0,0);
+		batch.draw(backgroundTexture,0,0);
+		ball.render(batch);
+		platform.render(batch);
 		batch.end();
 		boxRenderer.render(world,debugMatrix);
 	}
@@ -78,7 +81,7 @@ public class Main extends ApplicationAdapter {
 	private void setLevel() {
 		//TODO dispose old items
 		ArrayList<TileTemplate> templates = LevelTemplate.level1();
-		setNewTiles(new ArrayList<TileData>());
+		tiles.clear();
 		for (TileTemplate template : templates) {
 			tiles.add(new TileData(template.createTile(world)));
 		}
@@ -88,11 +91,6 @@ public class Main extends ApplicationAdapter {
 	private void setNewBall(Ball newBall) {
 		this.ball = newBall;
 		this.listener.setBall(newBall);
-	}
-
-	private void setNewTiles(ArrayList<TileData> newTiles) {
-		this.tiles = newTiles;
-		this.listener.setTiles(newTiles);
 	}
 
 	private void setTilesToDynamic() {

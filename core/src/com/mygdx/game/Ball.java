@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Ball {
@@ -77,6 +78,10 @@ public class Ball {
             case MIDDLE: body.applyForceToCenter(0,25 * speedIncreaseMultiplier,true);
             break;
         }
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.draw(texture,body.getPosition().x * Main.PIXELS_TO_METERS - (texture.getWidth() / 2),body.getPosition().y * Main.PIXELS_TO_METERS - (texture.getHeight() / 2));
     }
 
 

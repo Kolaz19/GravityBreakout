@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
-
+/** Holds the tile coordinates and dimensions for building the individual levels */
 public class LevelTemplate {
 
     public static ArrayList<TileTemplate> level1() {
@@ -10,5 +10,4 @@ public class LevelTemplate {
         templates.add(new TileTemplate(150,150,50,10));
         return templates;
     }
-
 }

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.*;
 
+/** Does only hold tile coordinates and dimensions for building a body */
 public class TileTemplate {
     //All coordinates in box2d world measurments
     private float x;

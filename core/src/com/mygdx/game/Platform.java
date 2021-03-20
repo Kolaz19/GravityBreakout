@@ -1,15 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Platform {
     private Body body;
     private Texture texture;
-    private final int width, height, backgroundWidth;
+    private final float width, height, backgroundWidth;
     private final float box2DPosY = 8 / Main.PIXELS_TO_METERS;
     private final int boundaryWidth = 11;
-
 
     enum Area {
         LEFT,
@@ -30,7 +30,7 @@ public class Platform {
         bodyDef.position.y = box2DPosY;
         //Polugon Shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / Main.PIXELS_TO_METERS, height / 2 / Main.PIXELS_TO_METERS);
+        shape.setAsBox(width / 2f / Main.PIXELS_TO_METERS, height / 2f / Main.PIXELS_TO_METERS);
         //Fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -75,6 +75,11 @@ public class Platform {
         } else {
             return Area.MIDDLE;
         }
+    }
+
+
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, body.getPosition().x * Main.PIXELS_TO_METERS - (width / 2), body.getPosition().y * Main.PIXELS_TO_METERS - (height / 2));
     }
 
 }
