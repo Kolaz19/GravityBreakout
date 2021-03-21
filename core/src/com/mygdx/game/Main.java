@@ -18,7 +18,7 @@ public class Main extends ApplicationAdapter {
 	private Box2DDebugRenderer boxRenderer;
 	private Matrix4 debugMatrix;
 	private OrthographicCamera cam;
-	private Texture backgroundTexture;
+	private Texture backgroundTexture, tileTexture;
 	private Platform platform;
 	private Ball ball;
 	private ArrayList<TileData> tiles;
@@ -32,6 +32,7 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
 		backgroundTexture = new Texture("background.png");
+		tileTexture = new Texture("tile.png");
 		backgroundHeight = backgroundTexture.getHeight();
 		backgroundWidth = backgroundTexture.getWidth();
 		cam = new OrthographicCamera(backgroundWidth, backgroundHeight);
@@ -68,6 +69,7 @@ public class Main extends ApplicationAdapter {
 		batch.draw(backgroundTexture,0,0);
 		ball.render(batch);
 		platform.render(batch);
+		renderTiles();
 		batch.end();
 		boxRenderer.render(world,debugMatrix);
 	}
@@ -83,7 +85,7 @@ public class Main extends ApplicationAdapter {
 		ArrayList<TileTemplate> templates = LevelTemplate.level1();
 		tiles.clear();
 		for (TileTemplate template : templates) {
-			tiles.add(new TileData(template.createTile(world)));
+			tiles.add(new TileData(template.createTile(world),tileTexture));
 		}
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
 	}
@@ -96,6 +98,12 @@ public class Main extends ApplicationAdapter {
 	private void setTilesToDynamic() {
 		for (TileData tile : tiles) {
 			tile.update();
+		}
+	}
+
+	private void renderTiles() {
+		for (TileData tile : tiles) {
+			tile.render(this.batch);
 		}
 	}
 
