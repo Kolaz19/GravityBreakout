@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -47,6 +46,10 @@ public class TileData {
         }
     }
 
+    public boolean isDynamic () {
+        return isDynamic;
+    }
+
     public Body getBody() {
         return this.tile;
     }
@@ -77,6 +80,14 @@ public class TileData {
 
     public void render(SpriteBatch batch) {
         batch.draw(texture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
+    }
+
+    public boolean isOutOfScreen() {
+        if (this.getHeight() > this.getWidth()) {
+            return this.getDrawY() + this.getHeight() < 0;
+        } else {
+            return this.getDrawY() + this.getWidth() < 0;
+        }
     }
 
 }

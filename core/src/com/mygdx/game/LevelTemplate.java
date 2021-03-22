@@ -6,8 +6,11 @@ public class LevelTemplate {
 
     public static ArrayList<TileTemplate> level1() {
         ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
-        templates.add(new TileTemplate(50,50,20,20));
-        templates.add(new TileTemplate(150,150,50,10));
+        for (int k =1; k < 5; k++) {
+            for (int i = 1; i < 12; i++) {
+                templates.add(new TileTemplate(i*15 + 18, k* 6 +130 , 13, 4));
+            }
+        }
         return templates;
     }
 }

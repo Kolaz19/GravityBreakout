@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -63,6 +64,7 @@ public class Main extends ApplicationAdapter {
 		platform.updateCoordinate();
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
+		disposeTilesOutOfBounds();
 
 
 		batch.begin();
@@ -104,6 +106,18 @@ public class Main extends ApplicationAdapter {
 	private void renderTiles() {
 		for (TileData tile : tiles) {
 			tile.render(this.batch);
+		}
+	}
+
+	private void disposeTilesOutOfBounds() {
+		Iterator<TileData> iter = tiles.iterator();
+		TileData currentTile;
+		while (iter.hasNext()) {
+			currentTile = iter.next();
+			if(currentTile.isDynamic() && currentTile.isOutOfScreen()) {
+				world.destroyBody(currentTile.getBody());
+				iter.remove();
+			}
 		}
 	}
 

@@ -32,7 +32,7 @@ public class TileTemplate {
         fixtureDef.shape = shape;
         fixtureDef.friction = 0;
         fixtureDef.restitution = 1;
-        fixtureDef.density = 1;
+        fixtureDef.density = 10;
         fixtureDef.filter.categoryBits = Listener.TILE_ENTITY;
         fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY;
         //Create body in world
