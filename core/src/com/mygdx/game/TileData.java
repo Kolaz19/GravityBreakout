@@ -67,8 +67,16 @@ public class TileData {
         return this.height;
     }
 
+    public float getDrawX() {
+        return this.getX() - this.getWidth() / 2;
+    }
+
+    public float getDrawY() {
+        return this.getY() - this.getHeight() / 2;
+    }
+
     public void render(SpriteBatch batch) {
-        batch.draw(texture,this.getX() - this.getWidth() / 2, this.getY() - this.getHeight() / 2, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
+        batch.draw(texture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
     }
 
 }

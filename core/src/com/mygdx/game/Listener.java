@@ -22,7 +22,7 @@ public class Listener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        if (includesTile(contact)) {
+        if (includesTile(contact) && includesBall(contact)) {
             getCorrespondingTileData(getHittedTile(contact)).setDynamicFlag();
         }
     }
