@@ -34,7 +34,7 @@ public class TileTemplate {
         fixtureDef.restitution = 1;
         fixtureDef.density = 10;
         fixtureDef.filter.categoryBits = Listener.TILE_ENTITY;
-        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY;
+        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY | Listener.BALL_ENTITY;
         //Create body in world
         Body body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);

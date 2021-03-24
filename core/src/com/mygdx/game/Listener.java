@@ -11,8 +11,9 @@ public class Listener implements ContactListener {
 
     public static final short BALL_ENTITY = 0x0001;
     public static final short PLATFORM_ENTITY = 0x0002;
-    public static final short WALL_ENTITY = 0x0003;
-    public static final short TILE_ENTITY = 0x0004;
+    public static final short WALL_ENTITY = 0x0004;
+    public static final short TILE_ENTITY = 0x0008;
+    public static final short TILE_INACTIVE_ENTITY = 0x0016;
 
     public Listener(Ball ball, Platform platform, ArrayList<TileData> tiles) {
         this.currentBall = ball;

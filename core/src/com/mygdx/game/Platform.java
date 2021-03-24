@@ -37,7 +37,7 @@ public class Platform {
         fixtureDef.restitution = 1;
         fixtureDef.friction = 0;
         fixtureDef.filter.categoryBits = Listener.PLATFORM_ENTITY;
-        fixtureDef.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY;
+        fixtureDef.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_ENTITY | Listener.TILE_INACTIVE_ENTITY;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);

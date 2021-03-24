@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 /** Holds the body and the dynamic flag of a tile */
@@ -43,6 +44,10 @@ public class TileData {
     public void update() {
         if (isDynamic) {
             tile.setType(BodyDef.BodyType.DynamicBody);
+            Filter filter = new Filter();
+            filter.categoryBits = Listener.TILE_INACTIVE_ENTITY;
+            filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_ENTITY | Listener.TILE_INACTIVE_ENTITY;
+            tile.getFixtureList().get(0).setFilterData(filter);
         }
     }
 

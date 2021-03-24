@@ -40,7 +40,7 @@ public class Ball {
         fixtureDef.restitution = 1;
         fixtureDef.density = 0;
         fixtureDef.filter.categoryBits = Listener.BALL_ENTITY;
-        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.TILE_ENTITY | Listener.WALL_ENTITY;
+        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_ENTITY;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
