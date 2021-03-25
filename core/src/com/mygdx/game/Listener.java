@@ -24,7 +24,9 @@ public class Listener implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
         if (includesTile(contact) && includesBall(contact)) {
-            getCorrespondingTileData(getHittedTile(contact)).setDynamicFlag();
+            TileData hittedTile =  getCorrespondingTileData(getHittedTile(contact));
+            hittedTile.setDynamicFlag();
+            hittedTile.applyInitialImpulse(this.currentBall.getLinearVelocity());
         }
     }
 

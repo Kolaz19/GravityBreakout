@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Ball {
@@ -51,6 +52,10 @@ public class Ball {
             attachBallToPlatform(platformX);
             checkForBallRelease();
         }
+    }
+
+    public Vector2 getLinearVelocity () {
+        return body.getLinearVelocity();
     }
 
     public float getPositionX() {

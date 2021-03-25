@@ -67,6 +67,7 @@ public class Main extends ApplicationAdapter {
 		disposeTilesOutOfBounds();
 
 
+
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
 		ball.render(batch);

@@ -16,6 +16,7 @@ public class TileData {
     private final float height;
     private final float width;
     private TextureRegion texture;
+    private Vector2 initialImpulse;
     //We cannot set the body to dynamic in collision check, so we do it afterwards
     private boolean isDynamic;
 
@@ -42,12 +43,13 @@ public class TileData {
 
     /** Checks if dynamic flag has been set and changes body to dynamic */
     public void update() {
-        if (isDynamic) {
+        if (isDynamic && tile.getType() == BodyDef.BodyType.StaticBody) {
             tile.setType(BodyDef.BodyType.DynamicBody);
             Filter filter = new Filter();
             filter.categoryBits = Listener.TILE_INACTIVE_ENTITY;
             filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_ENTITY | Listener.TILE_INACTIVE_ENTITY;
             tile.getFixtureList().get(0).setFilterData(filter);
+            tile.applyLinearImpulse(initialImpulse,tile.getWorldCenter(),true);
         }
     }
 
@@ -93,6 +95,10 @@ public class TileData {
         } else {
             return this.getDrawY() + this.getWidth() < 0;
         }
+    }
+
+    public void applyInitialImpulse(Vector2 vect) {
+        this.initialImpulse = new Vector2(vect);
     }
 
 }
