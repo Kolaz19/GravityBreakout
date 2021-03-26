@@ -19,6 +19,7 @@ public class TileData {
     private Vector2 initialImpulse;
     //We cannot set the body to dynamic in collision check, so we do it afterwards
     private boolean isDynamic;
+    private int tileLevel;
 
     public TileData(Body tile, Texture texture) {
         this.tile = tile;
@@ -35,6 +36,7 @@ public class TileData {
         float highestY = vect.y * Main.PIXELS_TO_METERS;
         this.height = highestY - smallestY;
         this.width = highestX - smallestX;
+        this.tileLevel = 1;
     }
 
     public void setDynamicFlag() {
@@ -101,6 +103,12 @@ public class TileData {
         vect.x = vect.x * 2;
         vect.y = vect.y * 2;
         this.initialImpulse = new Vector2(vect);
+    }
+
+    public void increaseTileLevel() {
+        if (this.tileLevel < 3) {
+            this.tileLevel++;
+        }
     }
 
 }
