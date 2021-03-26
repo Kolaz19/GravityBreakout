@@ -52,7 +52,7 @@ public class Listener implements ContactListener {
     }
 
     private void ballHitsPlatform() {
-        Platform.Area areaToHit = currentPlatform.getArea(currentBall.getPositionX());
+        Platform.Area areaToHit = currentPlatform.getArea(currentBall.getPositionX() * Main.PIXELS_TO_METERS);
         currentBall.updateDirectionAfterCollision(areaToHit);
     }
 

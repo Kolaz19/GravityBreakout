@@ -98,6 +98,8 @@ public class TileData {
     }
 
     public void applyInitialImpulse(Vector2 vect) {
+        vect.x = vect.x * 2;
+        vect.y = vect.y * 2;
         this.initialImpulse = new Vector2(vect);
     }
 

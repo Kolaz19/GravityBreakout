@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Ball {
     private Body body;
     private Texture texture;
@@ -68,21 +71,32 @@ public class Ball {
 
     private void checkForBallRelease() {
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            body.setLinearVelocity(0,10 * initialSpeedMultiplier);
+            int randomXForce = 0;
+            while (randomXForce == 0) {
+                randomXForce = ThreadLocalRandom.current().nextInt(-5, 5 + 1);
+            }
+            body.setLinearVelocity(randomXForce,10 * initialSpeedMultiplier);
             isReleased = true;
         }
     }
 
     public void updateDirectionAfterCollision(Platform.Area platformArea) {
-        //TODO Add More areas the ball can land on --> Differentiate ball speed more
+        float xForce = 0;
         switch(platformArea) {
-            case LEFT: body.applyForceToCenter(-600,25 * speedIncreaseMultiplier,true);
+            case LEFTLEFT: xForce = -500;
             break;
-            case RIGHT: body.applyForceToCenter(600,25 * speedIncreaseMultiplier,true);
+            case LEFTMID: xForce = -350;
             break;
-            case MIDDLE: body.applyForceToCenter(0,25 * speedIncreaseMultiplier,true);
+            case LEFTRIGHT: xForce = - 150;
+            break;
+            case RIGHTLEFT: xForce = 150;
+            break;
+            case RIGHTMID: xForce = 350;
+            break;
+            case RIGHTRIGHT: xForce = 500;
             break;
         }
+        body.applyForceToCenter(xForce, 25 * speedIncreaseMultiplier, true);
     }
 
     public void render(SpriteBatch batch) {

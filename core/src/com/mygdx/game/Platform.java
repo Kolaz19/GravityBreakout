@@ -12,9 +12,13 @@ public class Platform {
     private final int boundaryWidth = 11;
 
     enum Area {
-        LEFT,
-        RIGHT,
-        MIDDLE
+        LEFTLEFT,
+        LEFTMID,
+        LEFTRIGHT,
+        MIDDLE,
+        RIGHTLEFT,
+        RIGHTMID,
+        RIGHTRIGHT
     }
 
     public Platform(World world, int backgroundWidth) {
@@ -66,14 +70,22 @@ public class Platform {
     }
 
     public Area getArea(float x) {
-        //TODO restrict right and left area to only platform
-        float oneThird = width / 3f / Main.PIXELS_TO_METERS;
-        if (x > body.getPosition().x + oneThird / 2) {
-            return Area.RIGHT;
-        } else if(x < body.getPosition().x - oneThird / 2) {
-            return Area.LEFT;
+        Area[] areasInOrder = Area.values();
+        float areaLengths = this.width / areasInOrder.length;
+        float startPosWorld = this.body.getPosition().x * Main.PIXELS_TO_METERS - this.width / 2;
+
+        for (int loop = 0; loop < areasInOrder.length; loop++) {
+            float leftBorderOfArea = startPosWorld + areaLengths * loop;
+            float rightBorderOfArea = startPosWorld + areaLengths * (loop + 1);
+            if (x > leftBorderOfArea && x < rightBorderOfArea) {
+                return areasInOrder[loop];
+            }
+        }
+        //If ball touches sides (exception)
+        if (x < body.getPosition().x) {
+            return areasInOrder[0];
         } else {
-            return Area.MIDDLE;
+            return areasInOrder[areasInOrder.length-1];
         }
     }
 
