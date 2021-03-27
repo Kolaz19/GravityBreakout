@@ -38,7 +38,7 @@ public class TileData {
         this.height = highestY - smallestY;
         this.width = highestX - smallestX;
         this.tileLevel = 1;
-        particles = new TileParticles();
+        particles = new TileParticles(height);
     }
 
 
