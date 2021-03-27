@@ -20,6 +20,7 @@ public class TileData {
     //We cannot set the body to dynamic in collision check, so we do it afterwards
     private boolean isDynamic;
     private int tileLevel;
+    private TileParticles particles;
 
     public TileData(Body tile, Texture texture) {
         this.tile = tile;
@@ -37,7 +38,9 @@ public class TileData {
         this.height = highestY - smallestY;
         this.width = highestX - smallestX;
         this.tileLevel = 1;
+        particles = new TileParticles();
     }
+
 
     public void setDynamicFlag() {
         isDynamic = true;
@@ -48,8 +51,8 @@ public class TileData {
         if (isDynamic && tile.getType() == BodyDef.BodyType.StaticBody) {
             tile.setType(BodyDef.BodyType.DynamicBody);
             Filter filter = new Filter();
-            filter.categoryBits = Listener.TILE_INACTIVE_ENTITY;
-            filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_ENTITY | Listener.TILE_INACTIVE_ENTITY;
+            filter.categoryBits = Listener.TILE_ACTIVE_TILE;
+            filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_INACTIVE_TILE | Listener.TILE_ACTIVE_TILE;
             tile.getFixtureList().get(0).setFilterData(filter);
             tile.applyLinearImpulse(initialImpulse,tile.getWorldCenter(),true);
         }
@@ -88,8 +91,10 @@ public class TileData {
     }
 
     public void render(SpriteBatch batch) {
+        particles.render(batch,this.getX(), this.getY());
         batch.draw(texture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
     }
+
 
     public boolean isOutOfScreen() {
         if (this.getHeight() > this.getWidth()) {
@@ -106,9 +111,14 @@ public class TileData {
     }
 
     public void increaseTileLevel() {
-        if (this.tileLevel < 3) {
+        if (this.tileLevel < 4) {
             this.tileLevel++;
+            particles.updateCurrentEffect(this.tileLevel);
         }
+    }
+
+    public void dispose() {
+        particles.dispose();
     }
 
 }

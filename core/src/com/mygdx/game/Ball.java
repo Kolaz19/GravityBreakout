@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Ball {
@@ -44,7 +43,7 @@ public class Ball {
         fixtureDef.restitution = 1;
         fixtureDef.density = 0;
         fixtureDef.filter.categoryBits = Listener.BALL_ENTITY;
-        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_ENTITY;
+        fixtureDef.filter.maskBits = Listener.PLATFORM_ENTITY | Listener.WALL_ENTITY | Listener.TILE_INACTIVE_TILE;
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);

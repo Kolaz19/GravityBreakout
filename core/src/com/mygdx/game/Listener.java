@@ -12,8 +12,8 @@ public class Listener implements ContactListener {
     public static final short BALL_ENTITY = 0x0001;
     public static final short PLATFORM_ENTITY = 0x0002;
     public static final short WALL_ENTITY = 0x0004;
-    public static final short TILE_ENTITY = 0x0008;
-    public static final short TILE_INACTIVE_ENTITY = 0x0016;
+    public static final short TILE_INACTIVE_TILE = 0x0008;
+    public static final short TILE_ACTIVE_TILE = 0x0016;
 
     public Listener(Ball ball, Platform platform, ArrayList<TileData> tiles) {
         this.currentBall = ball;
@@ -23,11 +23,10 @@ public class Listener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        if (includesTile(contact) && includesBall(contact)) {
+        if (includesInactiveTile(contact) && includesBall(contact)) {
             TileData hittedTile =  getCorrespondingTileData(getHittedTile(contact));
             hittedTile.setDynamicFlag();
             hittedTile.applyInitialImpulse(this.currentBall.getLinearVelocity());
-            hittedTile.increaseTileLevel();
         }
     }
 
@@ -36,6 +35,11 @@ public class Listener implements ContactListener {
         if (includesBall(contact) && includesPlatform(contact)) {
             ballHitsPlatform();
         }
+
+        if(includesActiveTile(contact) && includesPlatform(contact)) {
+            getCorrespondingTileData(getHittedTile(contact)).increaseTileLevel();
+        }
+
     }
 
     @Override
@@ -67,20 +71,32 @@ public class Listener implements ContactListener {
                 || (contact.getFixtureB().getFilterData().categoryBits == PLATFORM_ENTITY));
     }
 
-    private boolean includesTile(Contact contact) {
+    private boolean includesInactiveTile(Contact contact) {
         boolean exists = false;
-        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
+        if (contact.getFixtureA().getFilterData().categoryBits == TILE_INACTIVE_TILE) {
             exists = true;
-        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
+        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_INACTIVE_TILE) {
+            exists = true;
+        }
+        return exists;
+    }
+
+    private boolean includesActiveTile(Contact contact) {
+        boolean exists = false;
+        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ACTIVE_TILE) {
+            exists = true;
+        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_ACTIVE_TILE) {
             exists = true;
         }
         return exists;
     }
 
     private Body getHittedTile(Contact contact) {
-        if (contact.getFixtureA().getFilterData().categoryBits == TILE_ENTITY) {
+        if ((contact.getFixtureA().getFilterData().categoryBits == TILE_INACTIVE_TILE)
+        || (contact.getFixtureA().getFilterData().categoryBits == TILE_ACTIVE_TILE)) {
             return contact.getFixtureA().getBody();
-        } else if (contact.getFixtureB().getFilterData().categoryBits == TILE_ENTITY) {
+        } else if ((contact.getFixtureB().getFilterData().categoryBits == TILE_INACTIVE_TILE)
+        || (contact.getFixtureB().getFilterData().categoryBits == TILE_ACTIVE_TILE)) {
             return contact.getFixtureB().getBody();
         }
         return null;
