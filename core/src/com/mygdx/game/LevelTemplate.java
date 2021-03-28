@@ -11,7 +11,7 @@ public class LevelTemplate {
                 templates.add(new TileTemplate(i*15 + 18, k* 6 +130 , 13, 4));
             }
         }
-        templates.add(new TileTemplate(40, 70, 25, 10));
+        templates.add(new TileTemplate(40, 70, 20, 20));
         return templates;
     }
 }

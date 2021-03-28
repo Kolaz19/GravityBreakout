@@ -10,11 +10,21 @@ public class TileParticles {
     private boolean active;
     private float scaleFactor;
 
-    public TileParticles(float height) {
+    public TileParticles(float height, float width) {
         this.currentEffect = new ParticleEffect();
         currentEffect.start();
         this.active = false;
-        //TODO setup scale factor
+        setupScaleFactor(width, height);
+    }
+
+    public void setupScaleFactor(float width, float height) {
+        float smallestSide;
+        if (height >width) {
+            smallestSide = width;
+        } else {
+            smallestSide = height;
+        }
+        scaleFactor = smallestSide * 0.22f;
 
     }
 
