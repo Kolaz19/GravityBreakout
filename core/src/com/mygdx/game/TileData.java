@@ -15,17 +15,23 @@ public class TileData {
     private Body tile;
     private final float height;
     private final float width;
-    private TextureRegion texture;
+    private TextureRegion whiteTexture, yellowTexture, blueTexture, purpleTexture;
+    private TextureRegion currentTexture;
     private Vector2 initialImpulse;
     //We cannot set the body to dynamic in collision check, so we do it afterwards
     private boolean isDynamic;
     private int tileLevel;
     private TileParticles particles;
 
-    public TileData(Body tile, Texture texture) {
+    public TileData(Body tile, Texture whiteTexture, Texture yellowTexture, Texture blueTexture, Texture purpleTexture) {
         this.tile = tile;
         isDynamic = false;
-        this.texture = new TextureRegion(texture);
+        //Textures
+        this.whiteTexture = new TextureRegion(whiteTexture);
+        this.yellowTexture = new TextureRegion(yellowTexture);
+        this.blueTexture = new TextureRegion(blueTexture);
+        this.purpleTexture = new TextureRegion(purpleTexture);
+        currentTexture = this.whiteTexture;
         //Set height and width through Vertex coordinates
         PolygonShape shape = (PolygonShape) this.tile.getFixtureList().get(0).getShape();
         Vector2 vect = new Vector2(0,0);
@@ -92,7 +98,7 @@ public class TileData {
 
     public void render(SpriteBatch batch) {
         particles.render(batch,this.getX(), this.getY());
-        batch.draw(texture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
+        batch.draw(currentTexture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
     }
 
 
@@ -114,6 +120,18 @@ public class TileData {
         if (this.tileLevel < 4) {
             this.tileLevel++;
             particles.updateCurrentEffect(this.tileLevel);
+            setCurrentTexture();
+        }
+    }
+
+    private void setCurrentTexture() {
+        switch (this.tileLevel) {
+            case 2: currentTexture = yellowTexture;
+            break;
+            case 3: currentTexture = blueTexture;
+            break;
+            case 4: currentTexture = purpleTexture;
+            break;
         }
     }
 

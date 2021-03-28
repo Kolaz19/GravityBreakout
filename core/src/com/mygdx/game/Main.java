@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
@@ -20,7 +19,7 @@ public class Main extends ApplicationAdapter {
 	private Box2DDebugRenderer boxRenderer;
 	private Matrix4 debugMatrix;
 	private OrthographicCamera cam;
-	private Texture backgroundTexture, tileTexture;
+	private Texture backgroundTexture, whiteTexture, yellowTexture, blueTexture, purpleTexture;
 	private Platform platform;
 	private Ball ball;
 	private ArrayList<TileData> tiles;
@@ -33,8 +32,13 @@ public class Main extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
+		//Textures
 		backgroundTexture = new Texture("background.png");
-		tileTexture = new Texture("tile.png");
+		whiteTexture = new Texture("tile.png");
+		yellowTexture = new Texture("yellowTile.png");
+		blueTexture = new Texture("blueTile.png");
+		purpleTexture = new Texture("purpleTile.png");
+
 		backgroundHeight = backgroundTexture.getHeight();
 		backgroundWidth = backgroundTexture.getWidth();
 		cam = new OrthographicCamera(backgroundWidth, backgroundHeight);
@@ -74,21 +78,25 @@ public class Main extends ApplicationAdapter {
 		platform.render(batch);
 		renderTiles();
 		batch.end();
-		boxRenderer.render(world,debugMatrix);
+		//boxRenderer.render(world,debugMatrix);
 	}
 	
 	@Override
 	public void dispose () {
 		world.dispose();
+		backgroundTexture.dispose();
+		whiteTexture.dispose();
+		yellowTexture.dispose();
+		blueTexture.dispose();
+		purpleTexture.dispose();
 		batch.dispose();
 	}
 
 	private void setLevel() {
-		//TODO dispose old items
 		ArrayList<TileTemplate> templates = LevelTemplate.level1();
 		tiles.clear();
 		for (TileTemplate template : templates) {
-			tiles.add(new TileData(template.createTile(world),tileTexture));
+			tiles.add(new TileData(template.createTile(world), whiteTexture, yellowTexture, blueTexture, purpleTexture));
 		}
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
 	}
