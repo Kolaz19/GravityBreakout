@@ -2,13 +2,18 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +30,7 @@ public class Main extends ApplicationAdapter {
 	private ArrayList<TileData> tiles;
 	private Listener listener;
 	private int backgroundWidth, backgroundHeight;
+	private Stage stage;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -54,6 +60,24 @@ public class Main extends ApplicationAdapter {
 		listener = new Listener(ball,platform,tiles);
 		setLevel();
 		world.setContactListener(listener);
+
+
+
+
+		stage = new Stage();
+
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 50;
+		parameter.color = Color.WHITE;
+
+		BitmapFont font = generator.generateFont(parameter);
+
+		Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
+		Label label = new Label("Hallo du",style);
+		label.setPosition(50,50);
+		stage.addActor(label);
+
 	}
 
 	@Override
@@ -72,12 +96,14 @@ public class Main extends ApplicationAdapter {
 		disposeTilesOutOfBounds();
 
 
+
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
 		ball.render(batch);
 		platform.render(batch);
 		renderTiles();
 		batch.end();
+		stage.draw();
 		//boxRenderer.render(world,debugMatrix);
 	}
 	
