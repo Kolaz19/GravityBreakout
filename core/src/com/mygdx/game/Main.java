@@ -61,23 +61,8 @@ public class Main extends ApplicationAdapter {
 		setLevel();
 		world.setContactListener(listener);
 
-
-
-
 		stage = new Stage();
-
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 50;
-		parameter.color = Color.WHITE;
-
-		BitmapFont font = generator.generateFont(parameter);
-
-		Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
-		Label label = new Label("Hallo du",style);
-		label.setPosition(50,50);
-		stage.addActor(label);
-
+		stage.addActor(new ScoreLabel());
 	}
 
 	@Override
@@ -94,7 +79,7 @@ public class Main extends ApplicationAdapter {
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
 		disposeTilesOutOfBounds();
-
+		stage.act();
 
 
 		batch.begin();
@@ -104,7 +89,7 @@ public class Main extends ApplicationAdapter {
 		renderTiles();
 		batch.end();
 		stage.draw();
-		//boxRenderer.render(world,debugMatrix);
+		boxRenderer.render(world,debugMatrix);
 	}
 	
 	@Override
