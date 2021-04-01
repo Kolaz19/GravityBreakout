@@ -2,18 +2,14 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,10 +20,10 @@ public class Main extends ApplicationAdapter {
 	private Box2DDebugRenderer boxRenderer;
 	private Matrix4 debugMatrix;
 	private OrthographicCamera cam;
-	private Texture backgroundTexture, whiteTexture, yellowTexture, blueTexture, purpleTexture;
+	private Texture backgroundTexture;
 	private Platform platform;
 	private Ball ball;
-	private ArrayList<TileData> tiles;
+	private TilesInLevel tiles;
 	private Listener listener;
 	private int backgroundWidth, backgroundHeight;
 	private Stage stage;
@@ -40,10 +36,6 @@ public class Main extends ApplicationAdapter {
 		world = new World(new Vector2(0,-10),true);
 		//Textures
 		backgroundTexture = new Texture("background.png");
-		whiteTexture = new Texture("tile.png");
-		yellowTexture = new Texture("yellowTile.png");
-		blueTexture = new Texture("blueTile.png");
-		purpleTexture = new Texture("purpleTile.png");
 
 		backgroundHeight = backgroundTexture.getHeight();
 		backgroundWidth = backgroundTexture.getWidth();
@@ -56,7 +48,7 @@ public class Main extends ApplicationAdapter {
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();
 		wallSpawner.createRightWall();
-		tiles = new ArrayList<TileData>();
+		tiles = new TilesInLevel(this.world);
 		listener = new Listener(ball,platform,tiles);
 		setLevel();
 		world.setContactListener(listener);
@@ -78,7 +70,8 @@ public class Main extends ApplicationAdapter {
 		platform.updateCoordinate();
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
-		disposeTilesOutOfBounds();
+		tiles.disposeTilesOutOfBounds();
+		tiles.updateLevelCounters();
 		stage.act();
 
 
@@ -96,19 +89,12 @@ public class Main extends ApplicationAdapter {
 	public void dispose () {
 		world.dispose();
 		backgroundTexture.dispose();
-		whiteTexture.dispose();
-		yellowTexture.dispose();
-		blueTexture.dispose();
-		purpleTexture.dispose();
+		tiles.dispose();
 		batch.dispose();
 	}
 
 	private void setLevel() {
-		ArrayList<TileTemplate> templates = LevelTemplate.level1();
-		tiles.clear();
-		for (TileTemplate template : templates) {
-			tiles.add(new TileData(template.createTile(world), whiteTexture, yellowTexture, blueTexture, purpleTexture));
-		}
+		tiles.setTilesForLevel(LevelTemplate.level1());
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
 	}
 
@@ -129,17 +115,6 @@ public class Main extends ApplicationAdapter {
 		}
 	}
 
-	private void disposeTilesOutOfBounds() {
-		Iterator<TileData> iter = tiles.iterator();
-		TileData currentTile;
-		while (iter.hasNext()) {
-			currentTile = iter.next();
-			if(currentTile.isDynamic() && currentTile.isOutOfScreen()) {
-				world.destroyBody(currentTile.getBody());
-				currentTile.dispose();
-				iter.remove();
-			}
-		}
-	}
+
 
 }
