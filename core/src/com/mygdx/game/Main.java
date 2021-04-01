@@ -11,9 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private World world;
@@ -71,9 +68,8 @@ public class Main extends ApplicationAdapter {
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
 		tiles.disposeTilesOutOfBounds();
-		tiles.updateLevelCounters();
+		tiles.updateCounters();
 		stage.act();
-
 
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);

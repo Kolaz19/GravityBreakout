@@ -20,12 +20,14 @@ public class TileData {
     private Vector2 initialImpulse;
     //We cannot set the body to dynamic in collision check, so we do it afterwards
     private boolean isDynamic;
+    private boolean wasHit;
     private int tileLevel;
     private TileParticles particles;
 
     public TileData(Body tile, Texture whiteTexture, Texture yellowTexture, Texture blueTexture, Texture purpleTexture) {
         this.tile = tile;
         isDynamic = false;
+        wasHit = false;
         //Textures
         this.whiteTexture = new TextureRegion(whiteTexture);
         this.yellowTexture = new TextureRegion(yellowTexture);
@@ -64,6 +66,20 @@ public class TileData {
         }
     }
 
+    public void setHit() {
+        this.wasHit = true;
+    }
+
+    /** wasHit is set to false after calling of this method */
+    public boolean wasHit() {
+        if (this.wasHit) {
+            this.wasHit = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean isDynamic () {
         return isDynamic;
     }
@@ -94,6 +110,10 @@ public class TileData {
 
     public float getDrawY() {
         return this.getY() - this.getHeight() / 2;
+    }
+
+    public int getLevel() {
+        return this.tileLevel;
     }
 
     public void render(SpriteBatch batch) {

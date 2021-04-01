@@ -37,7 +37,9 @@ public class Listener implements ContactListener {
         }
 
         if(includesActiveTile(contact) && includesPlatform(contact)) {
-            getCorrespondingTileData(getHittedTile(contact)).increaseTileLevel();
+            TileData tileData = getCorrespondingTileData(getHittedTile(contact));
+            tileData.increaseTileLevel();
+            tileData.setHit();
         }
 
     }
