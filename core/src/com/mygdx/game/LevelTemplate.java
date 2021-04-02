@@ -6,9 +6,9 @@ public class LevelTemplate {
 
     public static ArrayList<TileTemplate> level1() {
         ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
-        for (int k =1; k < 5; k++) {
+        for (int k =1; k < 10; k++) {
             for (int i = 1; i < 12; i++) {
-                templates.add(new TileTemplate(i*15 + 18, k* 6 +130 , 13, 4));
+                templates.add(new TileTemplate(i*15 + 18, k* 6 +100 , 13, 4));
             }
         }
         templates.add(new TileTemplate(40, 70, 20, 20));

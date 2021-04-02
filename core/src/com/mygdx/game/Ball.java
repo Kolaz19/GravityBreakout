@@ -32,7 +32,7 @@ public class Ball {
         bodyDef.linearDamping = 0;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.x = platformX;
-        bodyDef.position.y = spawnCoordinateY;
+        bodyDef.position.y = spawnCoordinateY / Main.PIXELS_TO_METERS;
         //Polugon Shape
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / Main.PIXELS_TO_METERS, height / 2 / Main.PIXELS_TO_METERS);
