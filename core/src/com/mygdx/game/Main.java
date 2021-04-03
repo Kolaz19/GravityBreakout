@@ -24,6 +24,8 @@ public class Main extends ApplicationAdapter {
 	private Listener listener;
 	private int backgroundWidth, backgroundHeight;
 	private Stage stage;
+	private ScoreLabel scoreLabel;
+	private Score score;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -51,7 +53,9 @@ public class Main extends ApplicationAdapter {
 		world.setContactListener(listener);
 
 		stage = new Stage();
-		stage.addActor(new ScoreLabel());
+		scoreLabel = new ScoreLabel();
+		stage.addActor(scoreLabel);
+		score = new Score();
 	}
 
 	@Override
@@ -70,6 +74,8 @@ public class Main extends ApplicationAdapter {
 		tiles.disposeTilesOutOfBounds();
 		tiles.updateCounters();
 		stage.act();
+		updateScore();
+		scoreLabel.setScore(score.getScore());
 
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
@@ -80,7 +86,8 @@ public class Main extends ApplicationAdapter {
 		stage.draw();
 		boxRenderer.render(world,debugMatrix);
 	}
-	
+
+
 	@Override
 	public void dispose () {
 		world.dispose();
@@ -110,6 +117,15 @@ public class Main extends ApplicationAdapter {
 			tile.render(this.batch);
 		}
 	}
+
+	private void updateScore() {
+		score.addAirScore(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
+		score.addHitScoreLevel1(tiles.getAmountOfTilesHit(1));
+		score.addHitScoreLevel2(tiles.getAmountOfTilesHit(2));
+		score.addHitScoreLevel3(tiles.getAmountOfTilesHit(3));
+		score.addHitScoreLevel4(tiles.getAmountOfTilesHit(4));
+	}
+
 
 
 
