@@ -14,8 +14,16 @@ buildscript {
     }
 }
 
+
+
 allprojects {
     apply plugin: "eclipse"
+    apply plugin: 'java'
+    compileJava {
+        sourceCompatibility = "1.9"
+        targetCompatibility = "1.9"
+    }
+
 
     version = '1.0'
     ext {

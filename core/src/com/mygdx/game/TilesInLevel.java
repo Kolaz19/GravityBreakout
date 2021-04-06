@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -12,6 +13,7 @@ public class TilesInLevel extends ArrayList<TileData> {
     private int level1AirCounter, level2AirCounter, level3AirCounter, level4AirCounter;
     private int level1HitCounter, level2HitCounter, level3HitCounter, level4HitCounter;
     private World world;
+    private float elapsedTime;
 
     public TilesInLevel (World world) {
         this.world = world;
@@ -32,6 +34,9 @@ public class TilesInLevel extends ArrayList<TileData> {
     }
 
     public void disposeTilesOutOfBounds() {
+        if (!oneSecondElapsed()) {
+            return;
+        }
         Iterator<TileData> iter = this.iterator();
         TileData currentTile;
         while (iter.hasNext()) {
@@ -116,6 +121,20 @@ public class TilesInLevel extends ArrayList<TileData> {
         yellowTexture.dispose();
         blueTexture.dispose();
         purpleTexture.dispose();
+    }
+
+    private boolean oneSecondElapsed() {
+        updateElapsedTime();
+        if (this.elapsedTime > 1) {
+            this.elapsedTime = 0;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void updateElapsedTime() {
+        this.elapsedTime += Gdx.graphics.getDeltaTime();
     }
 
 }
