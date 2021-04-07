@@ -2,18 +2,19 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /** Holds all tiles in a level. Takes care of adding new tiles and removing old ones and gives back info about the level of the tiles */
 public class TilesInLevel extends ArrayList<TileData> {
     private Texture whiteTexture, yellowTexture, blueTexture, purpleTexture;
-    private int level1AirCounter, level2AirCounter, level3AirCounter, level4AirCounter;
     private int level1HitCounter, level2HitCounter, level3HitCounter, level4HitCounter;
     private World world;
     private float elapsedTime;
+    private LinkedList<Vector2> level2Tiles, level3Tiles, level4Tiles;
 
     public TilesInLevel (World world) {
         this.world = world;
@@ -21,8 +22,10 @@ public class TilesInLevel extends ArrayList<TileData> {
         yellowTexture = new Texture("yellowTile.png");
         blueTexture = new Texture("blueTile.png");
         purpleTexture = new Texture("purpleTile.png");
-        level1AirCounter = level2AirCounter = level3AirCounter = level4AirCounter = 0;
         level1HitCounter = level2HitCounter = level3HitCounter = level4HitCounter = 0;
+        level2Tiles = new LinkedList<>();
+        level3Tiles =  new LinkedList<>();
+        level4Tiles = new LinkedList<>();
     }
 
     /** Adds all tiles for one level and deletes the old tiles */
@@ -51,8 +54,9 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     /**Updates the counter for the amount of tiles that are in a specific level.
        Call this in every loop when also receiving the counter getters*/
-    public void updateCounters() {
+    public void update() {
         resetCounters();
+        resetTileLists();
         for (int loop = 0; loop < this.size(); loop++) {
             if (this.get(loop).isDynamic()) {
                 updateAirCounter(this.get(loop));
@@ -61,20 +65,24 @@ public class TilesInLevel extends ArrayList<TileData> {
         }
     }
 
+
     private void resetCounters() {
-        level1AirCounter = level2AirCounter = level3AirCounter = level4AirCounter = 0;
         level1HitCounter = level2HitCounter = level3HitCounter = level4HitCounter = 0;
+    }
+
+    private void resetTileLists() {
+        level2Tiles.clear();
+        level3Tiles.clear();
+        level4Tiles.clear();
     }
 
     private void updateAirCounter(TileData tile) {
         switch(tile.getLevel()) {
-            case 1: level1AirCounter++;
+            case 2: level2Tiles.add(new Vector2(tile.getX(),tile.getY()));
                 break;
-            case 2: level2AirCounter++;
+            case 3: level3Tiles.add(new Vector2(tile.getX(),tile.getY()));
                 break;
-            case 3: level3AirCounter++;
-                break;
-            case 4: level4AirCounter++;
+            case 4: level4Tiles.add(new Vector2(tile.getX(),tile.getY()));
                 break;
         }
     }
@@ -97,10 +105,9 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     public int getAmountOfTilesInAir (int tileLevel) {
         switch (tileLevel) {
-            case 1: return this.level1AirCounter;
-            case 2: return this.level2AirCounter;
-            case 3: return this.level3AirCounter;
-            case 4: return this.level4AirCounter;
+            case 2: return this.level2Tiles.size();
+            case 3: return this.level3Tiles.size();
+            case 4: return this.level4Tiles.size();
         }
         return 0;
     }
@@ -135,6 +142,15 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     private void updateElapsedTime() {
         this.elapsedTime += Gdx.graphics.getDeltaTime();
+    }
+
+    public LinkedList<Vector2> getTileCoordinatesPerLevel(int tileLevel) {
+        switch (tileLevel) {
+            case 2: return this.level2Tiles;
+            case 3: return this.level3Tiles;
+            case 4: return this.level4Tiles;
+        }
+        return null;
     }
 
 }

@@ -72,7 +72,7 @@ public class Main extends ApplicationAdapter {
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
 		tiles.disposeTilesOutOfBounds();
-		tiles.updateCounters();
+		tiles.update();
 		stage.act();
 		updateScore();
 		scoreLabel.setScore(score.getScore());
