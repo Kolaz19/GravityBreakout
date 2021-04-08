@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ public class Main extends ApplicationAdapter {
 	private Stage stage;
 	private ScoreLabel scoreLabel;
 	private Score score;
+	private AirScoreLinesRenderer lineRenderer;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -56,6 +58,7 @@ public class Main extends ApplicationAdapter {
 		scoreLabel = new ScoreLabel();
 		stage.addActor(scoreLabel);
 		score = new Score();
+		lineRenderer = new AirScoreLinesRenderer(cam);
 	}
 
 	@Override
@@ -65,6 +68,7 @@ public class Main extends ApplicationAdapter {
 		cam.update();
 		world.step(1f / 60f, 6, 2);
 		batch.setProjectionMatrix(cam.combined);
+		lineRenderer.setProjectionMatrix(cam);
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0	);
 
 		MouseCoordinates.update(cam);
@@ -79,12 +83,18 @@ public class Main extends ApplicationAdapter {
 
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
+		batch.end();
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
+		batch.begin();
 		ball.render(batch);
 		platform.render(batch);
 		renderTiles();
 		batch.end();
 		stage.draw();
 		boxRenderer.render(world,debugMatrix);
+
 	}
 
 
