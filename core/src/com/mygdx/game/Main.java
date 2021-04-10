@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Main extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -28,6 +30,7 @@ public class Main extends ApplicationAdapter {
 	private ScoreLabel scoreLabel;
 	private Score score;
 	private AirScoreLinesRenderer lineRenderer;
+	private AirScoreFlame airScoreFlame;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -53,12 +56,14 @@ public class Main extends ApplicationAdapter {
 		listener = new Listener(ball,platform,tiles);
 		setLevel();
 		world.setContactListener(listener);
+		lineRenderer = new AirScoreLinesRenderer(cam);
 
 		stage = new Stage();
 		scoreLabel = new ScoreLabel();
 		stage.addActor(scoreLabel);
 		score = new Score();
-		lineRenderer = new AirScoreLinesRenderer(cam);
+		airScoreFlame = new AirScoreFlame(this.score);
+		stage.addActor(airScoreFlame);
 	}
 
 	@Override
@@ -77,9 +82,10 @@ public class Main extends ApplicationAdapter {
 		setTilesToDynamic();
 		tiles.disposeTilesOutOfBounds();
 		tiles.update();
-		stage.act();
 		updateScore();
 		scoreLabel.setScore(score.getScore());
+		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
+		stage.act();
 
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
@@ -91,10 +97,10 @@ public class Main extends ApplicationAdapter {
 		ball.render(batch);
 		platform.render(batch);
 		renderTiles();
+		airScoreFlame.draw(batch,0);
 		batch.end();
 		stage.draw();
 		boxRenderer.render(world,debugMatrix);
-
 	}
 
 
