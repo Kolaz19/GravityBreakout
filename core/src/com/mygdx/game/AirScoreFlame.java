@@ -17,7 +17,6 @@ public class AirScoreFlame extends Actor {
         yellowEffect = new ParticleEffect();
         yellowEffect.load(Gdx.files.internal("yellowFlame.party"), Gdx.files.internal(""));
         blueEffect = new ParticleEffect();
-        //TODO make blue flame color more contrastful
         blueEffect.load(Gdx.files.internal("blueFlame.party"), Gdx.files.internal(""));
         purpleEffect = new ParticleEffect();
         purpleEffect.load(Gdx.files.internal("purpleFlame.party"), Gdx.files.internal(""));
@@ -34,39 +33,34 @@ public class AirScoreFlame extends Actor {
 
 
     public void update(int level2Count, int level3Count, int level4Count) {
+        updateShowEffect(level2Count, level3Count, level4Count);
         updateEffect(level2Count, level3Count, level4Count);
         updatePosition();
     }
 
     private void updateEffect(int level2Count, int level3Count, int level4Count) {
-        //TODO probably optimize performance and code clutter
-        if (level4Count > 1) {
-            show = true;
-            if (this.currentEffect != purpleEffect) {
-                currentEffect.reset();
-                currentEffect = purpleEffect;
-                currentEffect.scaleEffect(2);
-                currentEffect.start();
-            }
-        } else if (level3Count > 1) {
-            show = true;
-            if (this.currentEffect != purpleEffect) {
-                currentEffect.reset();
-                currentEffect = blueEffect;
-                currentEffect.scaleEffect(2);
-                currentEffect.start();
-            }
-        } else if (level2Count > 1) {
-            show = true;
-            if (this.currentEffect != yellowEffect) {
-                currentEffect.reset();
-                currentEffect = yellowEffect;
-                currentEffect.scaleEffect(2);
-                currentEffect.start();
-            }
-        } else {
-            show = false;
+        if (!this.show) {
+            return;
         }
+
+        if ((level4Count > 1) && (this.currentEffect != purpleEffect)) {
+            currentEffect = purpleEffect;
+        } else if ((level3Count > 1) && (this.currentEffect != blueEffect)) {
+            currentEffect = blueEffect;
+        } else if ((level2Count > 1) && (this.currentEffect != yellowEffect)) {
+            currentEffect = yellowEffect;
+        } else {
+            return;
+        }
+
+        currentEffect.reset();
+        currentEffect.scaleEffect(2);
+        currentEffect.start();
+    }
+
+
+    private void updateShowEffect(int level2Count, int level3Count, int level4Count) {
+        this.show = level2Count > 1 || level3Count > 1 || level4Count > 1;
     }
 
 
