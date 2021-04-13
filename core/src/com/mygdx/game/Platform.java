@@ -1,12 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class Platform {
     private Body body;
     private Texture texture;
+    private Animation<TextureRegion> hitAnimationYellow, hitAnimationBlue, hitAnimationPurple;
     private final float width, height, backgroundWidth;
     private final float box2DPosY = 8 / Main.PIXELS_TO_METERS;
     private final int boundaryWidth = 11;
@@ -23,6 +26,7 @@ public class Platform {
 
     public Platform(World world, int backgroundWidth) {
         texture = new Texture("platform.png");
+        hitAnimationYellow = AnimationFactory.createAnimation(new Texture("platformYellow.png"),17,4, 4, 0.25f);
         width = texture.getWidth();
         height = texture.getHeight();
         this.backgroundWidth = backgroundWidth;
@@ -81,7 +85,7 @@ public class Platform {
                 return areasInOrder[loop];
             }
         }
-        //If ball touches sides (exception)
+        //If ball touches sides (the exception)
         if (x < body.getPosition().x * Main.PIXELS_TO_METERS) {
             return areasInOrder[0];
         } else {
