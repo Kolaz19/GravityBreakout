@@ -77,7 +77,7 @@ public class Main extends ApplicationAdapter {
 		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0	);
 
 		MouseCoordinates.update(cam);
-		platform.updateCoordinate();
+		platform.update();
 		ball.update(platform.getOriginX());
 		setTilesToDynamic();
 		tiles.disposeTilesOutOfBounds();

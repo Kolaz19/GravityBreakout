@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,11 +9,12 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class Platform {
     private Body body;
-    private Texture texture;
-    private Animation<TextureRegion> hitAnimationYellow, hitAnimationBlue, hitAnimationPurple;
+    private TextureRegion defaultTexture, currentFrame;
+    private Animation<TextureRegion> currentAnimation, hitAnimationYellow, hitAnimationBlue, hitAnimationPurple;
     private final float width, height, backgroundWidth;
     private final float box2DPosY = 8 / Main.PIXELS_TO_METERS;
     private final int boundaryWidth = 11;
+    private float animationTime;
 
     enum Area {
         LEFTLEFT,
@@ -25,10 +27,12 @@ public class Platform {
     }
 
     public Platform(World world, int backgroundWidth) {
-        texture = new Texture("platform.png");
+        defaultTexture = new TextureRegion(new Texture("platform.png"));
         hitAnimationYellow = AnimationFactory.createAnimation(new Texture("platformYellow.png"),17,4, 4, 0.25f);
-        width = texture.getWidth();
-        height = texture.getHeight();
+        hitAnimationYellow.setPlayMode(Animation.PlayMode.NORMAL);
+
+        width = defaultTexture.getRegionWidth();
+        height = defaultTexture.getRegionHeight();
         this.backgroundWidth = backgroundWidth;
         //BodyDefinition
         BodyDef bodyDef = new BodyDef();
@@ -51,7 +55,37 @@ public class Platform {
         body.createFixture(fixtureDef);
     }
 
-    public void updateCoordinate() {
+    public void update() {
+        updateCoordinate();
+        updateFrame();
+    }
+
+    private void updateFrame() {
+        if (this.currentAnimation == null) {
+            return;
+        }
+        this.animationTime = this.animationTime + Gdx.graphics.getDeltaTime();
+        if (this.currentAnimation.isAnimationFinished(this.animationTime)) {
+            currentFrame = new TextureRegion();
+        } else {
+            this.currentFrame = this.currentAnimation.getKeyFrame(this.animationTime);
+        }
+
+    }
+
+    public void startHitAnimation(int tileLevel) {
+        this.animationTime = 0;
+        switch(tileLevel) {
+            case 2: this.currentAnimation = this.hitAnimationYellow;
+            break;
+            case 3: this.currentAnimation = this.hitAnimationBlue;
+            break;
+            case 4: this.currentAnimation = this.hitAnimationPurple;
+            break;
+        }
+    }
+
+    private void updateCoordinate() {
         if (isMouseOverLeftBoundary()) {
             body.setTransform(boundaryWidth / Main.PIXELS_TO_METERS,box2DPosY,0);
         } else if (isMouseOverRightBoundary()) {
@@ -95,7 +129,7 @@ public class Platform {
 
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture, body.getPosition().x * Main.PIXELS_TO_METERS - (width / 2), body.getPosition().y * Main.PIXELS_TO_METERS - (height / 2));
+        batch.draw(currentFrame, body.getPosition().x * Main.PIXELS_TO_METERS - (width / 2), body.getPosition().y * Main.PIXELS_TO_METERS - (height / 2));
     }
 
 }
