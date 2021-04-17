@@ -28,8 +28,14 @@ public class Platform {
 
     public Platform(World world, int backgroundWidth) {
         defaultTexture = new TextureRegion(new Texture("platform.png"));
-        hitAnimationYellow = AnimationFactory.createAnimation(new Texture("platformYellow.png"),17,4, 4, 0.25f);
+        hitAnimationYellow = AnimationFactory.createAnimation(new Texture("platformYellow.png"),17,4, 4, 0.1f);
+        hitAnimationBlue = AnimationFactory.createAnimation(new Texture("platformBlue.png"),17,4, 4, 0.1f);
+        hitAnimationPurple = AnimationFactory.createAnimation(new Texture("platformPurple.png"),17,4, 4, 0.1f);
         hitAnimationYellow.setPlayMode(Animation.PlayMode.NORMAL);
+        hitAnimationBlue.setPlayMode(Animation.PlayMode.NORMAL);
+        hitAnimationPurple.setPlayMode(Animation.PlayMode.NORMAL);
+
+        currentFrame = this.defaultTexture;
 
         width = defaultTexture.getRegionWidth();
         height = defaultTexture.getRegionHeight();
@@ -65,12 +71,12 @@ public class Platform {
             return;
         }
         this.animationTime = this.animationTime + Gdx.graphics.getDeltaTime();
+
         if (this.currentAnimation.isAnimationFinished(this.animationTime)) {
-            currentFrame = new TextureRegion();
+            currentFrame = defaultTexture;
         } else {
             this.currentFrame = this.currentAnimation.getKeyFrame(this.animationTime);
         }
-
     }
 
     public void startHitAnimation(int tileLevel) {

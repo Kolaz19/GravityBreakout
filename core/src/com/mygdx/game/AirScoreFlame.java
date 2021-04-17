@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class AirScoreFlame extends Actor {
     private ParticleEffect currentEffect, yellowEffect, blueEffect, purpleEffect;
+    private ParticleEffect currentTransEffect, yellowTransEffect, blueTransEffect, purpleTransEffect;
     private Score score;
     private boolean show;
 
@@ -19,12 +20,24 @@ public class AirScoreFlame extends Actor {
         purpleEffect = new ParticleEffect();
         purpleEffect.load(Gdx.files.internal("purpleFlame.party"), Gdx.files.internal(""));
         currentEffect = new ParticleEffect();
+
+        yellowTransEffect = new ParticleEffect();
+        yellowTransEffect.load(Gdx.files.internal("yellowFlameTrans.party"), Gdx.files.internal(""));
+        yellowTransEffect.setPosition(105,80);
+        blueTransEffect = new ParticleEffect();
+        blueTransEffect.load(Gdx.files.internal("blueFlameTrans.party"), Gdx.files.internal(""));
+        blueTransEffect.setPosition(105, 80);
+        purpleTransEffect = new ParticleEffect();
+        purpleTransEffect.load(Gdx.files.internal("purpleFlameTrans.party"), Gdx.files.internal(""));
+        purpleTransEffect.setPosition(105, 80);
+        currentTransEffect = new ParticleEffect();
     }
 
 
     public void draw(SpriteBatch batch, float parentAlpha) {
         if (show) {
             currentEffect.draw(batch, parentAlpha);
+            currentTransEffect.draw(batch, parentAlpha);
         }
     }
 
@@ -40,13 +53,16 @@ public class AirScoreFlame extends Actor {
         if (!this.show) {
             return;
         }
-
+//TODO Bug where flame is shown grey when two flame states at once?
         if ((level4Count > 1) && (this.currentEffect != purpleEffect)) {
             currentEffect = purpleEffect;
+            currentTransEffect = purpleTransEffect;
         } else if ((level3Count > 1) && (this.currentEffect != blueEffect)) {
             currentEffect = blueEffect;
+            currentTransEffect = blueTransEffect;
         } else if ((level2Count > 1) && (this.currentEffect != yellowEffect)) {
             currentEffect = yellowEffect;
+            currentTransEffect = yellowTransEffect;
         } else {
             return;
         }
@@ -54,6 +70,9 @@ public class AirScoreFlame extends Actor {
         currentEffect.reset();
         currentEffect.scaleEffect(2);
         currentEffect.start();
+        currentTransEffect.reset();
+        currentTransEffect.scaleEffect(30);
+        currentTransEffect.start();
     }
 
 
@@ -79,6 +98,7 @@ public class AirScoreFlame extends Actor {
     public void act(float delta) {
         if (show ) {
             this.currentEffect.update(Gdx.graphics.getDeltaTime());
+            this.currentTransEffect.update(Gdx.graphics.getDeltaTime());
         }
     }
 }

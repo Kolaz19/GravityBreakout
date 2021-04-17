@@ -90,6 +90,7 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
 		batch.end();
+		stage.draw();
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
@@ -99,7 +100,7 @@ public class Main extends ApplicationAdapter {
 		renderTiles();
 		airScoreFlame.draw(batch,0);
 		batch.end();
-		stage.draw();
+
 		boxRenderer.render(world,debugMatrix);
 	}
 
