@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,21 +16,33 @@ public class AirScoreFlame extends Actor {
         this.score = score;
         yellowEffect = new ParticleEffect();
         yellowEffect.load(Gdx.files.internal("yellowFlame.party"), Gdx.files.internal(""));
+        yellowEffect.scaleEffect(2f);
+        yellowEffect.start();
         blueEffect = new ParticleEffect();
         blueEffect.load(Gdx.files.internal("blueFlame.party"), Gdx.files.internal(""));
+        blueEffect.scaleEffect(2f);
+        blueEffect.start();
         purpleEffect = new ParticleEffect();
         purpleEffect.load(Gdx.files.internal("purpleFlame.party"), Gdx.files.internal(""));
+        purpleEffect.scaleEffect(2f);
+        purpleEffect.start();
         currentEffect = new ParticleEffect();
 
         yellowTransEffect = new ParticleEffect();
         yellowTransEffect.load(Gdx.files.internal("yellowFlameTrans.party"), Gdx.files.internal(""));
         yellowTransEffect.setPosition(105,80);
+        yellowTransEffect.scaleEffect(30f);
+        yellowTransEffect.start();
         blueTransEffect = new ParticleEffect();
         blueTransEffect.load(Gdx.files.internal("blueFlameTrans.party"), Gdx.files.internal(""));
         blueTransEffect.setPosition(105, 80);
+        blueTransEffect.scaleEffect(30f);
+        blueTransEffect.start();
         purpleTransEffect = new ParticleEffect();
         purpleTransEffect.load(Gdx.files.internal("purpleFlameTrans.party"), Gdx.files.internal(""));
         purpleTransEffect.setPosition(105, 80);
+        purpleTransEffect.scaleEffect(30f);
+        purpleTransEffect.start();
         currentTransEffect = new ParticleEffect();
     }
 
@@ -53,27 +66,26 @@ public class AirScoreFlame extends Actor {
         if (!this.show) {
             return;
         }
-//TODO Bug where flame is shown grey when two flame states at once?
-        if ((level4Count > 1) && (this.currentEffect != purpleEffect)) {
-            currentEffect = purpleEffect;
-            currentTransEffect = purpleTransEffect;
-        } else if ((level3Count > 1) && (this.currentEffect != blueEffect)) {
-            currentEffect = blueEffect;
-            currentTransEffect = blueTransEffect;
-        } else if ((level2Count > 1) && (this.currentEffect != yellowEffect)) {
-            currentEffect = yellowEffect;
-            currentTransEffect = yellowTransEffect;
-        } else {
-            return;
-        }
 
-        currentEffect.reset();
-        currentEffect.scaleEffect(2);
-        currentEffect.start();
-        currentTransEffect.reset();
-        currentTransEffect.scaleEffect(30);
-        currentTransEffect.start();
+        if (level4Count > 1) {
+            if (this.currentEffect != purpleEffect) {
+                currentEffect = purpleEffect;
+                currentTransEffect = purpleTransEffect;
+            }
+        } else if (level3Count > 1) {
+            if (this.currentEffect != blueEffect) {
+                currentEffect = blueEffect;
+                currentTransEffect = blueTransEffect;
+            }
+        } else if (level2Count > 1) {
+            if (this.currentEffect != yellowEffect) {
+                currentEffect = yellowEffect;
+                currentTransEffect = yellowTransEffect;
+            }
+        }
     }
+
+
 
 
     private void updateShowEffect(int level2Count, int level3Count, int level4Count) {

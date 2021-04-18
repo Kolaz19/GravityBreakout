@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -87,6 +88,7 @@ public class Main extends ApplicationAdapter {
 		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 		stage.act();
 
+
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
 		batch.end();
@@ -102,6 +104,9 @@ public class Main extends ApplicationAdapter {
 		batch.end();
 
 		boxRenderer.render(world,debugMatrix);
+
+
+
 	}
 
 
