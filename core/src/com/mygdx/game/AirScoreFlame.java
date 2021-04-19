@@ -54,8 +54,6 @@ public class AirScoreFlame extends Actor {
         }
     }
 
-
-
     public void update(int level2Count, int level3Count, int level4Count) {
         updateShowEffect(level2Count, level3Count, level4Count);
         updateEffect(level2Count, level3Count, level4Count);
@@ -84,9 +82,6 @@ public class AirScoreFlame extends Actor {
             }
         }
     }
-
-
-
 
     private void updateShowEffect(int level2Count, int level3Count, int level4Count) {
         this.show = level2Count > 1 || level3Count > 1 || level4Count > 1;
