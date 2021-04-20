@@ -64,6 +64,7 @@ public class TileData {
             tile.getFixtureList().get(0).setFilterData(filter);
             tile.applyLinearImpulse(initialImpulse,tile.getWorldCenter(),true);
         }
+        particles.update(this.getX(), this.getY());
     }
 
     public void setHit() {
@@ -117,7 +118,7 @@ public class TileData {
     }
 
     public void render(SpriteBatch batch) {
-        particles.render(batch,this.getX(), this.getY());
+        particles.render(batch);
         batch.draw(currentTexture,this.getDrawX(), this.getDrawY(), this.getX() - this.getDrawX(),this.getY() - this.getDrawY(), this.getWidth(), this.getHeight(), 1f, 1f, (float) Math.toDegrees(this.getBody().getAngle()));
     }
 

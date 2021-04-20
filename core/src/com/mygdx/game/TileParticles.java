@@ -42,12 +42,15 @@ public class TileParticles {
         currentEffect.scaleEffect(this.scaleFactor);
     }
 
-    public void render(SpriteBatch batch, float x, float y) {
+    public void render(SpriteBatch batch) {
         if(this.active) {
-            currentEffect.setPosition(x, y);
-            currentEffect.update(Gdx.graphics.getDeltaTime());
             currentEffect.draw(batch);
         }
+    }
+
+    public void update(float x, float y) {
+        currentEffect.setPosition(x, y);
+        currentEffect.update(Gdx.graphics.getDeltaTime());
     }
 
     public void dispose() {

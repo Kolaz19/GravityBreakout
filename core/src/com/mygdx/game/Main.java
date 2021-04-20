@@ -32,6 +32,7 @@ public class Main extends ApplicationAdapter {
 	private Score score;
 	private AirScoreLinesRenderer lineRenderer;
 	private AirScoreFlame airScoreFlame;
+	boolean stop;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -72,10 +73,11 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		cam.update();
+
 		world.step(1f / 60f, 6, 2);
 		batch.setProjectionMatrix(cam.combined);
 		lineRenderer.setProjectionMatrix(cam);
-		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0	);
+		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
 
 		MouseCoordinates.update(cam);
 		platform.update();
@@ -87,7 +89,6 @@ public class Main extends ApplicationAdapter {
 		scoreLabel.setScore(score.getScore());
 		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 		stage.act();
-
 
 		batch.begin();
 		batch.draw(backgroundTexture,0,0);
@@ -104,11 +105,7 @@ public class Main extends ApplicationAdapter {
 		batch.end();
 
 		boxRenderer.render(world,debugMatrix);
-
-
-
 	}
-
 
 	@Override
 	public void dispose () {
@@ -147,8 +144,4 @@ public class Main extends ApplicationAdapter {
 		score.addHitScoreLevel3(tiles.getAmountOfTilesHit(3));
 		score.addHitScoreLevel4(tiles.getAmountOfTilesHit(4));
 	}
-
-
-
-
 }
