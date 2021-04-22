@@ -32,7 +32,7 @@ public class Main extends ApplicationAdapter {
 	private Score score;
 	private AirScoreLinesRenderer lineRenderer;
 	private AirScoreFlame airScoreFlame;
-	boolean stop;
+	private boolean stop;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -66,6 +66,7 @@ public class Main extends ApplicationAdapter {
 		score = new Score();
 		airScoreFlame = new AirScoreFlame(this.score);
 		stage.addActor(airScoreFlame);
+		this.stop = false;
 	}
 
 	@Override
@@ -73,25 +74,28 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		cam.update();
+		checkForPause();
 
-		world.step(1f / 60f, 6, 2);
-		batch.setProjectionMatrix(cam.combined);
-		lineRenderer.setProjectionMatrix(cam);
-		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
+		if (!this.stop) {
+			world.step(1f / 60f, 6, 2);
+			batch.setProjectionMatrix(cam.combined);
+			lineRenderer.setProjectionMatrix(cam);
+			debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
 
-		MouseCoordinates.update(cam);
-		platform.update();
-		ball.update(platform.getOriginX());
-		setTilesToDynamic();
-		tiles.disposeTilesOutOfBounds();
-		tiles.update();
-		updateScore();
-		scoreLabel.setScore(score.getScore());
-		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
-		stage.act();
+			MouseCoordinates.update(cam);
+			platform.update();
+			ball.update(platform.getOriginX());
+			setTilesToDynamic();
+			tiles.disposeTilesOutOfBounds();
+			tiles.update();
+			updateScore();
+			scoreLabel.setScore(score.getScore());
+			airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
+			stage.act();
+		}
 
 		batch.begin();
-		batch.draw(backgroundTexture,0,0);
+		batch.draw(backgroundTexture, 0, 0);
 		batch.end();
 		stage.draw();
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
@@ -101,8 +105,9 @@ public class Main extends ApplicationAdapter {
 		ball.render(batch);
 		platform.render(batch);
 		renderTiles();
-		airScoreFlame.draw(batch,0);
+		airScoreFlame.draw(batch, 0);
 		batch.end();
+
 
 		boxRenderer.render(world,debugMatrix);
 	}
@@ -144,4 +149,11 @@ public class Main extends ApplicationAdapter {
 		score.addHitScoreLevel3(tiles.getAmountOfTilesHit(3));
 		score.addHitScoreLevel4(tiles.getAmountOfTilesHit(4));
 	}
+
+	private void checkForPause() {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+			this.stop = !this.stop;
+		}
+	}
+
 }
