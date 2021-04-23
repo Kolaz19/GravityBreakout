@@ -33,6 +33,7 @@ public class Main extends ApplicationAdapter {
 	private AirScoreLinesRenderer lineRenderer;
 	private AirScoreFlame airScoreFlame;
 	private boolean stop;
+	private PauseMenu pauseMenu;
 
 	static final float PIXELS_TO_METERS = 7f;
 	
@@ -67,6 +68,7 @@ public class Main extends ApplicationAdapter {
 		airScoreFlame = new AirScoreFlame(this.score);
 		stage.addActor(airScoreFlame);
 		this.stop = false;
+		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight);
 	}
 
 	@Override
@@ -92,6 +94,8 @@ public class Main extends ApplicationAdapter {
 			scoreLabel.setScore(score.getScore());
 			airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 			stage.act();
+		} else {
+			pauseMenu.act();
 		}
 
 		batch.begin();
@@ -107,6 +111,9 @@ public class Main extends ApplicationAdapter {
 		renderTiles();
 		airScoreFlame.draw(batch, 0);
 		batch.end();
+		if (this.stop) {
+			pauseMenu.draw();
+		}
 
 
 		boxRenderer.render(world,debugMatrix);
