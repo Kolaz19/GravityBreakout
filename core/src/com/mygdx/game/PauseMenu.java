@@ -14,6 +14,10 @@ public class PauseMenu extends Stage {
         super(new FitViewport(width, height,cam), batch);
         Animation<TextureRegion> pauseIconAnimation = AnimationFactory.createAnimation(new Texture("pauseIcon.png"),28, 29, 66, 0.07f);
         AnimationActor pauseIcon = new AnimationActor(pauseIconAnimation, width / 2 - pauseIconAnimation.getKeyFrame(0).getRegionWidth() / 2, height / 2 - pauseIconAnimation.getKeyFrame(0).getRegionHeight() / 2);
-        this.addActor(pauseIcon );
+
+        ExitButtonActor exitButton = new ExitButtonActor("exitButton.png", "exitButtonPressed.png", 5, 147);
+
+        this.addActor(pauseIcon);
+        this.addActor(exitButton);
     }
 }

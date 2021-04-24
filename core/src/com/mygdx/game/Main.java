@@ -76,6 +76,7 @@ public class Main extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		cam.update();
+		MouseCoordinates.update(cam);
 		checkForPause();
 
 		if (!this.stop) {
@@ -84,7 +85,6 @@ public class Main extends ApplicationAdapter {
 			lineRenderer.setProjectionMatrix(cam);
 			debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
 
-			MouseCoordinates.update(cam);
 			platform.update();
 			ball.update(platform.getOriginX());
 			setTilesToDynamic();
@@ -101,22 +101,23 @@ public class Main extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(backgroundTexture, 0, 0);
 		batch.end();
-		stage.draw();
-		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
-		lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
-		lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
-		batch.begin();
-		ball.render(batch);
-		platform.render(batch);
-		renderTiles();
-		airScoreFlame.draw(batch, 0);
-		batch.end();
-		if (this.stop) {
+		if (!this.stop) {
+			stage.draw();
+			lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
+			lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
+			lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
+			batch.begin();
+			ball.render(batch);
+			platform.render(batch);
+			renderTiles();
+			airScoreFlame.draw(batch, 0);
+			batch.end();
+		} else {
 			pauseMenu.draw();
 		}
 
 
-		boxRenderer.render(world,debugMatrix);
+		//boxRenderer.render(world,debugMatrix);
 	}
 
 	@Override
