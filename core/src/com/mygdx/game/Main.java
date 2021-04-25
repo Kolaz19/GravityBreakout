@@ -114,6 +114,9 @@ public class Main extends ApplicationAdapter {
 			batch.end();
 		} else {
 			pauseMenu.draw();
+			batch.begin();
+			ball.render(batch);
+			batch.end();
 		}
 
 
