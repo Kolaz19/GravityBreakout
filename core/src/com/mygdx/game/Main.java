@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Main extends ApplicationAdapter {
+public class Main extends ApplicationAdapter implements ResizableScreen {
 	private SpriteBatch batch;
 	private World world;
 	private Box2DDebugRenderer boxRenderer;
@@ -39,6 +39,7 @@ public class Main extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		this.resize();
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
 		//Textures
@@ -69,6 +70,9 @@ public class Main extends ApplicationAdapter {
 		stage.addActor(airScoreFlame);
 		this.stop = false;
 		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight);
+
+
+
 	}
 
 	@Override
@@ -121,6 +125,10 @@ public class Main extends ApplicationAdapter {
 
 
 		//boxRenderer.render(world,debugMatrix);
+	}
+
+	public void resize() {
+		Gdx.graphics.setWindowedMode(1100, 860);
 	}
 
 	@Override

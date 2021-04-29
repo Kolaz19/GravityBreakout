@@ -21,6 +21,7 @@ public class ScoreLabel extends Actor {
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
         this.label = new Label("0",style);
         this.label.setPosition(1050,805);
+        this.label.setPosition(100,400);
     }
 
     @Override
