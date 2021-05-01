@@ -30,6 +30,9 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     /** Adds all tiles for one level and deletes the old tiles */
     public void setTilesForLevel(ArrayList<TileTemplate> templates) {
+        for (TileData tiles : this) {
+            world.destroyBody(tiles.getBody());
+        }
         this.clear();
         for (TileTemplate template : templates) {
             this.add(new TileData(template.createTile(world), whiteTexture, yellowTexture, blueTexture, purpleTexture));

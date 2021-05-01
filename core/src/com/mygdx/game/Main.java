@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Main extends ApplicationAdapter implements ResizableScreen {
+	private StateManager stateManager;
 	private SpriteBatch batch;
 	private World world;
 	private Box2DDebugRenderer boxRenderer;
@@ -36,6 +37,10 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 	private PauseMenu pauseMenu;
 
 	static final float PIXELS_TO_METERS = 7f;
+
+	public Main(StateManager manager) {
+		stateManager = manager;
+	}
 	
 	@Override
 	public void create () {
@@ -58,7 +63,7 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 		wallSpawner.createRightWall();
 		tiles = new TilesInLevel(this.world);
 		listener = new Listener(ball,platform,tiles);
-		setLevel();
+		setLevel(1);
 		world.setContactListener(listener);
 		lineRenderer = new AirScoreLinesRenderer(cam);
 
@@ -70,9 +75,6 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 		stage.addActor(airScoreFlame);
 		this.stop = false;
 		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight);
-
-
-
 	}
 
 	@Override
@@ -84,20 +86,7 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 		checkForPause();
 
 		if (!this.stop) {
-			world.step(1f / 60f, 6, 2);
-			batch.setProjectionMatrix(cam.combined);
-			lineRenderer.setProjectionMatrix(cam);
-			debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
-
-			platform.update();
-			ball.update(platform.getOriginX());
-			setTilesToDynamic();
-			tiles.disposeTilesOutOfBounds();
-			tiles.update();
-			updateScore();
-			scoreLabel.setScore(score.getScore());
-			airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
-			stage.act();
+			processGameLogic();
 		} else {
 			pauseMenu.act();
 		}
@@ -106,25 +95,53 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 		batch.draw(backgroundTexture, 0, 0);
 		batch.end();
 		if (!this.stop) {
-			stage.draw();
-			lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
-			lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
-			lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
-			batch.begin();
-			ball.render(batch);
-			platform.render(batch);
-			renderTiles();
-			airScoreFlame.draw(batch, 0);
-			batch.end();
+			drawGame();
 		} else {
-			pauseMenu.draw();
-			batch.begin();
-			ball.render(batch);
-			batch.end();
+			drawPauseMenu();
 		}
 
+		if(Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+			setLevel(2);
+		}
 
 		//boxRenderer.render(world,debugMatrix);
+	}
+
+	private void drawPauseMenu() {
+		pauseMenu.draw();
+		batch.begin();
+		ball.render(batch);
+		batch.end();
+	}
+
+	private void processGameLogic() {
+		world.step(1f / 60f, 6, 2);
+		batch.setProjectionMatrix(cam.combined);
+		lineRenderer.setProjectionMatrix(cam);
+		debugMatrix = batch.getProjectionMatrix().cpy().scale(PIXELS_TO_METERS, PIXELS_TO_METERS, 0);
+
+		platform.update();
+		ball.update(platform.getOriginX());
+		setTilesToDynamic();
+		tiles.disposeTilesOutOfBounds();
+		tiles.update();
+		updateScore();
+		scoreLabel.setScore(score.getScore());
+		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
+		stage.act();
+	}
+
+	private void drawGame() {
+		stage.draw();
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
+		lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
+		batch.begin();
+		ball.render(batch);
+		platform.render(batch);
+		renderTiles();
+		airScoreFlame.draw(batch, 0);
+		batch.end();
 	}
 
 	public void resize() {
@@ -139,12 +156,15 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 		batch.dispose();
 	}
 
-	private void setLevel() {
-		tiles.setTilesForLevel(LevelTemplate.level1());
+	public void setLevel(int level) {
+		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
 	}
 
 	private void setNewBall(Ball newBall) {
+		if (this.ball != null) {
+			world.destroyBody(this.ball.getBody());
+		}
 		this.ball = newBall;
 		this.listener.setBall(newBall);
 	}

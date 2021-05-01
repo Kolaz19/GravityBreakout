@@ -102,6 +102,9 @@ public class Ball {
         batch.draw(texture,body.getPosition().x * Main.PIXELS_TO_METERS - (texture.getWidth() / 2),body.getPosition().y * Main.PIXELS_TO_METERS - (texture.getHeight() / 2));
     }
 
+    public Body getBody() {
+        return this.body;
+    }
 
 
 
