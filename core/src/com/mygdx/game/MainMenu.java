@@ -20,7 +20,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
     @Override
     public void create() {
         resize();
-        background = new Texture("background.png");
+        background = new Texture("mainMenuBackground.png");
         batch = new SpriteBatch();
         cam = new OrthographicCamera(background.getWidth(), background.getHeight());
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0	);
@@ -44,6 +44,6 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
 
     @Override
     public void resize() {
-        Gdx.graphics.setWindowedMode(1100, 860);
+        Gdx.graphics.setWindowedMode(450, 600);
     }
 }

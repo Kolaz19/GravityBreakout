@@ -16,7 +16,7 @@ public class StateManager extends ApplicationAdapter {
 
     @Override
     public void create() {
-        changeState(State.GAME);
+        changeState(State.MENU);
     }
 
     @Override
