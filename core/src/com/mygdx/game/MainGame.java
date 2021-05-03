@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class Main extends ApplicationAdapter implements ResizableScreen {
+public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private StateManager stateManager;
 	private SpriteBatch batch;
 	private World world;
@@ -38,7 +38,7 @@ public class Main extends ApplicationAdapter implements ResizableScreen {
 
 	static final float PIXELS_TO_METERS = 7f;
 
-	public Main(StateManager manager) {
+	public MainGame(StateManager manager) {
 		stateManager = manager;
 	}
 	

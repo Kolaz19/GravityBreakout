@@ -32,10 +32,10 @@ public class Ball {
         bodyDef.linearDamping = 0;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.x = platformX;
-        bodyDef.position.y = spawnCoordinateY / Main.PIXELS_TO_METERS;
+        bodyDef.position.y = spawnCoordinateY / MainGame.PIXELS_TO_METERS;
         //Polugon Shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width / 2 / Main.PIXELS_TO_METERS, height / 2 / Main.PIXELS_TO_METERS);
+        shape.setAsBox(width / 2 / MainGame.PIXELS_TO_METERS, height / 2 / MainGame.PIXELS_TO_METERS);
         //Fixture
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -65,7 +65,7 @@ public class Ball {
     }
 
     private void attachBallToPlatform (float platformX) {
-        body.setTransform(platformX,spawnCoordinateY / Main.PIXELS_TO_METERS,0);
+        body.setTransform(platformX,spawnCoordinateY / MainGame.PIXELS_TO_METERS,0);
     }
 
     private void checkForBallRelease() {
@@ -99,7 +99,7 @@ public class Ball {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture,body.getPosition().x * Main.PIXELS_TO_METERS - (texture.getWidth() / 2),body.getPosition().y * Main.PIXELS_TO_METERS - (texture.getHeight() / 2));
+        batch.draw(texture,body.getPosition().x * MainGame.PIXELS_TO_METERS - (texture.getWidth() / 2),body.getPosition().y * MainGame.PIXELS_TO_METERS - (texture.getHeight() / 2));
     }
 
     public Body getBody() {

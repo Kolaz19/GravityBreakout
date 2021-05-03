@@ -6,12 +6,12 @@ public class WallSpawner {
     //All coordinates in Box2D dimensions
     private final float backgroundWidth;
     private final float backgroundHeight;
-    private final float distanceToEdge = 2 / Main.PIXELS_TO_METERS;
+    private final float distanceToEdge = 2 / MainGame.PIXELS_TO_METERS;
     private World world;
 
     public WallSpawner(World world, int backgroundWidth, int backgroundHeight) {
-        this.backgroundWidth = backgroundWidth / Main.PIXELS_TO_METERS;
-        this.backgroundHeight = backgroundHeight / Main.PIXELS_TO_METERS;
+        this.backgroundWidth = backgroundWidth / MainGame.PIXELS_TO_METERS;
+        this.backgroundHeight = backgroundHeight / MainGame.PIXELS_TO_METERS;
         this.world = world;
     }
 

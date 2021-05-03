@@ -5,7 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 
 
 public class StateManager extends ApplicationAdapter {
-    private Main main;
+    private MainGame mainGame;
     private MainMenu menu;
     private State currentState;
 
@@ -23,7 +23,7 @@ public class StateManager extends ApplicationAdapter {
     public void render() {
         switch (this.currentState) {
             case GAME:
-                main.render();
+                mainGame.render();
                 break;
             case MENU:
                 menu.render();
@@ -41,11 +41,11 @@ public class StateManager extends ApplicationAdapter {
         this.currentState = state;
         switch (state) {
             case GAME:
-                if (main == null) {
-                    main = new Main(this);
-                    main.create();
+                if (mainGame == null) {
+                    mainGame = new MainGame(this);
+                    mainGame.create();
                 }
-                main.resize();
+                mainGame.resize();
                 break;
             case MENU:
                 if (menu == null) {

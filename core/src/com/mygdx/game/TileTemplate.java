@@ -11,10 +11,10 @@ public class TileTemplate {
     private float height;
 
     public TileTemplate(float x, float y, float width, float height) {
-        this.x = x / Main.PIXELS_TO_METERS;
-        this.y = y / Main.PIXELS_TO_METERS;
-        this.height = height / Main.PIXELS_TO_METERS;
-        this.width = width / Main.PIXELS_TO_METERS;
+        this.x = x / MainGame.PIXELS_TO_METERS;
+        this.y = y / MainGame.PIXELS_TO_METERS;
+        this.height = height / MainGame.PIXELS_TO_METERS;
+        this.width = width / MainGame.PIXELS_TO_METERS;
     }
 
     public Body createTile(World world) {

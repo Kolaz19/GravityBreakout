@@ -38,11 +38,11 @@ public class TileData {
         PolygonShape shape = (PolygonShape) this.tile.getFixtureList().get(0).getShape();
         Vector2 vect = new Vector2(0,0);
         shape.getVertex(0, vect);
-        float smallestX = vect.x * Main.PIXELS_TO_METERS;
-        float smallestY = vect.y * Main.PIXELS_TO_METERS;
+        float smallestX = vect.x * MainGame.PIXELS_TO_METERS;
+        float smallestY = vect.y * MainGame.PIXELS_TO_METERS;
         shape.getVertex(2, vect);
-        float highestX = vect.x * Main.PIXELS_TO_METERS;
-        float highestY = vect.y * Main.PIXELS_TO_METERS;
+        float highestX = vect.x * MainGame.PIXELS_TO_METERS;
+        float highestY = vect.y * MainGame.PIXELS_TO_METERS;
         this.height = highestY - smallestY;
         this.width = highestX - smallestX;
         this.tileLevel = 1;
@@ -90,11 +90,11 @@ public class TileData {
     }
 
     public float getX() {
-        return getBody().getPosition().x * Main.PIXELS_TO_METERS;
+        return getBody().getPosition().x * MainGame.PIXELS_TO_METERS;
     }
 
     public float getY() {
-        return getBody().getPosition().y * Main.PIXELS_TO_METERS;
+        return getBody().getPosition().y * MainGame.PIXELS_TO_METERS;
     }
 
     public float getWidth() {

@@ -34,15 +34,15 @@ public class MouseCoordinates {
     }
 
     public static Vector2 getBoxCord() {
-        return new Vector2(getX() / Main.PIXELS_TO_METERS, getY() / Main.PIXELS_TO_METERS);
+        return new Vector2(getX() / MainGame.PIXELS_TO_METERS, getY() / MainGame.PIXELS_TO_METERS);
     }
 
     public static float getBoxY() {
-        return getY() / Main.PIXELS_TO_METERS;
+        return getY() / MainGame.PIXELS_TO_METERS;
     }
 
     public static float getBoxX() {
-        return getX() / Main.PIXELS_TO_METERS;
+        return getX() / MainGame.PIXELS_TO_METERS;
     }
 
     //TODO Mouse hidden with button press
