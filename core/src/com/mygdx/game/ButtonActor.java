@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -26,11 +28,15 @@ public abstract class ButtonActor extends Actor {
 
     @Override
     public void act(float delta) {
-        changeTextureWithInput();
+        boolean includesMouse = includesMouse();
+        changeTextureWithInput(includesMouse);
+        if (includesMouse && isButtonClicked()) {
+            onButtonClick();
+        }
     }
 
-    private void changeTextureWithInput() {
-        if (includesMouse()) {
+    private void changeTextureWithInput(boolean includesMouse) {
+        if (includesMouse) {
             currentButton = buttonPressed;
         } else {
             currentButton = button;
@@ -46,4 +52,9 @@ public abstract class ButtonActor extends Actor {
         }
     }
 
+    private boolean isButtonClicked() {
+         return Gdx.input.isButtonJustPressed(Input.Buttons.LEFT);
+    }
+
+    public abstract void onButtonClick();
 }
