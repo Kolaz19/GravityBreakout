@@ -28,6 +28,9 @@ public abstract class ButtonActor extends Actor {
 
     @Override
     public void act(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+            int i = 5;
+        }
         boolean includesMouse = includesMouse();
         changeTextureWithInput(includesMouse);
         if (includesMouse && isButtonClicked()) {
@@ -44,6 +47,9 @@ public abstract class ButtonActor extends Actor {
     }
 
     private boolean includesMouse() {
+        float hey = MouseCoordinates.getX();
+        hey = MouseCoordinates.getY();
+
         if ((MouseCoordinates.getX() > position.x && MouseCoordinates.getX() < position.x + width)
             && (MouseCoordinates.getY() > position.y && MouseCoordinates.getY() < position.y + height)) {
             return true;

@@ -74,7 +74,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		airScoreFlame = new AirScoreFlame(this.score);
 		stage.addActor(airScoreFlame);
 		this.stop = false;
-		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight);
+		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight, stateManager);
 	}
 
 	@Override

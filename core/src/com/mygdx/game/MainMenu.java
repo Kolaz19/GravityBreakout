@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class MainMenu extends ApplicationAdapter implements ResizableScreen {
     private StateManager stateManager;
@@ -13,6 +15,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
     private SpriteBatch batch;
     private OrthographicCamera cam;
     private MovingBackgroundPoints backgroundAnimation;
+    private Stage stage;
 
 
     public MainMenu(StateManager manager) {
@@ -27,6 +30,9 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         cam = new OrthographicCamera(background.getWidth(), background.getHeight());
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0	);
         backgroundAnimation = new MovingBackgroundPoints();
+
+        stage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
+        createButtons();
     }
 
     @Override
@@ -34,14 +40,17 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         cam.update();
+        MouseCoordinates.update(cam);
 
         backgroundAnimation.processLogic();
+        stage.act();
 
         batch.setProjectionMatrix(cam.combined);
         batch.begin();
         batch.draw(background, 0, 0);
         backgroundAnimation.draw(batch);
         batch.end();
+        stage.draw();
     }
 
     @Override
@@ -53,4 +62,50 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
     public void resize() {
         Gdx.graphics.setWindowedMode(445, 600);
     }
+
+    private void createButtons() {
+        final int buttonWidth = 67;
+        final int xCordToRender = background.getWidth() / 2 - buttonWidth / 2;
+        int yCordToRender = 93;
+        final int spaceBetweenButtons = 22;
+
+        ButtonActor playButton = new ButtonActor("mainMenuPlayButtonDefault.png", "mainMenuPlayButtonSelected.png", xCordToRender, yCordToRender) {
+            @Override
+            public void onButtonClick() {
+                stateManager.changeState(StateManager.State.GAME);
+            }
+        };
+
+        yCordToRender -= spaceBetweenButtons;
+        ButtonActor settingsButton = new ButtonActor("mainMenuSettingsButtonDefault.png", "mainMenuSettingsButtonSelected.png", xCordToRender, yCordToRender) {
+            @Override
+            public void onButtonClick() {
+
+            }
+        };
+
+        yCordToRender -= spaceBetweenButtons;
+        ButtonActor tutorialButton = new ButtonActor("mainMenuTutorialButtonDefault.png", "mainMenuTutorialButtonSelected.png", xCordToRender, yCordToRender) {
+            @Override
+            public void onButtonClick() {
+
+            }
+        };
+
+        yCordToRender = 9;
+        ButtonActor exitButton = new ButtonActor("mainMenuExitButtonDefault.png", "mainMenuExitButtonSelected.png", xCordToRender, yCordToRender) {
+            @Override
+            public void onButtonClick() {
+                //TODO dispose all elements from every screen
+                Gdx.app.exit();
+                System.exit(0);
+            }
+        };
+
+        stage.addActor(playButton);
+        stage.addActor(settingsButton);
+        stage.addActor(tutorialButton);
+        stage.addActor(exitButton);
+        }
+
 }

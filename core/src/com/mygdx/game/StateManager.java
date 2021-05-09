@@ -38,6 +38,7 @@ public class StateManager extends ApplicationAdapter {
     }
 
     public void changeState(State state){
+        //TODO clean Game after switch from pause to main menu
         this.currentState = state;
         switch (state) {
             case GAME:
