@@ -45,7 +45,9 @@ public class StateManager extends ApplicationAdapter {
                 if (mainGame == null) {
                     mainGame = new MainGame(this);
                     mainGame.create();
+                    mainGame.setLevel(1);
                 }
+                mainGame.setLevel(1);
                 mainGame.resize();
                 break;
             case MENU:

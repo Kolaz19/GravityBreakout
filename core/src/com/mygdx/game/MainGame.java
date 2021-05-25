@@ -63,7 +63,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		wallSpawner.createRightWall();
 		tiles = new TilesInLevel(this.world);
 		listener = new Listener(ball,platform,tiles);
-		setLevel(1);
 		world.setContactListener(listener);
 		lineRenderer = new AirScoreLinesRenderer(cam);
 
@@ -99,11 +98,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		} else {
 			drawPauseMenu();
 		}
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.H)) {
-			setLevel(2);
-		}
-
 		//boxRenderer.render(world,debugMatrix);
 	}
 
@@ -159,6 +153,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	public void setLevel(int level) {
 		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
+		stop = false;
 	}
 
 	private void setNewBall(Ball newBall) {
