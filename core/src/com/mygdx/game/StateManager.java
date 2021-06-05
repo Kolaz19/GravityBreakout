@@ -7,11 +7,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 public class StateManager extends ApplicationAdapter {
     private MainGame mainGame;
     private MainMenu menu;
+    private LevelSelectMenu levelSelectMenu;
     private State currentState;
 
     enum State{
         MENU,
-        GAME
+        GAME,
+        LEVELSELECT
     }
 
     @Override
@@ -27,6 +29,9 @@ public class StateManager extends ApplicationAdapter {
                 break;
             case MENU:
                 menu.render();
+                break;
+            case LEVELSELECT:
+                levelSelectMenu.render();
                 break;
         }
 
@@ -56,6 +61,13 @@ public class StateManager extends ApplicationAdapter {
                     menu.create();
                 }
                 menu.resize();
+                break;
+            case LEVELSELECT:
+                if (levelSelectMenu == null) {
+                    levelSelectMenu = new LevelSelectMenu(this);
+                    levelSelectMenu.create();
+                }
+                levelSelectMenu.resize();
                 break;
         }
     }

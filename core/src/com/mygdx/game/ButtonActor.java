@@ -28,9 +28,6 @@ public abstract class ButtonActor extends Actor {
 
     @Override
     public void act(float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            int i = 5;
-        }
         boolean includesMouse = includesMouse();
         changeTextureWithInput(includesMouse);
         if (includesMouse && isButtonClicked()) {
