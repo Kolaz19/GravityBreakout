@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 
+import java.util.logging.Level;
 
 
 public class StateManager extends ApplicationAdapter {
@@ -52,7 +53,6 @@ public class StateManager extends ApplicationAdapter {
                     mainGame.create();
                     mainGame.setLevel(1);
                 }
-                mainGame.setLevel(1);
                 mainGame.resize();
                 break;
             case MENU:
@@ -70,6 +70,10 @@ public class StateManager extends ApplicationAdapter {
                 levelSelectMenu.resize();
                 break;
         }
+    }
+
+    public void changeLevel(int level) {
+        mainGame.setLevel(level);
     }
 
 

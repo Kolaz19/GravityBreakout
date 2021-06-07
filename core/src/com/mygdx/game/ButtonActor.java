@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public abstract class ButtonActor extends Actor {
+public abstract class ButtonActor extends Actor implements OnButtonClick {
     private Texture button, buttonPressed, currentButton;
     private Vector2 position;
     private int width, height;
@@ -28,7 +28,7 @@ public abstract class ButtonActor extends Actor {
 
     @Override
     public void act(float delta) {
-        boolean includesMouse = includesMouse();
+        boolean includesMouse = includesMouse(position, width, height);
         changeTextureWithInput(includesMouse);
         if (includesMouse && isButtonClicked()) {
             onButtonClick();
@@ -43,21 +43,5 @@ public abstract class ButtonActor extends Actor {
         }
     }
 
-    private boolean includesMouse() {
-        float hey = MouseCoordinates.getX();
-        hey = MouseCoordinates.getY();
 
-        if ((MouseCoordinates.getX() > position.x && MouseCoordinates.getX() < position.x + width)
-            && (MouseCoordinates.getY() > position.y && MouseCoordinates.getY() < position.y + height)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private boolean isButtonClicked() {
-         return Gdx.input.isButtonJustPressed(Input.Buttons.LEFT);
-    }
-
-    public abstract void onButtonClick();
 }

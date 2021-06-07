@@ -17,8 +17,6 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         this.stateManager = manager;
     }
 
-
-
     @Override
     public void create() {
         batch = new SpriteBatch();
