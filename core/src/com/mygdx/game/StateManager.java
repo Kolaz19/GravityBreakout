@@ -19,6 +19,13 @@ public class StateManager extends ApplicationAdapter {
 
     @Override
     public void create() {
+        mainGame = new MainGame(this);
+        mainGame.create();
+        menu = new MainMenu(this);
+        menu.create();
+        levelSelectMenu = new LevelSelectMenu(this);
+        levelSelectMenu.create();
+
         changeState(State.MENU);
     }
 
@@ -44,29 +51,15 @@ public class StateManager extends ApplicationAdapter {
     }
 
     public void changeState(State state){
-        //TODO clean Game after switch from pause to main menu
         this.currentState = state;
         switch (state) {
             case GAME:
-                if (mainGame == null) {
-                    mainGame = new MainGame(this);
-                    mainGame.create();
-                    mainGame.setLevel(1);
-                }
                 mainGame.resize();
                 break;
             case MENU:
-                if (menu == null) {
-                    menu = new MainMenu(this);
-                    menu.create();
-                }
                 menu.resize();
                 break;
             case LEVELSELECT:
-                if (levelSelectMenu == null) {
-                    levelSelectMenu = new LevelSelectMenu(this);
-                    levelSelectMenu.create();
-                }
                 levelSelectMenu.resize();
                 break;
         }

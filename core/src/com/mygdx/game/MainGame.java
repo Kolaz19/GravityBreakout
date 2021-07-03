@@ -44,7 +44,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	
 	@Override
 	public void create () {
-		this.resize();
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
 		//Textures

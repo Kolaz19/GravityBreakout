@@ -1,7 +1,5 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -14,18 +12,20 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
     private int height, width;
     private Texture texture;
     private boolean active;
+    private StateManager stateManager;
 
-    public LevelNodeActor(int xCord, int yCord , int level) {
+    public LevelNodeActor(StateManager stateManager, int xCord, int yCord , int level) {
         this.level = level;
-        texture = new Texture("thumbnailLevel" + level);
+        texture = new Texture("thumbnailLevel" + level + ".png");
         height = texture.getHeight();
         width = texture.getWidth();
         position = new Vector2(xCord, yCord);
+        this.stateManager = stateManager;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-
+        batch.draw(texture,position.x, position.y, 21, 17);
     }
 
     @Override
