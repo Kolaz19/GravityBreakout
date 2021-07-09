@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MainGame extends ApplicationAdapter implements ResizableScreen {
@@ -65,7 +67,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		world.setContactListener(listener);
 		lineRenderer = new AirScoreLinesRenderer(cam);
 
-		stage = new Stage();
+		stage = new Stage(new FitViewport(backgroundWidth *PIXELS_TO_METERS,backgroundHeight* PIXELS_TO_METERS));
 		scoreLabel = new ScoreLabel();
 		stage.addActor(scoreLabel);
 		score = new Score();

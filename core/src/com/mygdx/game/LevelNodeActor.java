@@ -1,31 +1,61 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 
 public class LevelNodeActor extends Actor implements OnButtonClick {
     final int level;
     private final Vector2 position;
-    private int height, width;
+    private final int height, width;
     private Texture texture;
     private boolean active;
     private StateManager stateManager;
+    private Label label;
 
     public LevelNodeActor(StateManager stateManager, int xCord, int yCord , int level) {
         this.level = level;
         texture = new Texture("thumbnailLevel" + level + ".png");
-        height = texture.getHeight();
-        width = texture.getWidth();
+        height = 17;
+        width = 21;
         position = new Vector2(xCord, yCord);
         this.stateManager = stateManager;
+        //Font/Label
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        parameter.color = Color.YELLOW;
+        BitmapFont font = generator.generateFont(parameter);
+        Label.LabelStyle style = new Label.LabelStyle(font, Color.YELLOW);
+        this.label = new Label("1234",style);
+        this.label.setPosition(position.x, position.y);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(texture,position.x, position.y, 21, 17);
+        boolean includesMouse = this.includesMouse(position,width,height);
+        if (this.active) {
+            if(includesMouse) {
+                batch.setColor(Color.GREEN);
+            }
+        } else {
+            if(includesMouse) {
+                batch.setColor(Color.GRAY);
+            } else {
+                batch.setColor(Color.DARK_GRAY);
+            }
+        }
+
+        batch.draw(texture,position.x, position.y, width, height);
+        batch.setColor(1,1,1,1);
+        this.label.draw(batch,parentAlpha);
     }
 
     @Override

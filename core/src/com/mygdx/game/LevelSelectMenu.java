@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -27,6 +28,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         cam = new OrthographicCamera(background.getWidth(), background.getHeight());
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
         stage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
+        //Single nodes
         stage.addActor(new LevelNodeActor(stateManager,10, 93, 1));
     }
 
