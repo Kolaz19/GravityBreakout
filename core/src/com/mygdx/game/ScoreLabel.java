@@ -14,18 +14,17 @@ public class ScoreLabel extends Actor {
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 40;
+        parameter.size = 50;
         parameter.color = Color.WHITE;
         BitmapFont font = generator.generateFont(parameter);
 
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
         this.label = new Label("0",style);
-        this.label.setPosition(1050,805);
+        this.label.setPosition(1480,1130);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        this.label.setPosition(1050,50);
         this.label.draw(batch,parentAlpha);
     }
 
@@ -41,13 +40,13 @@ public class ScoreLabel extends Actor {
 
     private void setPosition(int score) {
         if (score > 999) {
-            this.label.setPosition(975, 805);
+            this.label.setPosition(1375, 1130);
         } else if (score > 99) {
-            this.label.setPosition(1000, 805);
+            this.label.setPosition(1410, 1130);
         } else if (score > 9) {
-            this.label.setPosition(1025, 805);
+            this.label.setPosition(1445, 1130);
         } else {
-            this.label.setPosition(1050, 805);
+            this.label.setPosition(1480, 1130);
         }
     }
 

@@ -72,7 +72,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		stage.addActor(scoreLabel);
 		score = new Score();
 		airScoreFlame = new AirScoreFlame(this.score);
-		stage.addActor(airScoreFlame);
 		this.stop = false;
 		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight, stateManager);
 	}
@@ -124,6 +123,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		scoreLabel.setScore(score.getScore());
 		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 		stage.act();
+		airScoreFlame.act(Gdx.graphics.getDeltaTime());
 	}
 
 	private void drawGame() {

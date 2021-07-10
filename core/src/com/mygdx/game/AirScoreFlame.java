@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class AirScoreFlame extends Actor {
+public class AirScoreFlame  {
     private ParticleEffect currentEffect, yellowEffect, blueEffect, purpleEffect;
     private ParticleEffect currentTransEffect, yellowTransEffect, blueTransEffect, purpleTransEffect;
     private Score score;
@@ -101,7 +101,7 @@ public class AirScoreFlame extends Actor {
         }
     }
 
-    @Override
+    //@Override
     public void act(float delta) {
         if (show ) {
             this.currentEffect.update(Gdx.graphics.getDeltaTime());
