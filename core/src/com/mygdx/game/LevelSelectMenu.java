@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -15,7 +14,9 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
     private Texture background;
     private SpriteBatch batch;
     private OrthographicCamera cam;
-    private Stage stage;
+    private OrthographicCamera cam2;
+    private Stage nodeStage;
+    private Stage scoreStage;
 
     public LevelSelectMenu(StateManager manager) {
         this.stateManager = manager;
@@ -26,10 +27,14 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         batch = new SpriteBatch();
         background = new Texture("levelSelectBackground.png");
         cam = new OrthographicCamera(background.getWidth(), background.getHeight());
+        cam2 = new OrthographicCamera(background.getWidth(), background.getHeight());
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
-        stage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
+        cam2.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
+        nodeStage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
+        scoreStage = new Stage(new FitViewport(background.getWidth() * 10, background.getHeight() * 10,cam2));
         //Single nodes
-        stage.addActor(new LevelNodeActor(stateManager,10, 93, 1));
+        nodeStage.addActor(new LevelNodeActor(stateManager,10, 93, 1));
+        scoreStage.addActor(new LevelNodeScoreActor(10*10 + 10, 93*10,1));
     }
 
     @Override
@@ -40,12 +45,13 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         MouseCoordinates.update(cam);
         batch.setProjectionMatrix(cam.combined);
 
-        stage.act();
+        nodeStage.act();
 
         batch.begin();
         batch.draw(background,0, 0);
         batch.end();
-        stage.draw();
+        nodeStage.draw();
+        scoreStage.draw();
     }
 
     @Override

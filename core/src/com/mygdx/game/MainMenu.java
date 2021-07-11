@@ -71,8 +71,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         ButtonActor playButton = new ButtonActor("mainMenuPlayButtonDefault.png", "mainMenuPlayButtonSelected.png", xCordToRender, yCordToRender) {
             @Override
             public void onButtonClick() {
-                stateManager.changeLevel(1);
-                stateManager.changeState(StateManager.State.GAME);
+                stateManager.changeState(StateManager.State.LEVELSELECT);
             }
         };
 

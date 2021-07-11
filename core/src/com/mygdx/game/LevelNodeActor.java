@@ -18,7 +18,6 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
     private Texture texture;
     private boolean active;
     private StateManager stateManager;
-    private Label label;
 
     public LevelNodeActor(StateManager stateManager, int xCord, int yCord , int level) {
         this.level = level;
@@ -27,15 +26,7 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
         width = 21;
         position = new Vector2(xCord, yCord);
         this.stateManager = stateManager;
-        //Font/Label
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 20;
-        parameter.color = Color.YELLOW;
-        BitmapFont font = generator.generateFont(parameter);
-        Label.LabelStyle style = new Label.LabelStyle(font, Color.YELLOW);
-        this.label = new Label("1234",style);
-        this.label.setPosition(position.x, position.y);
+
     }
 
     @Override
@@ -55,7 +46,6 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
 
         batch.draw(texture,position.x, position.y, width, height);
         batch.setColor(1,1,1,1);
-        this.label.draw(batch,parentAlpha);
     }
 
     @Override
