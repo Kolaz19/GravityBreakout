@@ -1,28 +1,52 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Preferences;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 public class SaveGame {
-    private static final int level01Code = 92837;
-    private static final int level02Code = 23013;
-    private static final int level03Code = 71037;
-    private static final int level04Code = 94025;
-    private static final int level05Code = 12839;
-    private static final int level06Code = 82348;
-    private static final int level07Code = 84902;
-    private static final int level08Code = 90293;
-    private static final int level09Code = 29598;
-    private static final int level10Code = 10184;
-    private static final int level11ode = 83659;
-    private static final int level12Code = 66783;
-    private static final int level13Code = 98231;
-    private static final int level14Code = 90982;
-    private static final int level15Code = 57891;
-    private static final int level16Code = 88234;
+    private static HashMap<Integer,Integer> levelCodes;
 
-
-
-    public static void translate() {
-        
+    static {
+        levelCodes = new HashMap<>();
+        levelCodes.put(1,92837);
+        levelCodes.put(2,87324);
+        levelCodes.put(3,90863);
+        levelCodes.put(4,23778);
+        levelCodes.put(5,11978);
+        levelCodes.put(6,55693);
+        levelCodes.put(7,20023);
+        levelCodes.put(8,46871);
+        levelCodes.put(9,90921);
+        levelCodes.put(10,79109);
+        levelCodes.put(11,22339);
+        levelCodes.put(12,90123);
+        levelCodes.put(13,53831);
+        levelCodes.put(14,11095);
+        levelCodes.put(15,20285);
+        levelCodes.put(16,49324);
     }
+
+
+
+    public static void saveHighscore(int level, int highScore) {
+
+
+    }
+
+    private static long getSavedCode(Preferences prefs, int level) throws NoDataFoundException {
+        String code = prefs.getString(getKeyToLevel(level),"not saved yet");
+        if (code.equals("not saved yet")) {
+            throw new NoDataFoundException();
+        }
+        return Long.getLong(code);
+    }
+
+    private static String getKeyToLevel(int level) {
+        return "level" + String.valueOf(level);
+    }
+
+
 
 
     private static int translateToSave(int code) {
@@ -99,6 +123,8 @@ public class SaveGame {
     }
 
 
+public static class NoDataFoundException extends Exception {
 
+}
 
 }
