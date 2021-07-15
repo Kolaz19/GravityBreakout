@@ -18,7 +18,7 @@ public class LevelNodeScoreActor extends Actor {
     public LevelNodeScoreActor(int xCord, int yCord, int level) {
         this.position = new Vector2(xCord, yCord);
         this.level = level;
-
+        this.currentScore = SaveGame.getSavedHighscore(this.level);
         //Font/Label
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -26,7 +26,7 @@ public class LevelNodeScoreActor extends Actor {
         parameter.color = Color.WHITE;
         BitmapFont font = generator.generateFont(parameter);
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
-        this.label = new Label("0",style);
+        this.label = new Label(String.valueOf(this.currentScore),style);
         this.label.setPosition(position.x, position.y);
     }
 

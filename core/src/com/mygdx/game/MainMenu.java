@@ -24,7 +24,6 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
 
     @Override
     public void create() {
-        SaveGame.saveHighscore(1,443);
         background = new Texture("mainMenuBackground.png");
         batch = new SpriteBatch();
         cam = new OrthographicCamera(background.getWidth(), background.getHeight());

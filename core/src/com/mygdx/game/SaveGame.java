@@ -6,8 +6,8 @@ import com.badlogic.gdx.Preferences;
 import java.util.HashMap;
 
 public class SaveGame {
-    private static HashMap<Integer,Integer> levelCodes;
-    private static HashMap<Integer,Integer> levelEndCodes;
+    private static final HashMap<Integer,Integer> levelCodes;
+    private static final HashMap<Integer,Integer> levelEndCodes;
 
     static {
         levelCodes = new HashMap<>();
@@ -45,10 +45,20 @@ public class SaveGame {
         levelEndCodes.put(14,993);
         levelEndCodes.put(15,387);
         levelEndCodes.put(16,739);
-        levelEndCodes.put(17,829);
     }
 
+    public static int getSavedHighscore(int level) {
+        Preferences prefs = Gdx.app.getPreferences("Savegame");
+        long savedCode;
 
+        try {
+            savedCode = SaveGame.getSavedCode(prefs,level);
+        } catch (NoDataFoundException | InvalidLevelCodeException e) {
+            return 0;
+        }
+
+        return SaveGame.extractHighscore(savedCode);
+    }
 
     public static void saveHighscore(int level, int highScore) {
         Preferences prefs = Gdx.app.getPreferences("Savegame");
@@ -107,7 +117,7 @@ public class SaveGame {
         }
 
         if (code.length() < 9) {
-            throw new InvalidLevelCodeException();
+            throw new InvalidLevelCodeException("Code length in savegame under 9 characters");
         }
 
         levelCode = code.substring(0,5);
@@ -115,7 +125,7 @@ public class SaveGame {
 
 
         if (!islevelCodeLegit(level, Integer.parseInt(levelCode)) || !isLevelEndCodeLegit(level, Integer.parseInt(levelEndCode))) {
-            throw new InvalidLevelCodeException();
+            throw new InvalidLevelCodeException("Wrong Levelcode in savegame");
         }
 
         return Long.parseLong(code);
@@ -202,9 +212,12 @@ public static class NoDataFoundException extends Exception {
 
 }
 
-    public static class InvalidLevelCodeException extends Exception {
+public static class InvalidLevelCodeException extends Exception {
 
+    public InvalidLevelCodeException(String message) {
+        super(message);
     }
+}
 
 
 
