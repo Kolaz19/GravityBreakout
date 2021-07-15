@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import java.lang.reflect.Field;
+
 import java.util.HashMap;
 
 public class SaveGame {
     private static HashMap<Integer,Integer> levelCodes;
+    private static HashMap<Integer,Integer> levelEndCodes;
 
     static {
         levelCodes = new HashMap<>();
@@ -25,31 +27,105 @@ public class SaveGame {
         levelCodes.put(14,11095);
         levelCodes.put(15,20285);
         levelCodes.put(16,49324);
+
+        levelEndCodes = new HashMap<>();
+        levelEndCodes.put(1,473);
+        levelEndCodes.put(2,834);
+        levelEndCodes.put(3,990);
+        levelEndCodes.put(4,173);
+        levelEndCodes.put(5,374);
+        levelEndCodes.put(6,333);
+        levelEndCodes.put(7,837);
+        levelEndCodes.put(8,990);
+        levelEndCodes.put(9,187);
+        levelEndCodes.put(10,901);
+        levelEndCodes.put(11,114);
+        levelEndCodes.put(12,482);
+        levelEndCodes.put(13,609);
+        levelEndCodes.put(14,993);
+        levelEndCodes.put(15,387);
+        levelEndCodes.put(16,739);
+        levelEndCodes.put(17,829);
     }
 
 
 
     public static void saveHighscore(int level, int highScore) {
+        Preferences prefs = Gdx.app.getPreferences("Savegame");
+        String targetSaveCode;
+        long savedCode = 0;
+        int savedHighScore;
+        boolean invalidSave = false;
+
+        try {
+            savedCode = SaveGame.getSavedCode(prefs,level);
+        } catch (NoDataFoundException | InvalidLevelCodeException e) {
+            invalidSave = true;
+        }
+        
+        if (!invalidSave && (SaveGame.extractHighscore(savedCode) >= highScore)) {
+                return;
+        }
 
 
+        //Build levelcode
+        targetSaveCode = String.valueOf(SaveGame.levelCodes.get(level));
+        //Build highscore
+        targetSaveCode = targetSaveCode + String.valueOf(SaveGame.translateToSave(highScore));
+        //Build levelEndCode
+        targetSaveCode = targetSaveCode + String.valueOf(SaveGame.levelEndCodes.get(level));
+
+        prefs.putString(SaveGame.getKeyToLevel(level),targetSaveCode);
+        prefs.flush();
     }
 
-    private static long getSavedCode(Preferences prefs, int level) throws NoDataFoundException {
+    private static boolean islevelCodeLegit (int level, int levelCode) {
+        int correctLevelCode = SaveGame.levelCodes.get(level);
+        return correctLevelCode == levelCode;
+    }
+
+    private static boolean isLevelEndCodeLegit(int level, int levelEndCode) {
+        int correctLevelEndCode = SaveGame.levelEndCodes.get(level);
+        return correctLevelEndCode == levelEndCode;
+    }
+
+    private static int extractHighscore(long code) {
+        String highscore = String.valueOf(code);
+        int indexEnd = highscore.length() - 3;
+
+        highscore = highscore.substring(5, indexEnd);
+        return SaveGame.translateFromSave(highscore);
+    }
+
+    private static long getSavedCode(Preferences prefs, int level) throws NoDataFoundException, InvalidLevelCodeException {
         String code = prefs.getString(getKeyToLevel(level),"not saved yet");
+        String levelCode;
+        String levelEndCode;
+
         if (code.equals("not saved yet")) {
             throw new NoDataFoundException();
         }
-        return Long.getLong(code);
+
+        if (code.length() < 9) {
+            throw new InvalidLevelCodeException();
+        }
+
+        levelCode = code.substring(0,5);
+        levelEndCode = code.substring(code.length() - 3);
+
+
+        if (!islevelCodeLegit(level, Integer.parseInt(levelCode)) || !isLevelEndCodeLegit(level, Integer.parseInt(levelEndCode))) {
+            throw new InvalidLevelCodeException();
+        }
+
+        return Long.parseLong(code);
     }
 
     private static String getKeyToLevel(int level) {
         return "level" + String.valueOf(level);
     }
 
-
-
-
-    private static int translateToSave(int code) {
+    private static String translateToSave(int code) {
         String translatedCode = "";
         String currentDigit = "";
         String number = String.valueOf(code);
@@ -82,11 +158,10 @@ public class SaveGame {
             }
             translatedCode = translatedCode + currentDigit;
         }
-        return Integer.parseInt(translatedCode);
-
+        return translatedCode;
     }
 
-    private static int translateFromSave(int code) {
+    private static int translateFromSave(String code) {
         String translatedCode = "";
         String currentDigit = "";
         String number = String.valueOf(code);
@@ -126,5 +201,11 @@ public class SaveGame {
 public static class NoDataFoundException extends Exception {
 
 }
+
+    public static class InvalidLevelCodeException extends Exception {
+
+    }
+
+
 
 }
