@@ -32,6 +32,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
 
         stage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
         createButtons();
+        Gdx.graphics.setTitle("Gravity Breakout");
     }
 
     @Override

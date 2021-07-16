@@ -8,6 +8,8 @@ import java.util.HashMap;
 public class SaveGame {
     private static final HashMap<Integer,Integer> levelCodes;
     private static final HashMap<Integer,Integer> levelEndCodes;
+    private static final HashMap<Integer, Integer> highscoreTreshold;
+    private static final Preferences prefs;
 
     static {
         levelCodes = new HashMap<>();
@@ -45,14 +47,33 @@ public class SaveGame {
         levelEndCodes.put(14,993);
         levelEndCodes.put(15,387);
         levelEndCodes.put(16,739);
+
+        highscoreTreshold = new HashMap<>();
+        //What highscores has to be reached in that level?
+        highscoreTreshold.put(1,500);
+        highscoreTreshold.put(2,500);
+        highscoreTreshold.put(3,500);
+        highscoreTreshold.put(4,500);
+        highscoreTreshold.put(5,500);
+        highscoreTreshold.put(6,500);
+        highscoreTreshold.put(7,500);
+        highscoreTreshold.put(8,500);
+        highscoreTreshold.put(9,500);
+        highscoreTreshold.put(10,500);
+        highscoreTreshold.put(11,500);
+        highscoreTreshold.put(12,500);
+        highscoreTreshold.put(13,500);
+        highscoreTreshold.put(14,500);
+        highscoreTreshold.put(15,500);
+
+        prefs = Gdx.app.getPreferences("Savegame");
     }
 
     public static int getSavedHighscore(int level) {
-        Preferences prefs = Gdx.app.getPreferences("Savegame");
         long savedCode;
 
         try {
-            savedCode = SaveGame.getSavedCode(prefs,level);
+            savedCode = SaveGame.getSavedCode(level);
         } catch (NoDataFoundException | InvalidLevelCodeException e) {
             return 0;
         }
@@ -61,14 +82,13 @@ public class SaveGame {
     }
 
     public static void saveHighscore(int level, int highScore) {
-        Preferences prefs = Gdx.app.getPreferences("Savegame");
         String targetSaveCode;
         long savedCode = 0;
         int savedHighScore;
         boolean invalidSave = false;
 
         try {
-            savedCode = SaveGame.getSavedCode(prefs,level);
+            savedCode = SaveGame.getSavedCode(level);
         } catch (NoDataFoundException | InvalidLevelCodeException e) {
             invalidSave = true;
         }
@@ -89,6 +109,25 @@ public class SaveGame {
         prefs.flush();
     }
 
+    public static boolean isLevelUnlocked(int level) {
+        if (level == 1) {
+            return true;
+        }
+
+        long code = 0;
+        try {
+            code = SaveGame.getSavedCode(level);
+        } catch (NoDataFoundException | InvalidLevelCodeException e) {
+            return false;
+        }
+
+        if (SaveGame.extractHighscore(code) >= highscoreTreshold.get(level - 1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private static boolean islevelCodeLegit (int level, int levelCode) {
         int correctLevelCode = SaveGame.levelCodes.get(level);
         return correctLevelCode == levelCode;
@@ -107,7 +146,7 @@ public class SaveGame {
         return SaveGame.translateFromSave(highscore);
     }
 
-    private static long getSavedCode(Preferences prefs, int level) throws NoDataFoundException, InvalidLevelCodeException {
+    private static long getSavedCode(int level) throws NoDataFoundException, InvalidLevelCodeException {
         String code = prefs.getString(getKeyToLevel(level),"not saved yet");
         String levelCode;
         String levelEndCode;
