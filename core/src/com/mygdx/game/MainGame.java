@@ -35,7 +35,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private Score score;
 	private AirScoreLinesRenderer lineRenderer;
 	private AirScoreFlame airScoreFlame;
-	private boolean stop;
+	private boolean stop, gameOver;
 	private PauseMenu pauseMenu;
 
 	static final float PIXELS_TO_METERS = 7f;
@@ -72,7 +72,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		stage.addActor(scoreLabel);
 		score = new Score();
 		airScoreFlame = new AirScoreFlame(this.score);
-		this.stop = false;
+		this.stop = this.gameOver = false;
 		pauseMenu = new PauseMenu(batch, cam, backgroundWidth, backgroundHeight, stateManager);
 	}
 
@@ -124,6 +124,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 		stage.act();
 		airScoreFlame.act(Gdx.graphics.getDeltaTime());
+		checkForGameOver();
 	}
 
 	private void drawGame() {
@@ -137,6 +138,12 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		renderTiles();
 		airScoreFlame.draw(batch, 0);
 		batch.end();
+	}
+
+	private void checkForGameOver() {
+		if (tiles.size() == 0 || ball.getPositionY() < 0) {
+			this.gameOver = true;
+		}
 	}
 
 	public void resize() {
@@ -154,6 +161,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	public void setLevel(int level) {
 		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
+		this.score.resetScore();
 		stop = false;
 	}
 

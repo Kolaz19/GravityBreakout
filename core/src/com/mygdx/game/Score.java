@@ -59,4 +59,8 @@ public class Score {
         this.currentScore += level4Count * 10;
     }
 
+    public void resetScore() {
+        this.currentScore = 0;
+    }
+
 }

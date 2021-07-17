@@ -64,6 +64,10 @@ public class Ball {
         return body.getPosition().x;
     }
 
+    public float getPositionY() {
+        return body.getPosition().y;
+    }
+
     private void attachBallToPlatform (float platformX) {
         body.setTransform(platformX,spawnCoordinateY / MainGame.PIXELS_TO_METERS,0);
     }
