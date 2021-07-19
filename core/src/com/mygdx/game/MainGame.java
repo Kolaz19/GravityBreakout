@@ -82,30 +82,36 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		cam.update();
 		MouseCoordinates.update(cam);
-		checkForPause();
 
-		if (!this.stop) {
-			processGameLogic();
-		} else {
+		if (this.stop) {
 			pauseMenu.act();
+			checkForPause();
+		} else if (this.gameOver) {
+			stage.act();
+		} else {
+			processGameLogic();
 		}
 
 		batch.begin();
 		batch.draw(backgroundTexture, 0, 0);
 		batch.end();
-		if (!this.stop) {
+
+		if (this.stop) {
+			drawPauseMenu();
+		} else if (this.gameOver) {
 			drawGame();
 		} else {
-			drawPauseMenu();
+			drawGame();
 		}
+
 		//boxRenderer.render(world,debugMatrix);
 	}
 
 	private void drawPauseMenu() {
-		pauseMenu.draw();
 		batch.begin();
 		ball.render(batch);
 		batch.end();
+		pauseMenu.draw();
 	}
 
 	private void processGameLogic() {
@@ -122,9 +128,13 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		updateScore();
 		scoreLabel.setScore(score.getScore());
 		airScoreFlame.update(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
-		stage.act();
 		airScoreFlame.act(Gdx.graphics.getDeltaTime());
 		checkForGameOver();
+		checkForPause();
+	}
+
+	private void drawGameOver() {
+
 	}
 
 	private void drawGame() {
@@ -136,12 +146,14 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		ball.render(batch);
 		platform.render(batch);
 		renderTiles();
-		airScoreFlame.draw(batch, 0);
+		if (!gameOver) {
+			airScoreFlame.draw(batch, 0);
+		}
 		batch.end();
 	}
 
 	private void checkForGameOver() {
-		if (tiles.size() == 0 || ball.getPositionY() < 0) {
+		if (tiles.size() == 0 || ball.getPositionY() < -1) {
 			this.gameOver = true;
 		}
 	}

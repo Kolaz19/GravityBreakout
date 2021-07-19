@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class ScoreLabel extends Actor {
     private Label label;
+    private float scale;
 
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -21,6 +22,7 @@ public class ScoreLabel extends Actor {
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
         this.label = new Label("0",style);
         this.label.setPosition(1480,1130);
+        this.scale = 1;
     }
 
     @Override
