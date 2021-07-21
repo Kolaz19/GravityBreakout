@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class ScoreLabel extends Actor {
     private Label label;
     private float scale;
+    private boolean getBigger;
 
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -37,18 +38,28 @@ public class ScoreLabel extends Actor {
 
     @Override
     public void act(float delta) {
+        if (label.getFontScaleX() > 1.1f) {
+            getBigger = false;
+        } else if (label.getFontScaleX() < 1.0f) {
+            getBigger = true;
+        }
 
+        if (getBigger) {
+            label.setFontScale(label.getFontScaleX() + 0.005f);
+        } else {
+            label.setFontScale(label.getFontScaleX() - 0.005f);
+        }
     }
 
     private void setPosition(int score) {
         if (score > 999) {
-            this.label.setPosition(1375, 1130);
+            this.label.setPosition(1370, 1130);
         } else if (score > 99) {
-            this.label.setPosition(1410, 1130);
+            this.label.setPosition(1405, 1130);
         } else if (score > 9) {
-            this.label.setPosition(1445, 1130);
+            this.label.setPosition(1440, 1130);
         } else {
-            this.label.setPosition(1480, 1130);
+            this.label.setPosition(1475, 1130);
         }
     }
 
