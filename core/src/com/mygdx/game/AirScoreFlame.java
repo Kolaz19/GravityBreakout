@@ -90,14 +90,16 @@ public class AirScoreFlame  {
 
 
     private void updatePosition() {
-        if (score.getScore() > 999) {
+        if (score.getScore() > 9999) {
+            this.currentEffect.setPosition(184, 165);
+        } else if (score.getScore() > 999) {
             this.currentEffect.setPosition(190, 165);
         } else if (score.getScore() > 99) {
             this.currentEffect.setPosition(195, 165);
         } else if (score.getScore() > 9) {
-            this.currentEffect.setPosition(200, 165);
+            this.currentEffect.setPosition(201, 165);
         } else {
-            this.currentEffect.setPosition(205, 165);
+            this.currentEffect.setPosition(206, 165);
         }
     }
 

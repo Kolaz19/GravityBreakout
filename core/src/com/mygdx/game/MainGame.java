@@ -88,6 +88,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 			checkForPause();
 		} else if (this.gameOver) {
 			stage.act();
+			gameOverLogic();
 		} else {
 			processGameLogic();
 		}
@@ -133,7 +134,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		checkForPause();
 	}
 
-	private void drawGameOver() {
+	private void gameOverLogic() {
 
 	}
 

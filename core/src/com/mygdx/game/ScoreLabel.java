@@ -52,10 +52,12 @@ public class ScoreLabel extends Actor {
     }
 
     private void setPosition(int score) {
-        if (score > 999) {
-            this.label.setPosition(1370, 1130);
+        if (score > 9999) {
+            this.label.setPosition(1325, 1130);
+        } else if (score > 999) {
+            this.label.setPosition(1365, 1130);
         } else if (score > 99) {
-            this.label.setPosition(1405, 1130);
+            this.label.setPosition(1404, 1130);
         } else if (score > 9) {
             this.label.setPosition(1440, 1130);
         } else {
