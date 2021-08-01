@@ -16,7 +16,7 @@ public class HighscoreLabel extends Actor {
     private Score score;
     private int level;
 
-    public HighscoreLabel(Score score, int level) {
+    public HighscoreLabel(Score score) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 50;
@@ -30,7 +30,14 @@ public class HighscoreLabel extends Actor {
         this.getBigger = true;
         this.initialized = false;
         this.score = score;
+    }
+
+    public void setLevel(int level) {
         this.level = level;
+        initialized = false;
+        getBigger = true;
+        time = 0;
+        this.label.setFontScale(0.01f);
     }
 
     @Override

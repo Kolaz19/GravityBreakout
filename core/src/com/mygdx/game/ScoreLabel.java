@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,8 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class ScoreLabel extends Actor {
     private Label label;
+    private Label labelSaved;
     private float scale;
     private boolean getBigger;
+    private boolean clickRegistered;
+    private int endScore;
+    private boolean isHighscore;
+    private boolean substractScore;
+    private boolean showSavedIcon;
+    private int level;
 
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -24,11 +32,21 @@ public class ScoreLabel extends Actor {
         this.label = new Label("0",style);
         this.label.setPosition(1480,1130);
         this.scale = 1;
+
+        this.labelSaved = new Label(" ",style);
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+        getBigger = clickRegistered = isHighscore = substractScore = showSavedIcon = false;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.label.draw(batch,parentAlpha);
+        if (showSavedIcon) {
+            this.labelSaved.draw(batch,parentAlpha);
+        }
     }
 
     public void setScore(int score) {
@@ -49,7 +67,71 @@ public class ScoreLabel extends Actor {
         } else {
             label.setFontScale(label.getFontScaleX() - 0.005f);
         }
+
+        if (!clickRegistered && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            clickRegistered = true;
+            endScore = Integer.parseInt(String.valueOf(this.label.getText()));
+            setGameOverState();
+        }
+
+        if (clickRegistered) {
+            if (isHighscore) {
+                highScoreProcedure();
+            } else {
+                gameOverProcedure();
+            }
+        }
     }
+
+    private void highScoreProcedure () {
+        if (!substractScore && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            substractScore = true;
+        }
+
+        if (!substractScore) {
+            return;
+        }
+
+        if (endScore - 1 < 0) {
+            endScore = 0;
+        } else {
+            this.endScore -= 1;
+        }
+        setPosition(endScore);
+        this.label.setText(endScore);
+
+        if (!showSavedIcon && endScore == 0) {
+            labelSaved.setPosition(label.getX() - 230, label.getY());
+            labelSaved.setColor(Color.GREEN);
+            labelSaved.setText("Saved!");
+            showSavedIcon = true;
+        }
+
+    }
+
+    private void gameOverProcedure() {
+        if (!showSavedIcon) {
+            showSavedIcon = true;
+            labelSaved.setPosition(label.getX() - 280, label.getY());
+            labelSaved.setColor(Color.FIREBRICK);
+            labelSaved.setText("Nice try!");
+        }
+
+        if (this.label.getY() > -50) {
+            this.label.setPosition(label.getX(), label.getY() - 20);
+        }
+
+
+    }
+
+    private void setGameOverState() {
+        if (endScore > SaveGame.getSavedHighscore(level)) {
+            isHighscore = true;
+        } else {
+            isHighscore = false;
+        }
+    }
+
 
     private void setPosition(int score) {
         if (score > 9999) {

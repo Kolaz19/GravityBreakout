@@ -38,6 +38,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private boolean stop, gameOver;
 	private PauseMenu pauseMenu;
 	private int level;
+	private HighscoreLabel highscoreLabel;
 
 	static final float PIXELS_TO_METERS = 7f;
 
@@ -73,7 +74,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 
 		stage.addActor(scoreLabel);
 		score = new Score();
-		HighscoreLabel highscoreLabel = new HighscoreLabel(score, this.level);
+		highscoreLabel = new HighscoreLabel(score);
 		stage.addActor(highscoreLabel);
 		airScoreFlame = new AirScoreFlame(this.score);
 		this.stop = this.gameOver = false;
@@ -182,6 +183,8 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		this.score.resetScore();
 		stop = false;
 		this.level = level;
+		this.scoreLabel.setLevel(level);
+		this.highscoreLabel.setLevel(level);
 	}
 
 	private void setNewBall(Ball newBall) {
