@@ -92,7 +92,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 			pauseMenu.act();
 			checkForPause();
 		} else if (this.gameOver) {
-			stage.act();
 			gameOverLogic();
 		} else {
 			processGameLogic();
@@ -140,7 +139,13 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	}
 
 	private void gameOverLogic() {
-
+		stage.act();
+		if (scoreLabel.isScreenFinished()) {
+			if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+				SaveGame.saveHighscore(this.level, score.getScore());
+				stateManager.changeState(StateManager.State.LEVELSELECT);
+			}
+		}
 	}
 
 	private void drawGame() {
@@ -181,7 +186,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
 		this.score.resetScore();
-		stop = false;
+		stop = gameOver = false;
 		this.level = level;
 		this.scoreLabel.setLevel(level);
 		this.highscoreLabel.setLevel(level);

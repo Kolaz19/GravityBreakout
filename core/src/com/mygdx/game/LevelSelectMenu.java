@@ -64,6 +64,8 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         scoreStage.draw();
     }
 
+
+
     @Override
     public void dispose() {
         super.dispose();

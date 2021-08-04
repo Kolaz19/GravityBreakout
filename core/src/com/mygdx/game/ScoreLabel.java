@@ -18,7 +18,7 @@ public class ScoreLabel extends Actor {
     private int endScore;
     private boolean isHighscore;
     private boolean substractScore;
-    private boolean showSavedIcon;
+    private boolean screenFinished;
     private int level;
 
     public ScoreLabel() {
@@ -38,13 +38,13 @@ public class ScoreLabel extends Actor {
 
     public void setLevel(int level) {
         this.level = level;
-        getBigger = clickRegistered = isHighscore = substractScore = showSavedIcon = false;
+        getBigger = clickRegistered = isHighscore = substractScore = screenFinished = false;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         this.label.draw(batch,parentAlpha);
-        if (showSavedIcon) {
+        if (screenFinished) {
             this.labelSaved.draw(batch,parentAlpha);
         }
     }
@@ -84,6 +84,8 @@ public class ScoreLabel extends Actor {
     }
 
     private void highScoreProcedure () {
+        int subsctractSpeed = getSubstractSpeed(endScore);
+
         if (!substractScore && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             substractScore = true;
         }
@@ -92,26 +94,26 @@ public class ScoreLabel extends Actor {
             return;
         }
 
-        if (endScore - 1 < 0) {
+        if (endScore - subsctractSpeed < 0) {
             endScore = 0;
         } else {
-            this.endScore -= 1;
+            this.endScore -= subsctractSpeed;
         }
         setPosition(endScore);
         this.label.setText(endScore);
 
-        if (!showSavedIcon && endScore == 0) {
+        if (!screenFinished && endScore == 0) {
             labelSaved.setPosition(label.getX() - 230, label.getY());
             labelSaved.setColor(Color.GREEN);
             labelSaved.setText("Saved!");
-            showSavedIcon = true;
+            screenFinished = true;
         }
 
     }
 
     private void gameOverProcedure() {
-        if (!showSavedIcon) {
-            showSavedIcon = true;
+        if (!screenFinished) {
+            screenFinished = true;
             labelSaved.setPosition(label.getX() - 280, label.getY());
             labelSaved.setColor(Color.FIREBRICK);
             labelSaved.setText("Nice try!");
@@ -120,8 +122,10 @@ public class ScoreLabel extends Actor {
         if (this.label.getY() > -50) {
             this.label.setPosition(label.getX(), label.getY() - 20);
         }
+    }
 
-
+    public boolean isScreenFinished() {
+        return screenFinished;
     }
 
     private void setGameOverState() {
@@ -144,6 +148,16 @@ public class ScoreLabel extends Actor {
             this.label.setPosition(1440, 1130);
         } else {
             this.label.setPosition(1475, 1130);
+        }
+    }
+
+    private int getSubstractSpeed(int score) {
+        if (score > 1000) {
+            return 3;
+        } else if (score > 400) {
+            return 2;
+        } else {
+            return 1;
         }
     }
 

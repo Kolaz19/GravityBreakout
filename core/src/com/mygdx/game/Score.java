@@ -17,13 +17,13 @@ public class Score {
     public void addAirScore(int level2Count, int level3Count, int level4Count) {
         if (oneSecondElapsed()) {
             if (level2Count > 1) {
-                this.currentScore += level2Count * 3;
+                this.currentScore += level2Count * 5;
             }
             if (level3Count > 1) {
-                this.currentScore += level3Count * 5;
+                this.currentScore += level3Count * 10;
             }
             if (level4Count > 1) {
-                this.currentScore += level4Count * 7;
+                this.currentScore += level4Count * 15;
             }
         }
     }
@@ -48,15 +48,15 @@ public class Score {
     }
 
     public void addHitScoreLevel2(int level2Count) {
-        this.currentScore += level2Count * 3;
+        this.currentScore += level2Count * 5;
     }
 
     public void addHitScoreLevel3(int level3Count) {
-        this.currentScore += level3Count * 6;
+        this.currentScore += level3Count * 8;
     }
 
     public void addHitScoreLevel4(int level4Count) {
-        this.currentScore += level4Count * 10;
+        this.currentScore += level4Count * 12;
     }
 
     public void resetScore() {
