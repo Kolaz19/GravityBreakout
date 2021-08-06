@@ -23,7 +23,7 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
         width = 21;
         position = new Vector2(xCord, yCord);
         this.stateManager = stateManager;
-        this.active = SaveGame.isLevelUnlocked(this.level);
+        update();
     }
 
     @Override
@@ -51,6 +51,10 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
         if (active && includesMouse && isButtonClicked()) {
             onButtonClick();
         }
+    }
+
+    public void update() {
+        this.active = SaveGame.isLevelUnlocked(this.level);
     }
 
     @Override

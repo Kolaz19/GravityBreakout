@@ -12,14 +12,31 @@ public class LevelTemplate {
         return null;
     }
 
+    public static float getSpeedForLevel(int level) {
+        switch (level) {
+            case 1: return 1;
+        }
+        return 1;
+    }
+
+    public static float getSpeedIncreaseForLevel(int level) {
+        switch (level) {
+            case 1: return 1;
+        }
+        return 1;
+    }
+
     private static ArrayList<TileTemplate> level1() {
         ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
-        for (int k =1; k < 10; k++) {
-            for (int i = 1; i < 12; i++) {
-                templates.add(new TileTemplate(i*15 + 18, k* 6 +100 , 13, 4));
-            }
+        for (int k =1; k < 12; k++) {
+            templates.add(new TileTemplate(18.3f * k, 150, 15, 5));
         }
-        templates.add(new TileTemplate(40, 70, 20, 20));
+        for (int k =1; k < 10; k++) {
+            templates.add(new TileTemplate(18.3f + 18.3f * k, 143, 15, 5));
+        }
+        for (int k =1; k < 8; k++) {
+            templates.add(new TileTemplate(36.6f + 18.3f * k, 136, 15, 5));
+        }
         return templates;
     }
 

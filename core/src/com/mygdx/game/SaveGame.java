@@ -50,7 +50,7 @@ public class SaveGame {
 
         highscoreTreshold = new HashMap<>();
         //What highscores has to be reached in that level?
-        highscoreTreshold.put(1,500);
+        highscoreTreshold.put(1,400);
         highscoreTreshold.put(2,500);
         highscoreTreshold.put(3,500);
         highscoreTreshold.put(4,500);
@@ -116,7 +116,7 @@ public class SaveGame {
 
         long code = 0;
         try {
-            code = SaveGame.getSavedCode(level);
+            code = SaveGame.getSavedCode(level - 1);
         } catch (NoDataFoundException | InvalidLevelCodeException e) {
             return false;
         }

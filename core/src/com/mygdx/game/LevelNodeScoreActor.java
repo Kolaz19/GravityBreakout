@@ -39,4 +39,10 @@ public class LevelNodeScoreActor extends Actor {
     public void act(float delta) {
         super.act(delta);
     }
+
+    public void update() {
+        this.currentScore = SaveGame.getSavedHighscore(this.level);
+        this.label.setText(String.valueOf(currentScore));
+    }
+
 }

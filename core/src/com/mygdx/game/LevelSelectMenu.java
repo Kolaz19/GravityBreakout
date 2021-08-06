@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.util.ArrayList;
+
 public class LevelSelectMenu extends ApplicationAdapter implements ResizableScreen {
     private StateManager stateManager;
     private Texture background;
@@ -18,6 +20,8 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
     private OrthographicCamera cam2;
     private Stage nodeStage;
     private Stage scoreStage;
+    private ArrayList<LevelNodeActor> levelNodeActors;
+    private ArrayList<LevelNodeScoreActor> levelNodeScoreActors;
 
     public LevelSelectMenu(StateManager manager) {
         this.stateManager = manager;
@@ -33,9 +37,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         cam2.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0);
         nodeStage = new Stage(new FitViewport(background.getWidth(), background.getHeight(), cam), batch);
         scoreStage = new Stage(new FitViewport(background.getWidth() * 10, background.getHeight() * 10,cam2));
-        //Single nodes
-        nodeStage.addActor(new LevelNodeActor(stateManager,10, 93, 1));
-        scoreStage.addActor(new LevelNodeScoreActor(10*10 + 10, 93*10,1));
+        addLevels();
 
         ButtonActor exitButton = new ButtonActor("mainMenuBackButtonDefault.png", "mainMenuBackButtonSelected.png", background.getWidth() / 2 - 65 / 2, 7 ) {
             @Override
@@ -43,7 +45,6 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
                 stateManager.changeState(StateManager.State.MENU);
             }
         };
-
         nodeStage.addActor(exitButton);
     }
 
@@ -62,6 +63,35 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         batch.end();
         nodeStage.draw();
         scoreStage.draw();
+    }
+
+    private void addLevels() {
+        levelNodeActors = new ArrayList<>();
+        levelNodeScoreActors = new ArrayList<>();
+        int level = 1;
+        LevelNodeActor node;
+        LevelNodeScoreActor score;
+        for (int lv_loop = 0; lv_loop < 2; lv_loop++) {
+            node = new LevelNodeActor(stateManager,10 + lv_loop * 26, 93, level);
+            score = new LevelNodeScoreActor(110 + lv_loop * 260, 93*10,level);
+            level++;
+
+            levelNodeActors.add(node);
+            levelNodeScoreActors.add(score);
+
+            nodeStage.addActor(node);
+            scoreStage.addActor(score);
+        }
+
+    }
+
+    public void update() {
+        for (LevelNodeActor node: levelNodeActors) {
+            node.update();
+        }
+        for (LevelNodeScoreActor score: levelNodeScoreActors) {
+            score.update();
+        }
     }
 
 

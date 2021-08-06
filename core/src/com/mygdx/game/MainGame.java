@@ -139,17 +139,16 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	}
 
 	private void gameOverLogic() {
-		stage.act();
 		if (scoreLabel.isScreenFinished()) {
 			if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
 				SaveGame.saveHighscore(this.level, score.getScore());
 				stateManager.changeState(StateManager.State.LEVELSELECT);
 			}
 		}
+		stage.act();
 	}
 
 	private void drawGame() {
-
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(2), Color.YELLOW);
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(3), Color.BLUE);
 		lineRenderer.render(tiles.getTileCoordinatesPerLevel(4), Color.PURPLE);
@@ -184,7 +183,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 
 	public void setLevel(int level) {
 		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
-		setNewBall(new Ball(world, platform.getOriginX(), 1f, 1f));
+		setNewBall(new Ball(world, platform.getOriginX(), LevelTemplate.getSpeedForLevel(level), LevelTemplate.getSpeedIncreaseForLevel(level)));
 		this.score.resetScore();
 		stop = gameOver = false;
 		this.level = level;
