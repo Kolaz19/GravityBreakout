@@ -71,7 +71,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         int level = 1;
         LevelNodeActor node;
         LevelNodeScoreActor score;
-        for (int lv_loop = 0; lv_loop < 2; lv_loop++) {
+        for (int lv_loop = 0; lv_loop < 4; lv_loop++) {
             node = new LevelNodeActor(stateManager,10 + lv_loop * 26, 93, level);
             score = new LevelNodeScoreActor(110 + lv_loop * 260, 93*10,level);
             level++;

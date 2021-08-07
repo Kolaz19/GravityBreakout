@@ -26,7 +26,7 @@ public class StateManager extends ApplicationAdapter {
         levelSelectMenu = new LevelSelectMenu(this);
         levelSelectMenu.create();
 
-        //changeLevel(2);
+        //changeLevel(4);
         changeState(State.MENU);
     }
 
