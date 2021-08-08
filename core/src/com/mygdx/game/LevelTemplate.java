@@ -10,24 +10,23 @@ public class LevelTemplate {
             case 2: return level2();
             case 3: return level3();
             case 4: return level4();
+            case 5: return level5();
+            case 6: return level6();
+            case 7: return level7();
         }
         return null;
     }
 
     public static float getSpeedForLevel(int level) {
         switch (level) {
-            case 1: return 1;
-            case 2: return 1;
-            case 3: return 0.8f;
+
         }
         return 1;
     }
 
     public static float getSpeedIncreaseForLevel(int level) {
         switch (level) {
-            case 1: return 1;
-            case 2: return 1;
-            case 3: return 2f;
+
         }
         return 1;
     }
@@ -112,6 +111,64 @@ public class LevelTemplate {
 
         for (int k = 0; k < 7; k++) {
             templates.add(new TileTemplate(110f,  k * 8 +114 , 7, 7));
+        }
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level5() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(35 + k * 55, 150  , 50, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(74 + k * 55, 140  , 50, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(35 + k * 55, 130  , 50, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(74 + k * 55, 120  , 50, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(180 + k * 12, 150  , 10, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(180 + k * 12, 130  , 10, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(15 + k * 12, 140  , 10, 5));
+        }
+
+        for (int k = 0; k < 3; k++) {
+            templates.add(new TileTemplate(15 + k * 12, 120  , 10, 5));
+        }
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level6() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+        for (int lv_loop = 0; lv_loop < 16; lv_loop++) {
+            templates.add(new TileTemplate( 12 + lv_loop * 12, 115 - (lv_loop * 3)  , 10, 20));
+            templates.add(new TileTemplate( 12 + lv_loop * 12, 131 - (lv_loop * 3)  , 10, 10));
+            templates.add(new TileTemplate( 12 + lv_loop * 12, 139 - (lv_loop * 3)  , 10, 5));
+            templates.add(new TileTemplate( 12 + lv_loop * 12, 143 - (lv_loop * 3)  , 10, 2));
+        }
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level7() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+        for (int lv_loop = 0; lv_loop < 16; lv_loop++) {
+            templates.add(new TileTemplate( 12 + lv_loop * 12, 115 - (lv_loop * 3)  , 10, 20));
         }
 
         return templates;

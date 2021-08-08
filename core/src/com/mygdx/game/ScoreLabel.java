@@ -152,9 +152,9 @@ public class ScoreLabel extends Actor {
     }
 
     private int getSubstractSpeed(int score) {
-        if (score > 1000) {
+        if (score > 600) {
             return 3;
-        } else if (score > 400) {
+        } else if (score > 100) {
             return 2;
         } else {
             return 1;
