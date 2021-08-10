@@ -13,6 +13,7 @@ public class LevelTemplate {
             case 5: return level5();
             case 6: return level6();
             case 7: return level7();
+            case 8: return level8();
         }
         return null;
     }
@@ -167,9 +168,46 @@ public class LevelTemplate {
 
     private static ArrayList<TileTemplate> level7() {
         ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
-        for (int lv_loop = 0; lv_loop < 16; lv_loop++) {
-            templates.add(new TileTemplate( 12 + lv_loop * 12, 115 - (lv_loop * 3)  , 10, 20));
+        int yPlacement = 120;
+
+        for (int k = 0; k < 6; k++) {
+            templates.add(new TileTemplate( 30 + 32 * k, 145, 30, 30));
         }
+
+        for (int l = 0; l < 21; l++) {
+            templates.add(new TileTemplate( 20 + l *  9, yPlacement, 8, 8));
+            if (yPlacement == 120) {
+                yPlacement = 95;
+            } else {
+                yPlacement =  120;
+            }
+        }
+
+        for (int p = 0; p < 3; p++) {
+            templates.add(new TileTemplate(110, 50 + 10 * p, 140, 8));
+        }
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level8() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+
+        for (int k = 0; k < 6; k++) {
+            templates.add(new TileTemplate( 25 + k * (40 - k), 120 - k * (5 - k),30 - k, 30 - k ));
+        }
+
+        for (int k = 0; k < 6; k++) {
+            templates.add(new TileTemplate( 25 + k * (40 - k), 85 - k * (5 - k),15 - k, 30 - k ));
+        }
+
+        for (int k = 0; k < 6; k++) {
+            templates.add(new TileTemplate( 25 + k * (40 - k), 140 - k * (5 - k),30 - k, 5 ));
+        }
+
+        for (int k = 0; k < 10; k++) {
+            templates.add(new TileTemplate(20 + k * 20, 155 - k / 2,  2 * k +1, 7 ));
+        }
+
 
         return templates;
     }

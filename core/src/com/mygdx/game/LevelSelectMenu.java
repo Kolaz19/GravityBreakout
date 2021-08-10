@@ -39,7 +39,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         scoreStage = new Stage(new FitViewport(background.getWidth() * 10, background.getHeight() * 10,cam2));
         addLevels();
 
-        ButtonActor exitButton = new ButtonActor("mainMenuBackButtonDefault.png", "mainMenuBackButtonSelected.png", background.getWidth() / 2 - 65 / 2, 7 ) {
+        ButtonActor exitButton = new ButtonActor("mainMenuBackButtonDefault.png", "mainMenuBackButtonSelected.png", background.getWidth() / 2 - 65 / 2, 10 ) {
             @Override
             public void onButtonClick() {
                 stateManager.changeState(StateManager.State.MENU);
