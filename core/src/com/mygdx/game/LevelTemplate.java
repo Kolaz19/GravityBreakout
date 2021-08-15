@@ -184,7 +184,7 @@ public class LevelTemplate {
         }
 
         for (int p = 0; p < 3; p++) {
-            templates.add(new TileTemplate(110, 50 + 10 * p, 140, 8));
+            templates.add(new TileTemplate(110, 60 + 10 * p, 140, 8));
         }
         return templates;
     }
@@ -205,7 +205,10 @@ public class LevelTemplate {
         }
 
         for (int k = 0; k < 10; k++) {
-            templates.add(new TileTemplate(20 + k * 20, 155 - k / 2,  2 * k +1, 7 ));
+            templates.add(new TileTemplate( 18 + k * 20, 147,15 - k, 5 ));
+        }
+        for (int k = 0; k < 10; k++) {
+            templates.add(new TileTemplate( 30 + k * 20, 153,15 - k, 5 ));
         }
 
 
