@@ -19,7 +19,7 @@ public class Ball {
     private final float speedIncreaseMultiplier;
 
     public Ball(World world, float platformX, float initialSpeed, float speedIncrease) {
-        texture = new Texture("ball.png");
+        texture = new Texture(Gdx.files.internal("ball.png"));
         width = texture.getWidth();
         height = texture.getHeight();
         isReleased = false;

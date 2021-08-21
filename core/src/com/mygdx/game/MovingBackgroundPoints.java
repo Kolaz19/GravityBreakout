@@ -20,7 +20,7 @@ public class MovingBackgroundPoints {
     private float stateTime;
 
     public MovingBackgroundPoints() {
-        Texture pointTexture = new Texture("pointAnimationMainMenu.png");
+        Texture pointTexture = new Texture(Gdx.files.internal("pointAnimationMainMenu.png"));
         animationLeft = AnimationFactory.createAnimation(pointTexture, 79, 1, 42, 0.1f);
         animationLeft.setPlayMode(Animation.PlayMode.NORMAL);
         animationRight = AnimationFactory.createAnimation(pointTexture, 79, 1, 42, 0.1f);

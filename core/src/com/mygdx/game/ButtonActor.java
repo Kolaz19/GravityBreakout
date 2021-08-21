@@ -1,7 +1,7 @@
 package com.mygdx.game;
 
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -13,8 +13,8 @@ public abstract class ButtonActor extends Actor implements OnButtonClick {
     private int width, height;
 
     public ButtonActor(String pathButtonDefault, String pathButtonPressed, int xCord, int yCord) {
-        button = new Texture(pathButtonDefault);
-        buttonPressed = new Texture(pathButtonPressed);
+        button = new Texture(Gdx.files.internal(pathButtonDefault));
+        buttonPressed = new Texture(Gdx.files.internal(pathButtonPressed));
         currentButton = button;
         position = new Vector2(xCord, yCord);
         width = currentButton.getWidth();

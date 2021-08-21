@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -18,7 +19,7 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
 
     public LevelNodeActor(StateManager stateManager, int xCord, int yCord , int level) {
         this.level = level;
-        texture = new Texture("thumbnailLevel" + level + ".png");
+        texture = new Texture(Gdx.files.internal("thumbnailLevel" + level + ".png"));
         height = 17;
         width = 21;
         position = new Vector2(xCord, yCord);

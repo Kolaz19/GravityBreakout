@@ -18,10 +18,10 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     public TilesInLevel (World world) {
         this.world = world;
-        whiteTexture = new Texture("tile.png");
-        yellowTexture = new Texture("yellowTile.png");
-        blueTexture = new Texture("blueTile.png");
-        purpleTexture = new Texture("purpleTile.png");
+        whiteTexture = new Texture(Gdx.files.internal("tile.png"));
+        yellowTexture = new Texture(Gdx.files.internal("yellowTile.png"));
+        blueTexture = new Texture(Gdx.files.internal("blueTile.png"));
+        purpleTexture = new Texture(Gdx.files.internal("purpleTile.png"));
         level1HitCounter = level2HitCounter = level3HitCounter = level4HitCounter = 0;
         level2Tiles = new LinkedList<>();
         level3Tiles =  new LinkedList<>();

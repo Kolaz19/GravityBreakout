@@ -14,6 +14,10 @@ public class LevelTemplate {
             case 6: return level6();
             case 7: return level7();
             case 8: return level8();
+            case 9: return level9();
+            case 10: return level10();
+            case 11: return level11();
+            case 12: return level12();
         }
         return null;
     }
@@ -209,6 +213,86 @@ public class LevelTemplate {
         }
         for (int k = 0; k < 10; k++) {
             templates.add(new TileTemplate( 30 + k * 20, 153,15 - k, 5 ));
+        }
+
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level9() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+
+        for (int k = 0; k < 15; k++) {
+            templates.add(new TileTemplate(60, 140 - k * 5, 4.5f + 4 * k, 3));
+        }
+        for (int k = 0; k < 15; k++) {
+            templates.add(new TileTemplate(160, 140 - k * 5, 4.5f + 4 * k, 3));
+        }
+
+        for (int k = 15; k > 0; k--) {
+            templates.add(new TileTemplate(110, 65 + k * 5, 4.5f + 4 * k, 3));
+        }
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level10() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+        for (int k = 0; k < 27; k++) {
+            templates.add(new TileTemplate(19 + k * 7, 60, 6, 4));
+            templates.add(new TileTemplate(19 + k * 7, 65, 6, 4));
+
+            templates.add(new TileTemplate(19 + k * 7, 147, 6, 4));
+            templates.add(new TileTemplate(19 + k * 7, 152, 6, 4));
+        }
+
+        for (int k = 0; k < 11; k++) {
+            templates.add(new TileTemplate(18,71 + k *7 , 4, 6));
+            templates.add(new TileTemplate(202,71 + k *7 , 4, 6));
+        }
+
+        templates.add(new TileTemplate(60,120, 20, 15));
+        templates.add(new TileTemplate(120,120, 20, 15));
+        templates.add(new TileTemplate(60,120, 20, 15));
+        templates.add(new TileTemplate(75,90, 40, 5));
+
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level11() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+        int gap = 25;
+
+        for (int t = 0; t < 3; t++) {
+            for (int k = 0; k < 10; k++) {
+                templates.add(new TileTemplate(30 + k * 8, 90 + gap * t, 7, 2));
+                templates.add(new TileTemplate(30 + k * 8, 87 + gap * t, 7, 2));
+            }
+            templates.add(new TileTemplate(66, 82 + gap * t, 79, 5));
+            templates.add(new TileTemplate(66, 95 + gap * t, 79, 5));
+        }
+
+        templates.add(new TileTemplate(116.5f, 101, 180, 5));
+        templates.add(new TileTemplate(116.5f, 126, 180, 5));
+
+
+        return templates;
+    }
+
+    private static ArrayList<TileTemplate> level12() {
+        ArrayList<TileTemplate> templates = new ArrayList<TileTemplate>();
+
+        for (int k = 0; k < 25; k++) {
+            templates.add(new TileTemplate(25 + k * 7, 131, 6, 5 + k));
+        }
+        for (int k = 0; k < 25; k++) {
+            templates.add(new TileTemplate(25 + k * 7, 112, 6, 5 + 25 - k));
+        }
+        for (int k = 0; k < 25; k++) {
+            templates.add(new TileTemplate(25 + k * 7, 93, 6, 5 + k));
+        }
+        for (int k = 0; k < 25; k++) {
+            templates.add(new TileTemplate(25 + k * 7, 74, 6, 5 + 25 - k));
         }
 
 

@@ -51,7 +51,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		batch = new SpriteBatch();
 		world = new World(new Vector2(0,-10),true);
 		//Textures
-		backgroundTexture = new Texture("background.png");
+		backgroundTexture = new Texture(Gdx.files.internal("background.png"));
 
 		backgroundHeight = backgroundTexture.getHeight();
 		backgroundWidth = backgroundTexture.getWidth();

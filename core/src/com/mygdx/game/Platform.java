@@ -27,10 +27,10 @@ public class Platform {
     }
 
     public Platform(World world, int backgroundWidth) {
-        defaultTexture = new TextureRegion(new Texture("platform.png"));
-        hitAnimationYellow = AnimationFactory.createAnimation(new Texture("platformYellow.png"),17,4, 7, 0.05f);
-        hitAnimationBlue = AnimationFactory.createAnimation(new Texture("platformBlue.png"),17,4, 7, 0.05f);
-        hitAnimationPurple = AnimationFactory.createAnimation(new Texture("platformPurple.png"),17,4, 7, 0.05f);
+        defaultTexture = new TextureRegion(new Texture(Gdx.files.internal("platform.png")));
+        hitAnimationYellow = AnimationFactory.createAnimation(new Texture(Gdx.files.internal("platformYellow.png")),17,4, 7, 0.05f);
+        hitAnimationBlue = AnimationFactory.createAnimation(new Texture(Gdx.files.internal("platformBlue.png")),17,4, 7, 0.05f);
+        hitAnimationPurple = AnimationFactory.createAnimation(new Texture(Gdx.files.internal("platformPurple.png")),17,4, 7, 0.05f);
         hitAnimationYellow.setPlayMode(Animation.PlayMode.NORMAL);
         hitAnimationBlue.setPlayMode(Animation.PlayMode.NORMAL);
         hitAnimationPurple.setPlayMode(Animation.PlayMode.NORMAL);

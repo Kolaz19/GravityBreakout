@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import java.util.logging.Level;
 
@@ -26,7 +27,6 @@ public class StateManager extends ApplicationAdapter {
         levelSelectMenu = new LevelSelectMenu(this);
         levelSelectMenu.create();
 
-        //changeLevel(5);
         changeState(State.MENU);
     }
 
