@@ -31,7 +31,7 @@ public class TilesInLevel extends ArrayList<TileData> {
     /** Adds all tiles for one level and deletes the old tiles */
     public void setTilesForLevel(ArrayList<TileTemplate> templates) {
         for (TileData tiles : this) {
-            world.destroyBody(tiles.getBody());
+            tiles.dispose();
         }
         this.clear();
         for (TileTemplate template : templates) {
@@ -48,7 +48,6 @@ public class TilesInLevel extends ArrayList<TileData> {
         while (iter.hasNext()) {
             currentTile = iter.next();
             if(currentTile.isDynamic() && currentTile.isOutOfScreen()) {
-                world.destroyBody(currentTile.getBody());
                 currentTile.dispose();
                 iter.remove();
             }

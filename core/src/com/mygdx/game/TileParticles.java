@@ -29,7 +29,6 @@ public class TileParticles {
     }
 
     public void updateCurrentEffect(int tileLevel) {
-        //TODO performance of loading effects?
         switch (tileLevel) {
             case 2: currentEffect.load(Gdx.files.internal("yellowParticles.party"), Gdx.files.internal(""));
                     this.active = true;

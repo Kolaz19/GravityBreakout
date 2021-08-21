@@ -27,6 +27,7 @@ public class Listener implements ContactListener {
             TileData hittedTile =  getCorrespondingTileData(getHittedTile(contact));
             hittedTile.setDynamicFlag();
             hittedTile.applyInitialImpulse(this.currentBall.getLinearVelocity());
+            currentBall.playHitSound();
         }
     }
 

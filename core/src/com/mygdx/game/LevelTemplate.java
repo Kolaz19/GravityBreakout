@@ -250,7 +250,6 @@ public class LevelTemplate {
             templates.add(new TileTemplate(202,71 + k *7 , 4, 6));
         }
 
-        templates.add(new TileTemplate(60,120, 20, 15));
         templates.add(new TileTemplate(120,120, 20, 15));
         templates.add(new TileTemplate(60,120, 20, 15));
         templates.add(new TileTemplate(75,90, 40, 5));

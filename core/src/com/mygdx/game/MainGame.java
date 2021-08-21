@@ -110,7 +110,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 			drawGame();
 		}
 
-		//boxRenderer.render(world,debugMatrix);
+		boxRenderer.render(world,debugMatrix);
 	}
 
 	private void drawPauseMenu() {
@@ -193,8 +193,8 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	}
 
 	public void setLevel(int level) {
-		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		setNewBall(new Ball(world, platform.getOriginX(), LevelTemplate.getSpeedForLevel(level), LevelTemplate.getSpeedIncreaseForLevel(level)));
+		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
 		this.score.resetScore();
 		stop = gameOver = false;
 		this.level = level;

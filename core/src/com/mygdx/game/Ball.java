@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -17,8 +18,10 @@ public class Ball {
     private boolean isReleased;
     private final float initialSpeedMultiplier;
     private final float speedIncreaseMultiplier;
+    private Sound hitSound;
 
     public Ball(World world, float platformX, float initialSpeed, float speedIncrease) {
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("ballHit.wav"));
         texture = new Texture(Gdx.files.internal("ball.png"));
         width = texture.getWidth();
         height = texture.getHeight();
@@ -47,6 +50,10 @@ public class Ball {
 
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
+    }
+
+    public void playHitSound() {
+        hitSound.play();
     }
 
     public void update (float platformX) {
