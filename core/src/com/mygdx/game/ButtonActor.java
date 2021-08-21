@@ -43,5 +43,10 @@ public abstract class ButtonActor extends Actor implements OnButtonClick {
         }
     }
 
+    public void dispose() {
+        button.dispose();
+        buttonPressed.dispose();
+    }
+
 
 }

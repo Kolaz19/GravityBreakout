@@ -30,6 +30,7 @@ public class HighscoreLabel extends Actor {
         this.getBigger = true;
         this.initialized = false;
         this.score = score;
+        generator.dispose();
     }
 
     public void setLevel(int level) {
@@ -90,6 +91,10 @@ public class HighscoreLabel extends Actor {
             }
 
         }
+    }
+
+    public void dispose() {
+        this.label.getStyle().font.dispose();
     }
 
 

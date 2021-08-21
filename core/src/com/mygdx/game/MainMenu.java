@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
+import java.util.ArrayList;
 
 public class MainMenu extends ApplicationAdapter implements ResizableScreen {
     private StateManager stateManager;
@@ -55,7 +59,15 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+        background.dispose();
+        backgroundAnimation.dispose();
+        Array<Actor> actors = stage.getActors();
+        for (Actor actor: actors) {
+            ButtonActor buttonActor = (ButtonActor) actor;
+            buttonActor.dispose();
+        }
+        stage.dispose();
+        batch.dispose();
     }
 
     @Override
@@ -96,9 +108,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         ButtonActor exitButton = new ButtonActor("mainMenuExitButtonDefault.png", "mainMenuExitButtonSelected.png", xCordToRender, yCordToRender) {
             @Override
             public void onButtonClick() {
-                //TODO dispose all elements from every screen
                 Gdx.app.exit();
-                System.exit(0);
             }
         };
 
@@ -107,5 +117,6 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         stage.addActor(tutorialButton);
         stage.addActor(exitButton);
         }
+
 
 }

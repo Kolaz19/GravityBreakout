@@ -39,6 +39,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private PauseMenu pauseMenu;
 	private int level;
 	private HighscoreLabel highscoreLabel;
+	private WallSpawner wallSpawner;
 
 	static final float PIXELS_TO_METERS = 7f;
 
@@ -60,7 +61,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		boxRenderer = new Box2DDebugRenderer();
 
 		platform = new Platform(world,backgroundWidth);
-		WallSpawner wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
+		wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
 		wallSpawner.createLeftWall();
 		wallSpawner.createUpperWall();
 		wallSpawner.createRightWall();
@@ -175,9 +176,19 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 
 	@Override
 	public void dispose () {
+		tiles.dispose();
+		wallSpawner.dispose();
+		platform.dispose();
 		world.dispose();
 		backgroundTexture.dispose();
-		tiles.dispose();
+		if (ball != null) {
+			ball.dispose();
+		}
+		highscoreLabel.dispose();
+
+		scoreLabel.dispose();
+		airScoreFlame.dispose();
+		stage.dispose();
 		batch.dispose();
 	}
 

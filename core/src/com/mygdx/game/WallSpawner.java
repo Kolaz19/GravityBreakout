@@ -8,11 +8,13 @@ public class WallSpawner {
     private final float backgroundHeight;
     private final float distanceToEdge = 2 / MainGame.PIXELS_TO_METERS;
     private World world;
+    Body leftWall, rightWall, upperWall;
 
     public WallSpawner(World world, int backgroundWidth, int backgroundHeight) {
         this.backgroundWidth = backgroundWidth / MainGame.PIXELS_TO_METERS;
         this.backgroundHeight = backgroundHeight / MainGame.PIXELS_TO_METERS;
         this.world = world;
+
     }
 
     public void createLeftWall() {
@@ -29,8 +31,8 @@ public class WallSpawner {
         fixtureDefLeft.filter.categoryBits = Listener.WALL_ENTITY;
         fixtureDefLeft.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_INACTIVE_TILE | Listener.TILE_ACTIVE_TILE;
 
-        Body borderLeft = world.createBody(bodyDefLeft);
-        borderLeft.createFixture(fixtureDefLeft);
+        leftWall = world.createBody(bodyDefLeft);
+        leftWall.createFixture(fixtureDefLeft);
     }
 
     public void createUpperWall() {
@@ -47,8 +49,8 @@ public class WallSpawner {
         fixtureDefUp.filter.categoryBits = Listener.WALL_ENTITY;
         fixtureDefUp.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_INACTIVE_TILE | Listener.TILE_ACTIVE_TILE;;
 
-        Body borderUp = world.createBody(bodyDefUp);
-        borderUp.createFixture(fixtureDefUp);
+        upperWall = world.createBody(bodyDefUp);
+        upperWall.createFixture(fixtureDefUp);
     }
 
     public void createRightWall() {
@@ -65,8 +67,14 @@ public class WallSpawner {
         fixtureDefRight.filter.categoryBits = Listener.WALL_ENTITY;
         fixtureDefRight.filter.maskBits = Listener.BALL_ENTITY | Listener.TILE_INACTIVE_TILE | Listener.TILE_ACTIVE_TILE;;
 
-        Body borderRight = world.createBody(bodyDefRight);
-        borderRight.createFixture(fixtureDefRight);
+        rightWall = world.createBody(bodyDefRight);
+        rightWall.createFixture(fixtureDefRight);
+    }
+
+    public void dispose() {
+        world.destroyBody(this.leftWall);
+        world.destroyBody(this.rightWall);
+        world.destroyBody(this.upperWall);
     }
 
 }

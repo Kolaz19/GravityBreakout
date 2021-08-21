@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MovingBackgroundPoints {
     private Animation<TextureRegion> animationLeft;
     private Animation<TextureRegion> animationRight;
+    private Texture pointTexture;
     private final int minHeight = 5;
     private final int maxHeight = 114;
     private final int height = 1;
@@ -20,7 +21,7 @@ public class MovingBackgroundPoints {
     private float stateTime;
 
     public MovingBackgroundPoints() {
-        Texture pointTexture = new Texture(Gdx.files.internal("pointAnimationMainMenu.png"));
+        pointTexture = new Texture(Gdx.files.internal("pointAnimationMainMenu.png"));
         animationLeft = AnimationFactory.createAnimation(pointTexture, 79, 1, 42, 0.1f);
         animationLeft.setPlayMode(Animation.PlayMode.NORMAL);
         animationRight = AnimationFactory.createAnimation(pointTexture, 79, 1, 42, 0.1f);
@@ -66,6 +67,10 @@ public class MovingBackgroundPoints {
         }
         batch.draw(animationLeft.getKeyFrame(stateTime), 5, yPosLeftAnimation, width, height );
         batch.draw(animationRight.getKeyFrame(stateTime), 5, yPosRightAnimation, width, height );
+    }
+
+    public void dispose() {
+       pointTexture.dispose();
     }
 
 

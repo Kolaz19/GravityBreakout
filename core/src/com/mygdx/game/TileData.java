@@ -158,6 +158,7 @@ public class TileData {
 
     public void dispose() {
         particles.dispose();
+        this.getBody().getWorld().destroyBody(this.getBody());
     }
 
 }

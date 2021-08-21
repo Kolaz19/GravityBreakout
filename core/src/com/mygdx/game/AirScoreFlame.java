@@ -110,4 +110,13 @@ public class AirScoreFlame  {
             this.currentTransEffect.update(Gdx.graphics.getDeltaTime());
         }
     }
+
+    public void dispose() {
+        yellowTransEffect.dispose();
+        yellowEffect.dispose();
+        blueEffect.dispose();
+        blueTransEffect.dispose();
+        purpleEffect.dispose();
+        purpleTransEffect.dispose();
+    }
 }

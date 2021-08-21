@@ -110,6 +110,10 @@ public class Ball {
         return this.body;
     }
 
+    public void dispose() {
+        body.getWorld().destroyBody(body);
+    }
+
 
 
 

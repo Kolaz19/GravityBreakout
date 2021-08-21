@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
-
 public class LevelNodeActor extends Actor implements OnButtonClick {
     final int level;
     private final Vector2 position;
@@ -65,6 +64,11 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
             stateManager.changeState(StateManager.State.GAME);
         }
     }
+
+    public void dispose() {
+        texture.dispose();
+    }
+
 }
 
 

@@ -138,4 +138,11 @@ public class Platform {
         batch.draw(currentFrame, body.getPosition().x * MainGame.PIXELS_TO_METERS - (width / 2), body.getPosition().y * MainGame.PIXELS_TO_METERS - (height / 2));
     }
 
+    public void dispose() {
+        body.getWorld().destroyBody(body);
+        hitAnimationPurple.getKeyFrame(0).getTexture().dispose();
+        hitAnimationBlue.getKeyFrame(0).getTexture().dispose();
+        hitAnimationYellow.getKeyFrame(0).getTexture().dispose();
+    }
+
 }

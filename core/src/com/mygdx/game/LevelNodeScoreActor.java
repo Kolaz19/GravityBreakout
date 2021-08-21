@@ -28,6 +28,7 @@ public class LevelNodeScoreActor extends Actor {
         Label.LabelStyle style = new Label.LabelStyle(font, Color.WHITE);
         this.label = new Label(String.valueOf(this.currentScore),style);
         this.label.setPosition(position.x, position.y);
+        generator.dispose();
     }
 
     @Override
@@ -43,6 +44,10 @@ public class LevelNodeScoreActor extends Actor {
     public void update() {
         this.currentScore = SaveGame.getSavedHighscore(this.level);
         this.label.setText(String.valueOf(currentScore));
+    }
+
+    public void dispose() {
+        label.getStyle().font.dispose();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 import java.util.logging.Level;
@@ -48,7 +49,9 @@ public class StateManager extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-
+        mainGame.dispose();
+        menu.dispose();
+        levelSelectMenu.dispose();
     }
 
     public void changeState(State state){

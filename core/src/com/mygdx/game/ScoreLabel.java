@@ -34,6 +34,7 @@ public class ScoreLabel extends Actor {
         this.scale = 1;
 
         this.labelSaved = new Label(" ",style);
+        generator.dispose();
     }
 
     public void setLevel(int level) {
@@ -159,6 +160,10 @@ public class ScoreLabel extends Actor {
         } else {
             return 1;
         }
+    }
+
+    public void dispose() {
+        labelSaved.getStyle().font.dispose();
     }
 
 

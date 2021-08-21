@@ -94,13 +94,21 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         for (LevelNodeScoreActor score: levelNodeScoreActors) {
             score.update();
         }
-    }
 
+    }
 
 
     @Override
     public void dispose() {
-        super.dispose();
+        background.dispose();
+        for(LevelNodeActor node: levelNodeActors) {
+            node.dispose();
+        }
+        for(LevelNodeScoreActor score: levelNodeScoreActors) {
+            score.dispose();
+        }
+        scoreStage.dispose();
+        nodeStage.dispose();
     }
 
 

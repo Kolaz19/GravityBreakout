@@ -127,6 +127,9 @@ public class TilesInLevel extends ArrayList<TileData> {
 
     /**Disposes the textures that are needed for creating single tiles*/
     public void dispose() {
+        for (TileData tile : this) {
+            tile.dispose();
+        }
         whiteTexture.dispose();
         yellowTexture.dispose();
         blueTexture.dispose();
