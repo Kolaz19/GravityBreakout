@@ -167,6 +167,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private void checkForGameOver() {
 		if (tiles.size() == 0 || ball.getPositionY() < -1) {
 			this.gameOver = true;
+			airScoreFlame.stopFlameSound();
 		}
 	}
 
@@ -179,13 +180,13 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		tiles.dispose();
 		wallSpawner.dispose();
 		platform.dispose();
-		world.dispose();
-		backgroundTexture.dispose();
 		if (ball != null) {
 			ball.dispose();
 		}
+		world.dispose();
+		backgroundTexture.dispose();
 		highscoreLabel.dispose();
-
+		listener.dispose();
 		scoreLabel.dispose();
 		airScoreFlame.dispose();
 		stage.dispose();
@@ -233,6 +234,11 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private void checkForPause() {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			this.stop = !this.stop;
+			if (stop) {
+				airScoreFlame.stopFlameSound();
+			} else {
+				airScoreFlame.resumeFlameSound(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
+			}
 		}
 	}
 

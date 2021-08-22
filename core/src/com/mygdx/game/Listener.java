@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ public class Listener implements ContactListener {
     private Ball currentBall;
     private Platform currentPlatform;
     private ArrayList<TileData> tiles;
+    private Sound ballHitSound;
+    private Sound tileLevel1Sound, tileLevel2Sound, tileLevel3Sound, tileLevel4Sound;
 
     public static final short BALL_ENTITY = 0x0001;
     public static final short PLATFORM_ENTITY = 0x0002;
@@ -19,6 +23,11 @@ public class Listener implements ContactListener {
         this.currentBall = ball;
         this.currentPlatform = platform;
         this.tiles = tiles;
+        ballHitSound = Gdx.audio.newSound(Gdx.files.internal("ballHit.wav"));
+        tileLevel1Sound =  Gdx.audio.newSound(Gdx.files.internal("tileHitLevel1.wav"));
+        tileLevel2Sound = Gdx.audio.newSound(Gdx.files.internal("tileHitLevel2.wav"));
+        tileLevel3Sound = Gdx.audio.newSound(Gdx.files.internal("tileHitLevel3.wav"));
+        tileLevel4Sound = Gdx.audio.newSound(Gdx.files.internal("tileHitLevel4.wav"));
     }
 
     @Override
@@ -27,7 +36,7 @@ public class Listener implements ContactListener {
             TileData hittedTile =  getCorrespondingTileData(getHittedTile(contact));
             hittedTile.setDynamicFlag();
             hittedTile.applyInitialImpulse(this.currentBall.getLinearVelocity());
-            currentBall.playHitSound();
+            ballHitSound.play();
         }
     }
 
@@ -35,10 +44,12 @@ public class Listener implements ContactListener {
     public void endContact(Contact contact) {
         if (includesBall(contact) && includesPlatform(contact)) {
             ballHitsPlatform();
+            ballHitSound.play();
         }
 
         if(includesActiveTile(contact) && includesPlatform(contact)) {
             TileData tileData = getCorrespondingTileData(getHittedTile(contact));
+            playTileHitSound(tileData.getLevel());
             tileData.increaseTileLevel();
             this.currentPlatform.startHitAnimation(tileData.getLevel());
             tileData.setHit();
@@ -115,10 +126,25 @@ public class Listener implements ContactListener {
         return tileData;
     }
 
+    public void dispose() {
+        ballHitSound.dispose();
+        tileLevel1Sound.dispose();
+        tileLevel2Sound.dispose();
+        tileLevel3Sound.dispose();
+        tileLevel4Sound.dispose();
+    }
 
-
-
-
-
+    public void playTileHitSound(int levelPreLevelUp) {
+        switch(levelPreLevelUp) {
+            case 1: tileLevel1Sound.play();
+            break;
+            case 2: tileLevel2Sound.play();
+            break;
+            case 3: tileLevel3Sound.play();
+            break;
+            case 4: tileLevel4Sound.play();
+            break;
+        }
+    }
 
 }

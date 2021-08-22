@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +12,7 @@ public class AirScoreFlame  {
     private ParticleEffect currentTransEffect, yellowTransEffect, blueTransEffect, purpleTransEffect;
     private Score score;
     private boolean show;
+    private Sound flameSound;
 
     public AirScoreFlame(Score score) {
         this.score = score;
@@ -44,6 +46,8 @@ public class AirScoreFlame  {
         purpleTransEffect.scaleEffect(30f);
         purpleTransEffect.start();
         currentTransEffect = new ParticleEffect();
+
+        flameSound = Gdx.audio.newSound(Gdx.files.internal("fire.wav"));
     }
 
 
@@ -84,7 +88,13 @@ public class AirScoreFlame  {
     }
 
     private void updateShowEffect(int level2Count, int level3Count, int level4Count) {
+        boolean showBefore = show;
         this.show = level2Count > 1 || level3Count > 1 || level4Count > 1;
+        if (!showBefore && show) {
+            flameSound.loop();
+        } else if (!showBefore) {
+            flameSound.stop();
+        }
     }
 
 
@@ -118,5 +128,16 @@ public class AirScoreFlame  {
         blueTransEffect.dispose();
         purpleEffect.dispose();
         purpleTransEffect.dispose();
+        flameSound.dispose();
+    }
+
+    public void stopFlameSound() {
+        flameSound.stop();
+    }
+
+    public void resumeFlameSound(int level2Count, int level3Count, int level4Count) {
+        if (level2Count > 1 || level3Count > 1 || level4Count > 1) {
+            flameSound.loop();
+        }
     }
 }

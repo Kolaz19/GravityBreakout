@@ -21,7 +21,6 @@ public class Ball {
     private Sound hitSound;
 
     public Ball(World world, float platformX, float initialSpeed, float speedIncrease) {
-        hitSound = Gdx.audio.newSound(Gdx.files.internal("ballHit.wav"));
         texture = new Texture(Gdx.files.internal("ball.png"));
         width = texture.getWidth();
         height = texture.getHeight();
@@ -52,9 +51,6 @@ public class Ball {
         body.createFixture(fixtureDef);
     }
 
-    public void playHitSound() {
-        hitSound.play();
-    }
 
     public void update (float platformX) {
         if(!isReleased) {
