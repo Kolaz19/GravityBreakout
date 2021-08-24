@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -11,6 +12,11 @@ public abstract class ButtonActor extends Actor implements OnButtonClick {
     private Texture button, buttonPressed, currentButton;
     private Vector2 position;
     private int width, height;
+    private static Sound clickSound;
+
+    static {
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("buttonClick.wav"));
+    }
 
     public ButtonActor(String pathButtonDefault, String pathButtonPressed, int xCord, int yCord) {
         button = new Texture(Gdx.files.internal(pathButtonDefault));
@@ -32,6 +38,7 @@ public abstract class ButtonActor extends Actor implements OnButtonClick {
         changeTextureWithInput(includesMouse);
         if (includesMouse && isButtonClicked()) {
             onButtonClick();
+            clickSound.play();
         }
     }
 
@@ -46,6 +53,7 @@ public abstract class ButtonActor extends Actor implements OnButtonClick {
     public void dispose() {
         button.dispose();
         buttonPressed.dispose();
+        clickSound.dispose();
     }
 
 

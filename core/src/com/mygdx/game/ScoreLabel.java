@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +21,7 @@ public class ScoreLabel extends Actor {
     private boolean substractScore;
     private boolean screenFinished;
     private int level;
+    private Sound saveSound, scoreFallSound, scoreTickSound;
 
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -35,6 +37,10 @@ public class ScoreLabel extends Actor {
 
         this.labelSaved = new Label(" ",style);
         generator.dispose();
+
+        saveSound = Gdx.audio.newSound(Gdx.files.internal("saveSound.wav"));
+        scoreFallSound = Gdx.audio.newSound(Gdx.files.internal("scoreFallSound.wav"));
+        scoreTickSound = Gdx.audio.newSound(Gdx.files.internal("scoreTickSound.wav"));
     }
 
     public void setLevel(int level) {
@@ -85,7 +91,7 @@ public class ScoreLabel extends Actor {
     }
 
     private void highScoreProcedure () {
-        int subsctractSpeed = getSubstractSpeed(endScore);
+        int subsctractSpeed = getSubtractSpeed(endScore);
 
         if (!substractScore && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             substractScore = true;
@@ -99,6 +105,7 @@ public class ScoreLabel extends Actor {
             endScore = 0;
         } else {
             this.endScore -= subsctractSpeed;
+            scoreTickSound.play(0.8f);
         }
         setPosition(endScore);
         this.label.setText(endScore);
@@ -108,6 +115,7 @@ public class ScoreLabel extends Actor {
             labelSaved.setColor(Color.GREEN);
             labelSaved.setText("Saved!");
             screenFinished = true;
+            saveSound.play();
         }
 
     }
@@ -118,6 +126,7 @@ public class ScoreLabel extends Actor {
             labelSaved.setPosition(label.getX() - 280, label.getY());
             labelSaved.setColor(Color.FIREBRICK);
             labelSaved.setText("Nice try!");
+            scoreFallSound.play();
         }
 
         if (this.label.getY() > -50) {
@@ -152,11 +161,11 @@ public class ScoreLabel extends Actor {
         }
     }
 
-    private int getSubstractSpeed(int score) {
+    private int getSubtractSpeed(int score) {
         if (score > 600) {
-            return 3;
+            return 4;
         } else if (score > 100) {
-            return 2;
+            return 3;
         } else {
             return 1;
         }
@@ -164,6 +173,9 @@ public class ScoreLabel extends Actor {
 
     public void dispose() {
         labelSaved.getStyle().font.dispose();
+        saveSound.dispose();
+        scoreFallSound.dispose();
+        scoreTickSound.dispose();
     }
 
 

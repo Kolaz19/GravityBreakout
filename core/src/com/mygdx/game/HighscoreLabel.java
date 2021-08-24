@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -15,6 +16,7 @@ public class HighscoreLabel extends Actor {
     float time;
     private Score score;
     private int level;
+    private Sound highscoreSound, gameOverSound;
 
     public HighscoreLabel(Score score) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -31,6 +33,8 @@ public class HighscoreLabel extends Actor {
         this.initialized = false;
         this.score = score;
         generator.dispose();
+        highscoreSound = Gdx.audio.newSound(Gdx.files.internal("highscoreSound.wav"));
+        gameOverSound = Gdx.audio.newSound(Gdx.files.internal("gameOverSound.wav"));
     }
 
     public void setLevel(int level) {
@@ -67,10 +71,12 @@ public class HighscoreLabel extends Actor {
             this.label.setText("New Highscore!");
             this.label.setColor(Color.GREEN);
             this.label.setPosition(1480 / 2 - 655,1130 / 2);
+            highscoreSound.play();
         } else {
             this.label.setText("Game Over");
             this.label.setColor(Color.FIREBRICK);
             this.label.setPosition(1480 / 2 - 430,1130 / 2);
+            gameOverSound.play();
         }
         initialized = true;
     }
@@ -95,6 +101,8 @@ public class HighscoreLabel extends Actor {
 
     public void dispose() {
         this.label.getStyle().font.dispose();
+        highscoreSound.dispose();
+        gameOverSound.dispose();
     }
 
 

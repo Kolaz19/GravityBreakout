@@ -91,7 +91,7 @@ public class AirScoreFlame  {
         boolean showBefore = show;
         this.show = level2Count > 1 || level3Count > 1 || level4Count > 1;
         if (!showBefore && show) {
-            flameSound.loop();
+            flameSound.loop(0.8f);
         } else if (!showBefore) {
             flameSound.stop();
         }
@@ -137,7 +137,7 @@ public class AirScoreFlame  {
 
     public void resumeFlameSound(int level2Count, int level3Count, int level4Count) {
         if (level2Count > 1 || level3Count > 1 || level4Count > 1) {
-            flameSound.loop();
+            flameSound.loop(0.8f);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,6 +16,13 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
     private Texture texture;
     private boolean active;
     private StateManager stateManager;
+    private static Sound clickSound, clickInactiveSound;
+
+
+    static {
+        clickSound = Gdx.audio.newSound(Gdx.files.internal("buttonClick.wav"));
+        clickInactiveSound = Gdx.audio.newSound(Gdx.files.internal("buttonInactiveClick.wav"));
+    }
 
     public LevelNodeActor(StateManager stateManager, int xCord, int yCord , int level) {
         this.level = level;
@@ -48,8 +56,12 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
     @Override
     public void act(float delta) {
         boolean includesMouse = includesMouse(position,width, height);
-        if (active && includesMouse && isButtonClicked()) {
-            onButtonClick();
+        if (includesMouse && isButtonClicked()) {
+            if (active) {
+                onButtonClick();
+            } else {
+                clickInactiveSound.play();
+            }
         }
     }
 
@@ -59,14 +71,14 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
 
     @Override
     public void onButtonClick() {
-        if (active) {
+            clickSound.play();
             stateManager.changeLevel(this.level);
             stateManager.changeState(StateManager.State.GAME);
-        }
     }
 
     public void dispose() {
         texture.dispose();
+        clickSound.dispose();
     }
 
 }
