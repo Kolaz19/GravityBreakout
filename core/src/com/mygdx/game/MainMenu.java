@@ -100,7 +100,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         ButtonActor tutorialButton = new ButtonActor("mainMenuTutorialButtonDefault.png", "mainMenuTutorialButtonSelected.png", xCordToRender, yCordToRender) {
             @Override
             public void onButtonClick() {
-
+                stateManager.changeState(StateManager.State.TUTORIAL);
             }
         };
 

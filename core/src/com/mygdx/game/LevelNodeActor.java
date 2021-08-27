@@ -79,6 +79,7 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
     public void dispose() {
         texture.dispose();
         clickSound.dispose();
+        clickInactiveSound.dispose();
     }
 
 }

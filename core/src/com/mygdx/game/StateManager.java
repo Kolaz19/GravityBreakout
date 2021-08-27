@@ -1,18 +1,23 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 
 
 public class StateManager extends ApplicationAdapter {
     private MainGame mainGame;
     private MainMenu menu;
     private LevelSelectMenu levelSelectMenu;
+    private TutorialScreen tutorialScreen;
     private State currentState;
+    private Music mainTheme;
 
     enum State{
         MENU,
         GAME,
-        LEVELSELECT
+        LEVELSELECT,
+        TUTORIAL
     }
 
     @Override
@@ -23,6 +28,11 @@ public class StateManager extends ApplicationAdapter {
         menu.create();
         levelSelectMenu = new LevelSelectMenu(this);
         levelSelectMenu.create();
+        tutorialScreen = new TutorialScreen(this);
+        tutorialScreen.create();
+        mainTheme = Gdx.audio.newMusic(Gdx.files.internal("menuSong.wav"));
+        mainTheme.setLooping(true);
+        mainTheme.setVolume(0.1f);
 
         changeState(State.MENU);
     }
@@ -39,6 +49,9 @@ public class StateManager extends ApplicationAdapter {
             case LEVELSELECT:
                 levelSelectMenu.render();
                 break;
+            case TUTORIAL:
+                tutorialScreen.render();
+                break;
         }
 
     }
@@ -54,14 +67,24 @@ public class StateManager extends ApplicationAdapter {
         this.currentState = state;
         switch (state) {
             case GAME:
+                mainTheme.pause();
                 mainGame.resize();
                 break;
             case MENU:
+                if (!mainTheme.isPlaying()) {
+                    mainTheme.play();
+                }
                 menu.resize();
                 break;
             case LEVELSELECT:
+                if (!mainTheme.isPlaying()) {
+                    mainTheme.play();
+                }
                 levelSelectMenu.resize();
                 levelSelectMenu.update();
+                break;
+            case TUTORIAL:
+                tutorialScreen.resize();
                 break;
         }
     }
