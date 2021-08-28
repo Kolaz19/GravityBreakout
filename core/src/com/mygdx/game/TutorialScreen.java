@@ -19,10 +19,11 @@ public class TutorialScreen extends ApplicationAdapter implements ResizableScree
     private StateManager stateManager;
     private Texture background;
     private SpriteBatch batch;
-    private OrthographicCamera cam;
+    private OrthographicCamera cam, camFont;
     private Stage stage;
     private Label label;
     private BitmapFont font;
+    private FitViewport fitViewport;
 
     public TutorialScreen (StateManager stateManager) {
         this.stateManager = stateManager;
@@ -36,14 +37,17 @@ public class TutorialScreen extends ApplicationAdapter implements ResizableScree
 
         cam = new OrthographicCamera(180, 140);
         cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0	);
+        camFont = new OrthographicCamera(180 * 6, 140* 6);
+        camFont.position.set(camFont.viewportWidth / 2, camFont.viewportHeight / 2, 0	);
+        camFont.update();
 
-
+        fitViewport = new FitViewport(180, 170,cam);
         stage = new Stage(new FitViewport(180, 140, cam));
         addButtons();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("forwa.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 200;
+        parameter.size = 50;
         parameter.color = Color.WHITE;
         font = generator.generateFont(parameter);
         generator.dispose();
@@ -62,12 +66,9 @@ public class TutorialScreen extends ApplicationAdapter implements ResizableScree
 
 
         batch.begin();
-
-
         batch.draw(background, 0, 0);
-
-        font.draw(batch, "Hey", 0, 0, 100, 10, true);
-
+        batch.setProjectionMatrix(camFont.combined);
+        font.draw(batch, "Hey", 0, 50, 100, 10, true);
         batch.end();
 
         stage.draw();
