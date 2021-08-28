@@ -12,10 +12,7 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private StateManager stateManager;
@@ -110,7 +107,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 			drawGame();
 		}
 
-		boxRenderer.render(world,debugMatrix);
+		//boxRenderer.render(world,debugMatrix);
 	}
 
 	private void drawPauseMenu() {
@@ -190,6 +187,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		scoreLabel.dispose();
 		airScoreFlame.dispose();
 		stage.dispose();
+		pauseMenu.dispose();
 		batch.dispose();
 	}
 

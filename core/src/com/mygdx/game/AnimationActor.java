@@ -27,4 +27,9 @@ public class AnimationActor extends Actor {
     public void act(float delta) {
         stateTime += Gdx.graphics.getDeltaTime();
     }
+
+    public void dispose() {
+        this.animation.getKeyFrame(0).getTexture().dispose();
+    }
+
 }

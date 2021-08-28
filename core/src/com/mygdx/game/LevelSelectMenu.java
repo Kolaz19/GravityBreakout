@@ -22,6 +22,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
     private Stage scoreStage;
     private ArrayList<LevelNodeActor> levelNodeActors;
     private ArrayList<LevelNodeScoreActor> levelNodeScoreActors;
+    private ButtonActor exitButton;
 
     public LevelSelectMenu(StateManager manager) {
         this.stateManager = manager;
@@ -39,7 +40,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         scoreStage = new Stage(new FitViewport(background.getWidth() * 10, background.getHeight() * 10,cam2));
         addLevels();
 
-        ButtonActor exitButton = new ButtonActor("mainMenuBackButtonDefault.png", "mainMenuBackButtonSelected.png", background.getWidth() / 2 - 65 / 2, 10 ) {
+        exitButton = new ButtonActor("mainMenuBackButtonDefault.png", "mainMenuBackButtonSelected.png", background.getWidth() / 2 - 65 / 2, 10 ) {
             @Override
             public void onButtonClick() {
                 stateManager.changeState(StateManager.State.MENU);
@@ -107,6 +108,7 @@ public class LevelSelectMenu extends ApplicationAdapter implements ResizableScre
         for(LevelNodeScoreActor score: levelNodeScoreActors) {
             score.dispose();
         }
+        exitButton.dispose();
         scoreStage.dispose();
         nodeStage.dispose();
     }

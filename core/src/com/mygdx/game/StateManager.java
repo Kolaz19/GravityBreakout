@@ -34,7 +34,8 @@ public class StateManager extends ApplicationAdapter {
         mainTheme.setLooping(true);
         mainTheme.setVolume(0.1f);
 
-        changeState(State.MENU);
+        changeLevel(6);
+        changeState(State.GAME);
     }
 
     @Override
@@ -60,10 +61,12 @@ public class StateManager extends ApplicationAdapter {
     public void dispose() {
         mainGame.dispose();
         menu.dispose();
+        tutorialScreen.dispose();
         levelSelectMenu.dispose();
     }
 
     public void changeState(State state){
+
         this.currentState = state;
         switch (state) {
             case GAME:
@@ -84,6 +87,7 @@ public class StateManager extends ApplicationAdapter {
                 levelSelectMenu.update();
                 break;
             case TUTORIAL:
+                tutorialScreen.loadImages();
                 tutorialScreen.resize();
                 break;
         }
