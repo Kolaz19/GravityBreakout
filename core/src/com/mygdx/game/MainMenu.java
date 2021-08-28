@@ -92,7 +92,7 @@ public class MainMenu extends ApplicationAdapter implements ResizableScreen {
         ButtonActor settingsButton = new ButtonActor("mainMenuSettingsButtonDefault.png", "mainMenuSettingsButtonSelected.png", xCordToRender, yCordToRender) {
             @Override
             public void onButtonClick() {
-
+                stateManager.changeState(StateManager.State.SETTINGS);
             }
         };
 

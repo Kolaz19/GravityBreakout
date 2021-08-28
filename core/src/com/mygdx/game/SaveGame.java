@@ -170,6 +170,26 @@ public class SaveGame {
         return Long.parseLong(code);
     }
 
+    public static int getSavedMusicVolume() {
+        String code = prefs.getString("musicVolume","50");
+        return Integer.parseInt(code);
+    }
+
+    public static int getSavedEffectVolume() {
+        String code = prefs.getString("effectVolume","50");
+        return Integer.parseInt(code);
+    }
+
+    public static void saveMusicVolume(int volume) {
+        prefs.putString("musicVolume", String.valueOf(volume));
+        prefs.flush();
+    }
+    public static void saveEffectVolume(int volume) {
+        prefs.putString("effectVolume", String.valueOf(volume));
+        prefs.flush();
+    }
+
+
     private static String getKeyToLevel(int level) {
         return "level" + String.valueOf(level);
     }

@@ -10,6 +10,7 @@ public class StateManager extends ApplicationAdapter {
     private MainMenu menu;
     private LevelSelectMenu levelSelectMenu;
     private TutorialScreen tutorialScreen;
+    private SettingsScreen settingsScreen;
     private State currentState;
     private Music mainTheme;
 
@@ -17,7 +18,8 @@ public class StateManager extends ApplicationAdapter {
         MENU,
         GAME,
         LEVELSELECT,
-        TUTORIAL
+        TUTORIAL,
+        SETTINGS
     }
 
     @Override
@@ -32,10 +34,11 @@ public class StateManager extends ApplicationAdapter {
         tutorialScreen.create();
         mainTheme = Gdx.audio.newMusic(Gdx.files.internal("menuSong.wav"));
         mainTheme.setLooping(true);
-        mainTheme.setVolume(0.1f);
+        mainTheme.setVolume(SaveGame.getSavedMusicVolume() / 100f);
+        settingsScreen =  new SettingsScreen(this);
+        settingsScreen.create();
 
-        changeLevel(6);
-        changeState(State.GAME);
+        changeState(State.MENU);
     }
 
     @Override
@@ -53,6 +56,9 @@ public class StateManager extends ApplicationAdapter {
             case TUTORIAL:
                 tutorialScreen.render();
                 break;
+            case SETTINGS:
+                settingsScreen.render();
+                break;
         }
 
     }
@@ -63,10 +69,10 @@ public class StateManager extends ApplicationAdapter {
         menu.dispose();
         tutorialScreen.dispose();
         levelSelectMenu.dispose();
+        settingsScreen.dispose();
     }
 
     public void changeState(State state){
-
         this.currentState = state;
         switch (state) {
             case GAME:
@@ -90,7 +96,13 @@ public class StateManager extends ApplicationAdapter {
                 tutorialScreen.loadImages();
                 tutorialScreen.resize();
                 break;
+            case SETTINGS:
+                settingsScreen.resize();
         }
+    }
+
+    public void updateMusicVolume(int volume) {
+        mainTheme.setVolume(volume / 100f);
     }
 
     public void changeLevel(int level) {
