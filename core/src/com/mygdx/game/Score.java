@@ -17,13 +17,13 @@ public class Score {
     public void addAirScore(int level2Count, int level3Count, int level4Count) {
         if (oneSecondElapsed()) {
             if (level2Count > 1) {
-                this.currentScore += level2Count * 5;
+                this.currentScore += level2Count * 7;
             }
             if (level3Count > 1) {
                 this.currentScore += level3Count * 10;
             }
             if (level4Count > 1) {
-                this.currentScore += level4Count * 15;
+                this.currentScore += level4Count * 13;
             }
         }
     }

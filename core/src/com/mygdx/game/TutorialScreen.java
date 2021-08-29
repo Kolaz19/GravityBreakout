@@ -97,7 +97,7 @@ public class TutorialScreen extends ApplicationAdapter implements ResizableScree
     }
 
     public void loadImages() {
-        for (int k = 1; k <= 7; k++) {
+        for (int k = 1; k <= 8; k++) {
             textures.put(k,new Texture(Gdx.files.internal("hint" + k + ".png")));
         }
         this.currentHint = 1;
@@ -156,9 +156,10 @@ public class TutorialScreen extends ApplicationAdapter implements ResizableScree
         texts.put(2,"You can increase your score in two ways. One rule stays the same: If a tile falls out of your screen, you can no longer get points with it. You want to avoid that!");
         texts.put(3,"The first way to increase your points is by catching falling tiles with your platform and letting them bounce back up. This will give you points every time you hit a tile.");
         texts.put(4,"Hitting a tile will also increase it's tile level. The tile levels are white (Default), then yellow, then blue, then purple. The higher the tile level, the higher the points when hitting the tile.");
-        texts.put(5,"The second way to increase your score is by having at least two tiles with the same tile level on your screen. This is indicated by a line between these tiles and a flame in the middle. This does give points over time!");
+        texts.put(5,"The second and more effective way to increase your score is by having at least two tiles with the same tile level on your screen. This is indicated by a line between these tiles and a flame in the middle. This does give points over time!");
         texts.put(6,"You get more points for every additional tile that is connected (Multiplier). Here is also true: the higher the tile level, the higher the points you get with the multiplier.");
-        texts.put(7,"Every level has a minimum requirement to unlock. You have to reach a certain highscore in the previous level. This requirement is hidden from you. You just have to try harder if you fail to unlock the next level!");
+        texts.put(7,"The speed of your ball increases every time the ball hits your platform. Use this to your advantage! The initial speed and the speed increase does vary per level.");
+        texts.put(8,"Every level has a minimum requirement of 500 points to unlock. You have to reach this highscore in the previous level!");
     }
 
 }

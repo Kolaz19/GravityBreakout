@@ -98,6 +98,7 @@ public class StateManager extends ApplicationAdapter {
                 break;
             case SETTINGS:
                 settingsScreen.resize();
+                settingsScreen.resetDeleteLevel();
         }
     }
 

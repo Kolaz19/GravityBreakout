@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class SettingsScreen extends ApplicationAdapter implements ResizableScreen {
     private StateManager stateManager;
-    private Texture background;
+    private Texture background, deleteLevel1Texture, deleteLevel2Texture, deleteButtonSavedTexture;
     private SpriteBatch batch;
     private OrthographicCamera cam, camFont;
     private Stage stage;
@@ -28,6 +28,7 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
     private HashMap<Ball.BallColor, Texture> ballTextures;
     private Ball.BallColor[] ballColors;
     private Ball.BallColor currentBallColor;
+    private int deleteLevel;
 
 
     public SettingsScreen(StateManager stateManager) {
@@ -65,6 +66,10 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
             ballTextures.put(ballColor, new Texture(Gdx.files.internal("ball" + ballColor.toString() + ".png")));
         }
         currentBallColor = SaveGame.getSavedBallColor();
+        deleteLevel = 0;
+        deleteLevel1Texture = new Texture(Gdx.files.internal("deleteLevel1.png"));
+        deleteLevel2Texture = new Texture(Gdx.files.internal("deleteLevel2.png"));
+        deleteButtonSavedTexture = new Texture(Gdx.files.internal("deleteButtonSaved.png"));
     }
 
     @Override
@@ -81,15 +86,31 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
 
         batch.begin();
         batch.draw(background, 0, 0);
-        batch.draw(ballTextures.get(currentBallColor),61, 51, 7, 7);
+        batch.draw(ballTextures.get(currentBallColor), 61, 56, 7, 7);
+
         batch.setProjectionMatrix(camFont.combined);
-        font.draw(batch,getMusicString(),89 * 7 / 2 - 170, 725    );
-        font.draw(batch,getEffectString(),89 * 7 / 2 - 170, 620    );
-        font.draw(batch,"Ball Color",89 * 7 / 2 - 170,410);
+        font.draw(batch, getMusicString(), 89 * 7 / 2 - 170, 725);
+        font.draw(batch, getEffectString(), 89 * 7 / 2 - 170, 620);
+        font.draw(batch, "Ball Color", 89 * 7 / 2 - 170, 442);
+        font.setColor(Color.RED);
+        font.draw(batch, "Reset Progress", 89 * 7 / 2 - 250, 282);
+        font.setColor(Color.WHITE);
         batch.end();
 
         stage.draw();
-    }
+
+        batch.begin();
+        batch.setProjectionMatrix(cam.combined);
+        if (deleteLevel == 1) {
+            batch.draw(deleteLevel1Texture, background.getWidth() - 16, 34);
+        } else if (deleteLevel == 2) {
+            batch.draw(deleteLevel2Texture, background.getWidth() - 16, 34);
+        } else if (deleteLevel == 3) {
+            batch.draw(deleteButtonSavedTexture,background.getWidth() - 17, 33);
+        }
+        batch.end();
+
+        }
 
 
 
@@ -105,6 +126,9 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
         for (Ball.BallColor ballColor : ballColors) {
             ballTextures.get(ballColor).dispose();
         }
+        deleteLevel2Texture.dispose();
+        deleteLevel1Texture.dispose();
+        deleteButtonSavedTexture.dispose();
     }
 
     private String getMusicString() {
@@ -113,6 +137,10 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
 
     private String getEffectString() {
         return "Effects   " + String.valueOf(effectVolume);
+    }
+
+    public void resetDeleteLevel() {
+        deleteLevel = 0;
     }
 
 
@@ -180,7 +208,7 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
         });
 
         //Ball Color
-        stage.addActor(new ButtonActor("leftButtonSmallDefault.png", "leftButtonSmallSelected.png",8, 50) {
+        stage.addActor(new ButtonActor("leftButtonSmallDefault.png", "leftButtonSmallSelected.png",8, 55) {
             @Override
             public void onButtonClick() {
                 int newIndex = 0;
@@ -194,7 +222,7 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
                 SaveGame.saveBallColor(currentBallColor);
             }
         });
-        stage.addActor(new ButtonActor("rightButtonSmallDefault.png", "rightButtonSmallSelected.png", background.getWidth() - 14, 50) {
+        stage.addActor(new ButtonActor("rightButtonSmallDefault.png", "rightButtonSmallSelected.png", background.getWidth() - 14, 55) {
             @Override
             public void onButtonClick() {
                 int newIndex = 0;
@@ -206,6 +234,22 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
                 }
                 currentBallColor = ballColors[newIndex];
                 SaveGame.saveBallColor(currentBallColor);
+            }
+        });
+
+        //Delete Progress
+        stage.addActor(new ButtonActor("deleteButtonDefault.png", "deleteButtonSelected.png", background.getWidth() - 17, 33) {
+            @Override
+            public void onButtonClick() {
+                if (deleteLevel == 2) {
+                    SaveGame.resetSaveGame();
+                    SaveGame.saveBallColor(currentBallColor);
+                    SaveGame.saveMusicVolume(musicVolume);
+                    SaveGame.saveEffectVolume(effectVolume);
+                }
+                if (deleteLevel < 3) {
+                    deleteLevel++;
+                }
             }
         });
 

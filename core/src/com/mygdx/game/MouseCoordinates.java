@@ -29,6 +29,24 @@ public class MouseCoordinates {
         return cord.x;
     }
 
+    public static void correctMouseOutOfBounds(OrthographicCamera cam) {
+        Vector3 mousePos = new Vector3();
+        mousePos.x = Gdx.input.getX();
+        mousePos.y = Gdx.input.getY();
+        cam.unproject(mousePos);
+        if (mousePos.x < 0) {
+            mousePos.x = 0;
+            mousePos.y = 150;
+            cam.project(mousePos);
+            Gdx.input.setCursorPosition((int) mousePos.x, (int) mousePos.y);
+        } else if (mousePos.x > 220) {
+            mousePos.x = 220;
+            mousePos.y = 150;
+            cam.project(mousePos);
+            Gdx.input.setCursorPosition((int) mousePos.x, (int) mousePos.y);
+        }
+    }
+
     public static float getY() {
         return cord.y;
     }
@@ -45,6 +63,5 @@ public class MouseCoordinates {
         return getX() / MainGame.PIXELS_TO_METERS;
     }
 
-    //TODO Mouse hidden with button press
 
 }

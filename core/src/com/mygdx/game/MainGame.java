@@ -14,11 +14,17 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	private StateManager stateManager;
 	private SpriteBatch batch;
 	private World world;
-	private Box2DDebugRenderer boxRenderer;
 	private Matrix4 debugMatrix;
 	private OrthographicCamera cam;
 	private Texture backgroundTexture;
@@ -55,7 +61,6 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		backgroundWidth = backgroundTexture.getWidth();
 		cam = new OrthographicCamera(backgroundWidth, backgroundHeight);
 		cam.position.set(cam.viewportWidth / 2, cam.viewportHeight / 2, 0	);
-		boxRenderer = new Box2DDebugRenderer();
 
 		platform = new Platform(world,backgroundWidth);
 		wallSpawner = new WallSpawner(world,backgroundWidth,backgroundHeight);
@@ -106,18 +111,16 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		} else {
 			drawGame();
 		}
-
-		//boxRenderer.render(world,debugMatrix);
 	}
 
 	private void drawPauseMenu() {
 		batch.begin();
-		ball.render(batch);
 		batch.end();
 		pauseMenu.draw();
 	}
 
 	private void processGameLogic() {
+		MouseCoordinates.correctMouseOutOfBounds(cam);
 		world.step(1f / 60f, 6, 2);
 		batch.setProjectionMatrix(cam.combined);
 		lineRenderer.setProjectionMatrix(cam);
@@ -140,6 +143,7 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		if (scoreLabel.isScreenFinished()) {
 			if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
 				SaveGame.saveHighscore(this.level, score.getScore());
+				Gdx.input.setCursorCatched(false);
 				stateManager.changeState(StateManager.State.LEVELSELECT);
 			}
 		}
@@ -236,8 +240,10 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			this.stop = !this.stop;
 			if (stop) {
+				Gdx.input.setCursorCatched(false);
 				airScoreFlame.stopFlameSound();
 			} else {
+				Gdx.input.setCursorCatched(true);
 				airScoreFlame.resumeFlameSound(tiles.getAmountOfTilesInAir(2), tiles.getAmountOfTilesInAir(3), tiles.getAmountOfTilesInAir(4));
 			}
 		}

@@ -74,6 +74,7 @@ public class LevelNodeActor extends Actor implements OnButtonClick {
             clickSound.play();
             stateManager.changeLevel(this.level);
             stateManager.changeState(StateManager.State.GAME);
+            Gdx.input.setCursorCatched(true);
     }
 
     public void dispose() {

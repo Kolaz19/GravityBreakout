@@ -24,14 +24,36 @@ public class LevelTemplate {
 
     public static float getSpeedForLevel(int level) {
         switch (level) {
-
+            case 1: return 1;
+            case 2: return 1.3f;
+            case 3: return 1.2f;
+            case 4: return 1;
+            case 5: return 1.1f;
+            case 6: return 1;
+            case 7: return 1;
+            case 8: return 1.3f;
+            case 9: return 1;
+            case 10: return 1;
+            case 11: return 1;
+            case 12: return 1.3f;
         }
         return 1;
     }
 
     public static float getSpeedIncreaseForLevel(int level) {
         switch (level) {
-
+            case 1: return 1.2f;
+            case 2: return 1;
+            case 3: return 1.1f;
+            case 4: return 1;
+            case 5: return 0.8f;
+            case 6: return 1.5f;
+            case 7: return 1;
+            case 8: return 1;
+            case 9: return 0.8f;
+            case 10: return 1.4f;
+            case 11: return 1;
+            case 12: return 1f;
         }
         return 1;
     }

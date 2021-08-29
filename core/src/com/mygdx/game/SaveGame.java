@@ -3,12 +3,15 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 
 public class SaveGame {
     private static final HashMap<Integer,Integer> levelCodes;
     private static final HashMap<Integer,Integer> levelEndCodes;
-    private static final HashMap<Integer, Integer> highscoreTreshold;
     private static final Preferences prefs;
 
     static {
@@ -25,10 +28,6 @@ public class SaveGame {
         levelCodes.put(10,79109);
         levelCodes.put(11,22339);
         levelCodes.put(12,90123);
-        levelCodes.put(13,53831);
-        levelCodes.put(14,11095);
-        levelCodes.put(15,20285);
-        levelCodes.put(16,49324);
 
         levelEndCodes = new HashMap<>();
         levelEndCodes.put(1,473);
@@ -43,28 +42,6 @@ public class SaveGame {
         levelEndCodes.put(10,901);
         levelEndCodes.put(11,114);
         levelEndCodes.put(12,482);
-        levelEndCodes.put(13,609);
-        levelEndCodes.put(14,993);
-        levelEndCodes.put(15,387);
-        levelEndCodes.put(16,739);
-
-        highscoreTreshold = new HashMap<>();
-        //What highscores has to be reached in that level?
-        highscoreTreshold.put(1,400);
-        highscoreTreshold.put(2,500);
-        highscoreTreshold.put(3,500);
-        highscoreTreshold.put(4,500);
-        highscoreTreshold.put(5,500);
-        highscoreTreshold.put(6,500);
-        highscoreTreshold.put(7,500);
-        highscoreTreshold.put(8,500);
-        highscoreTreshold.put(9,500);
-        highscoreTreshold.put(10,500);
-        highscoreTreshold.put(11,500);
-        highscoreTreshold.put(12,500);
-        highscoreTreshold.put(13,500);
-        highscoreTreshold.put(14,500);
-        highscoreTreshold.put(15,500);
 
         prefs = Gdx.app.getPreferences("Savegame");
     }
@@ -107,6 +84,26 @@ public class SaveGame {
 
         prefs.putString(SaveGame.getKeyToLevel(level),targetSaveCode);
         prefs.flush();
+
+        if (level == 12 && highScore > 499 && !SaveGame.wasRickrolledBefore()) {
+            rickroll();
+        }
+    }
+
+    public static void rickroll() {
+            try {
+                Desktop.getDesktop().browse(new URL("https://www.youtube.com/watch?v=dQw4w9WgXcQ").toURI());
+            } catch (URISyntaxException | IOException e) {
+        }
+    }
+
+    private static boolean wasRickrolledBefore() {
+       boolean wasRickrolled = prefs.getBoolean("rickrolled", false);
+       if (!wasRickrolled) {
+           prefs.putBoolean("rickrolled", true);
+           prefs.flush();
+       }
+       return wasRickrolled;
     }
 
     public static boolean isLevelUnlocked(int level) {
@@ -121,7 +118,7 @@ public class SaveGame {
             return false;
         }
 
-        if (SaveGame.extractHighscore(code) >= highscoreTreshold.get(level - 1)) {
+        if (SaveGame.extractHighscore(code) >= 500) {
             return true;
         } else {
             return false;
@@ -197,6 +194,11 @@ public class SaveGame {
     public static Ball.BallColor getSavedBallColor () {
         String code = prefs.getString("ballColor", "WHITE");
         return Ball.BallColor.valueOf(code);
+    }
+
+    public static void resetSaveGame() {
+        prefs.clear();
+        prefs.flush();
     }
 
 
