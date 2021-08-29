@@ -13,6 +13,7 @@ public class AirScoreFlame  {
     private Score score;
     private boolean show;
     private Sound flameSound;
+    private int effectVolume;
 
     public AirScoreFlame(Score score) {
         this.score = score;
@@ -91,7 +92,7 @@ public class AirScoreFlame  {
         boolean showBefore = show;
         this.show = level2Count > 1 || level3Count > 1 || level4Count > 1;
         if (!showBefore && show) {
-            flameSound.loop(0.8f);
+            flameSound.loop(effectVolume / 100f * 0.8f);
         } else if (!showBefore) {
             flameSound.stop();
         }
@@ -137,7 +138,12 @@ public class AirScoreFlame  {
 
     public void resumeFlameSound(int level2Count, int level3Count, int level4Count) {
         if (level2Count > 1 || level3Count > 1 || level4Count > 1) {
-            flameSound.loop(0.8f);
+            flameSound.loop(effectVolume / 100f * 0.8f);
         }
     }
+
+    public void updateEffectVolume() {
+        effectVolume = SaveGame.getSavedEffectVolume();
+    }
+
 }

@@ -20,8 +20,15 @@ public class Ball {
     private final float speedIncreaseMultiplier;
     private Sound hitSound;
 
+    public enum BallColor {
+        WHITE,
+        ORANGE,
+        RED,
+        GREEN
+    }
+
     public Ball(World world, float platformX, float initialSpeed, float speedIncrease) {
-        texture = new Texture(Gdx.files.internal("ball.png"));
+        setBallColor();
         width = texture.getWidth();
         height = texture.getHeight();
         isReleased = false;
@@ -50,6 +57,13 @@ public class Ball {
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef);
     }
+
+    public void setBallColor() {
+        if (texture != null) {
+            texture.dispose();
+        }
+        texture = new Texture(Gdx.files.internal("ball" + SaveGame.getSavedBallColor().toString() + ".png"));
+     }
 
 
     public void update (float platformX) {
@@ -106,7 +120,7 @@ public class Ball {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(texture,body.getPosition().x * MainGame.PIXELS_TO_METERS - (texture.getWidth() / 2),body.getPosition().y * MainGame.PIXELS_TO_METERS - (texture.getHeight() / 2));
+        batch.draw(texture,body.getPosition().x * MainGame.PIXELS_TO_METERS - (texture.getWidth() / 2f),body.getPosition().y * MainGame.PIXELS_TO_METERS - (texture.getHeight() / 2f));
     }
 
     public Body getBody() {
@@ -115,6 +129,7 @@ public class Ball {
 
     public void dispose() {
         body.getWorld().destroyBody(body);
+        texture.dispose();
     }
 
 

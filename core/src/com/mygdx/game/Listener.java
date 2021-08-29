@@ -12,6 +12,7 @@ public class Listener implements ContactListener {
     private ArrayList<TileData> tiles;
     private Sound ballHitSound;
     private Sound tileLevel1Sound, tileLevel2Sound, tileLevel3Sound, tileLevel4Sound;
+    private int effectVolume;
 
     public static final short BALL_ENTITY = 0x0001;
     public static final short PLATFORM_ENTITY = 0x0002;
@@ -30,13 +31,17 @@ public class Listener implements ContactListener {
         tileLevel4Sound = Gdx.audio.newSound(Gdx.files.internal("tileHitLevel4.wav"));
     }
 
+    public void updateEffectVolume() {
+        effectVolume = SaveGame.getSavedEffectVolume();
+    }
+
     @Override
     public void beginContact(Contact contact) {
         if (includesInactiveTile(contact) && includesBall(contact)) {
             TileData hittedTile =  getCorrespondingTileData(getHittedTile(contact));
             hittedTile.setDynamicFlag();
             hittedTile.applyInitialImpulse(this.currentBall.getLinearVelocity());
-            ballHitSound.play();
+            ballHitSound.play(effectVolume / 100f);
         }
     }
 
@@ -44,7 +49,7 @@ public class Listener implements ContactListener {
     public void endContact(Contact contact) {
         if (includesBall(contact) && includesPlatform(contact)) {
             ballHitsPlatform();
-            ballHitSound.play();
+            ballHitSound.play(effectVolume / 100f);
         }
 
         if(includesActiveTile(contact) && includesPlatform(contact)) {
@@ -136,13 +141,13 @@ public class Listener implements ContactListener {
 
     public void playTileHitSound(int levelPreLevelUp) {
         switch(levelPreLevelUp) {
-            case 1: tileLevel1Sound.play();
+            case 1: tileLevel1Sound.play(effectVolume / 100f);
             break;
-            case 2: tileLevel2Sound.play();
+            case 2: tileLevel2Sound.play(effectVolume / 100f);
             break;
-            case 3: tileLevel3Sound.play();
+            case 3: tileLevel3Sound.play(effectVolume / 100f);
             break;
-            case 4: tileLevel4Sound.play();
+            case 4: tileLevel4Sound.play(effectVolume / 100f);
             break;
         }
     }

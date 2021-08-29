@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.HashMap;
@@ -26,6 +25,9 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
     private FitViewport fitViewport;
     private int musicVolume;
     private int effectVolume;
+    private HashMap<Ball.BallColor, Texture> ballTextures;
+    private Ball.BallColor[] ballColors;
+    private Ball.BallColor currentBallColor;
 
 
     public SettingsScreen(StateManager stateManager) {
@@ -56,6 +58,13 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
 
         musicVolume = SaveGame.getSavedMusicVolume();
         effectVolume = SaveGame.getSavedEffectVolume();
+
+        ballTextures = new HashMap<>();
+        ballColors = Ball.BallColor.values();
+        for (Ball.BallColor ballColor : ballColors) {
+            ballTextures.put(ballColor, new Texture(Gdx.files.internal("ball" + ballColor.toString() + ".png")));
+        }
+        currentBallColor = SaveGame.getSavedBallColor();
     }
 
     @Override
@@ -72,9 +81,11 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
 
         batch.begin();
         batch.draw(background, 0, 0);
+        batch.draw(ballTextures.get(currentBallColor),61, 51, 7, 7);
         batch.setProjectionMatrix(camFont.combined);
         font.draw(batch,getMusicString(),89 * 7 / 2 - 170, 725    );
         font.draw(batch,getEffectString(),89 * 7 / 2 - 170, 620    );
+        font.draw(batch,"Ball Color",89 * 7 / 2 - 170,410);
         batch.end();
 
         stage.draw();
@@ -91,6 +102,9 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
             button.dispose();
         }
         stage.dispose();
+        for (Ball.BallColor ballColor : ballColors) {
+            ballTextures.get(ballColor).dispose();
+        }
     }
 
     private String getMusicString() {
@@ -165,7 +179,46 @@ public class SettingsScreen extends ApplicationAdapter implements ResizableScree
             }
         });
 
+        //Ball Color
+        stage.addActor(new ButtonActor("leftButtonSmallDefault.png", "leftButtonSmallSelected.png",8, 50) {
+            @Override
+            public void onButtonClick() {
+                int newIndex = 0;
+                for (int k = 0; k < ballColors.length; k++) {
+                    if (ballColors[k] == currentBallColor) {
+                        newIndex = getCorrectIndex(k - 1);
+                        break;
+                    }
+                }
+                currentBallColor = ballColors[newIndex];
+                SaveGame.saveBallColor(currentBallColor);
+            }
+        });
+        stage.addActor(new ButtonActor("rightButtonSmallDefault.png", "rightButtonSmallSelected.png", background.getWidth() - 14, 50) {
+            @Override
+            public void onButtonClick() {
+                int newIndex = 0;
+                for (int k = 0; k < ballColors.length; k++) {
+                    if (ballColors[k] == currentBallColor) {
+                        newIndex = getCorrectIndex(k + 1);
+                        break;
+                    }
+                }
+                currentBallColor = ballColors[newIndex];
+                SaveGame.saveBallColor(currentBallColor);
+            }
+        });
 
+
+    }
+
+    private int getCorrectIndex(int index) {
+        if (index == ballColors.length) {
+            index = 0;
+        } else if (index < 0) {
+            index = ballColors.length - 1;
+        }
+        return index;
     }
 
 

@@ -189,6 +189,16 @@ public class SaveGame {
         prefs.flush();
     }
 
+    public static void saveBallColor(Ball.BallColor color) {
+        prefs.putString("ballColor", color.toString());
+        prefs.flush();
+    }
+
+    public static Ball.BallColor getSavedBallColor () {
+        String code = prefs.getString("ballColor", "WHITE");
+        return Ball.BallColor.valueOf(code);
+    }
+
 
     private static String getKeyToLevel(int level) {
         return "level" + String.valueOf(level);

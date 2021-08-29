@@ -194,16 +194,19 @@ public class MainGame extends ApplicationAdapter implements ResizableScreen {
 	public void setLevel(int level) {
 		setNewBall(new Ball(world, platform.getOriginX(), LevelTemplate.getSpeedForLevel(level), LevelTemplate.getSpeedIncreaseForLevel(level)));
 		tiles.setTilesForLevel(LevelTemplate.getLevelTemplate(level));
+		listener.updateEffectVolume();
 		this.score.resetScore();
 		stop = gameOver = false;
 		this.level = level;
 		this.scoreLabel.setLevel(level);
+		this.scoreLabel.updateEffectVolume();
 		this.highscoreLabel.setLevel(level);
+		this.airScoreFlame.updateEffectVolume();
 	}
 
 	private void setNewBall(Ball newBall) {
 		if (this.ball != null) {
-			world.destroyBody(this.ball.getBody());
+			this.ball.dispose();
 		}
 		this.ball = newBall;
 		this.listener.setBall(newBall);

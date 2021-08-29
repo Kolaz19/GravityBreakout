@@ -17,6 +17,7 @@ public class HighscoreLabel extends Actor {
     private Score score;
     private int level;
     private Sound highscoreSound, gameOverSound;
+    private int effectVolume;
 
     public HighscoreLabel(Score score) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -43,6 +44,7 @@ public class HighscoreLabel extends Actor {
         getBigger = true;
         time = 0;
         this.label.setFontScale(0.01f);
+        effectVolume = SaveGame.getSavedEffectVolume();
     }
 
     @Override
@@ -71,12 +73,12 @@ public class HighscoreLabel extends Actor {
             this.label.setText("New Highscore!");
             this.label.setColor(Color.GREEN);
             this.label.setPosition(1480 / 2 - 655,1130 / 2);
-            highscoreSound.play();
+            highscoreSound.play(effectVolume / 100f);
         } else {
             this.label.setText("Game Over");
             this.label.setColor(Color.FIREBRICK);
             this.label.setPosition(1480 / 2 - 430,1130 / 2);
-            gameOverSound.play();
+            gameOverSound.play(effectVolume / 100f);
         }
         initialized = true;
     }

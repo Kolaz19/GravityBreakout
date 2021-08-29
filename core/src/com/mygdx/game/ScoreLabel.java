@@ -22,6 +22,7 @@ public class ScoreLabel extends Actor {
     private boolean screenFinished;
     private int level;
     private Sound saveSound, scoreFallSound, scoreTickSound;
+    private int effectVolume;
 
     public ScoreLabel() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("silkscreen.ttf"));
@@ -59,6 +60,10 @@ public class ScoreLabel extends Actor {
     public void setScore(int score) {
         setPosition(score);
         this.label.setText(String.valueOf(score));
+    }
+
+    public void updateEffectVolume() {
+        effectVolume = SaveGame.getSavedEffectVolume();
     }
 
     @Override
@@ -105,7 +110,7 @@ public class ScoreLabel extends Actor {
             endScore = 0;
         } else {
             this.endScore -= subsctractSpeed;
-            scoreTickSound.play(0.8f);
+            scoreTickSound.play(effectVolume / 100f);
         }
         setPosition(endScore);
         this.label.setText(endScore);
@@ -115,7 +120,7 @@ public class ScoreLabel extends Actor {
             labelSaved.setColor(Color.GREEN);
             labelSaved.setText("Saved!");
             screenFinished = true;
-            saveSound.play();
+            saveSound.play(effectVolume / 100f);
         }
 
     }
@@ -126,7 +131,7 @@ public class ScoreLabel extends Actor {
             labelSaved.setPosition(label.getX() - 280, label.getY());
             labelSaved.setColor(Color.FIREBRICK);
             labelSaved.setText("Nice try!");
-            scoreFallSound.play();
+            scoreFallSound.play(effectVolume / 100f);
         }
 
         if (this.label.getY() > -50) {
