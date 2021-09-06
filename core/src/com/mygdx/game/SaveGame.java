@@ -85,7 +85,7 @@ public class SaveGame {
         prefs.putString(SaveGame.getKeyToLevel(level),targetSaveCode);
         prefs.flush();
 
-        if (level == 12 && highScore > 499 && !SaveGame.wasRickrolledBefore()) {
+        if (level == 12 && highScore > 399 && !SaveGame.wasRickrolledBefore()) {
             rickroll();
         }
     }
@@ -118,7 +118,7 @@ public class SaveGame {
             return false;
         }
 
-        if (SaveGame.extractHighscore(code) >= 500) {
+        if (SaveGame.extractHighscore(code) >= 400) {
             return true;
         } else {
             return false;
